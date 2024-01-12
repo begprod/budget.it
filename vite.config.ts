@@ -27,7 +27,7 @@ export default defineConfig({
         orientation: 'portrait',
         theme_color: '#ffffff',
         background_color: '#ffffff',
-        categories: ['productivity', 'lifestyle', 'utilities'],
+        categories: ['money', 'budget', 'expenses', 'utility'],
         icons: [
           {
             src: 'favicon-16x16.png',
