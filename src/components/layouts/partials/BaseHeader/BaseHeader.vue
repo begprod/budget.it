@@ -1,14 +1,18 @@
 <template>
-  <header class="sticky top-0 w-full bg-white z-[100]">
+  <header class="sticky top-0 w-full bg-white z-[100] border-b border-slate-300">
     <div class="container mx-auto p-3 flex items-center justify-between">
       <div class="flex items-center">
         <a href="/budget.it/" class="flex items-baseline font-bold">
-          <div class="logo-gradient gradient-animation text-2xl">budget.it</div>
-          <sub class="logo-sub-gradient gradient-animation text-sm ml-2 bottom-0">
+          <div class="logo-gradient gradient-animation text-lg">budget.it</div>
+          <sub class="logo-sub-gradient gradient-animation text-xs ml-2 bottom-0">
             v{{ version }}
           </sub>
         </a>
       </div>
+
+      <button type="button">
+        <Cog6ToothIcon class="w-6 h-6 text-slate-600" />
+      </button>
     </div>
   </header>
 </template>
@@ -16,6 +20,7 @@
 <script setup lang="ts">
 // @ts-ignore
 import { version } from '../../../../../package.json';
+import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
 </script>
 
 <style scoped lang="scss">
