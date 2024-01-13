@@ -19,9 +19,9 @@ export default defineConfig({
         globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
       },
       manifest: {
-        short_name: 'todo.it',
-        name: 'todo.it – todo app with features',
-        description: 'Another todo app but with features',
+        short_name: 'budget.it',
+        name: 'budget.it – handy budget app',
+        description: 'Another budget app, but this one is handy',
         start_url: '.',
         display: 'standalone',
         orientation: 'portrait',

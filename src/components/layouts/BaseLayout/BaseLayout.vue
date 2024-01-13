@@ -6,8 +6,11 @@
       CONTENT
     </div>
   </main>
+
+  <BaseFooter />
 </template>
 
 <script setup lang="ts">
 import BaseHeader from '@/components/layouts/partials/BaseHeader/BaseHeader.vue';
+import BaseFooter from '@/components/layouts/partials/BaseFooter/BaseFooter.vue';
 </script>

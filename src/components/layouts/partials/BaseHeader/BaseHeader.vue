@@ -2,7 +2,7 @@
   <header class="sticky top-0 w-full bg-white z-[100]">
     <div class="container mx-auto p-3 flex items-center justify-between">
       <div class="flex items-center">
-        <a href="/todo.it/" class="flex items-baseline font-bold">
+        <a href="/budget.it/" class="flex items-baseline font-bold">
           <div class="logo-gradient gradient-animation text-2xl">budget.it</div>
           <sub class="logo-sub-gradient gradient-animation text-sm ml-2 bottom-0">
             v{{ version }}
