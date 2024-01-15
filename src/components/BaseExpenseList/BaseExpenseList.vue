@@ -1,7 +1,7 @@
 <template>
-  <div class="relative flex flex-col pb-8">
+  <div class="relative flex flex-col pb-10">
     <BaseTitle v-for="month in months" :key="month.id">
-      <div class="sticky top-0 p-3 text-sm border-b">{{ month.name }}</div>
+      <div class="sticky top-0 p-3 text-sm font-bold">{{ month.name }}</div>
 
       <BaseTitle
         v-for="day in getDaysByMonthId(month.id)"
