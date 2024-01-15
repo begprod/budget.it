@@ -13,3 +13,7 @@ body * {
     background: rgba(0, 0, 0, 0.1);
   }
 }
+
+input[type=number] {
+  -moz-appearance:textfield;
+}

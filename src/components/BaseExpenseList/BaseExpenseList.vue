@@ -1,5 +1,5 @@
 <template>
-  <div class="relative flex flex-col">
+  <div class="relative flex flex-col pb-8">
     <BaseTitle v-for="month in months" :key="month.id">
       <div class="sticky top-0 p-3 text-sm border-b">{{ month.name }}</div>
 
