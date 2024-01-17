@@ -10,9 +10,7 @@
         </a>
       </div>
 
-      <button type="button">
-        <Cog6ToothIcon class="w-6 h-6 text-slate-600" />
-      </button>
+      <slot name="settings" />
     </div>
   </header>
 </template>
@@ -20,7 +18,6 @@
 <script setup lang="ts">
 // @ts-ignore
 import { version } from '../../../../../package.json';
-import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
 </script>
 
 <style scoped lang="scss">
