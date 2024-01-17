@@ -1,7 +1,13 @@
+import type { RemovableRef } from '@vueuse/core';
+
 export interface ICalendarStore {
   months: Array<IMonth>;
   days: Array<IDay>;
   shouldGenerateNextMonth: boolean;
+}
+
+export interface ISettingsStore {
+  currencies: RemovableRef<Array<string>>;
 }
 
 export interface IMonth {

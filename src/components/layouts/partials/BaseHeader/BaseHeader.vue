@@ -25,8 +25,8 @@ import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
 
 <style scoped lang="scss">
 .logo-gradient {
-  background-color: #0093E9;
-  background-image: linear-gradient(43deg, #85FFBD 0%, #0093E9 46%, #00DBDE 100%);
+  background-color: #0093e9;
+  background-image: linear-gradient(43deg, #85ffbd 0%, #0093e9 46%, #00dbde 100%);
   background-size: 400%;
   background-repeat: repeat;
   background-clip: text;
@@ -37,8 +37,8 @@ import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
 }
 
 .logo-sub-gradient {
-  background-color: #0093E9;
-  background-image: linear-gradient(43deg, #00DBDE 0%, #0093E9 46%, #85FFBD 100%);
+  background-color: #0093e9;
+  background-image: linear-gradient(43deg, #00dbde 0%, #0093e9 46%, #85ffbd 100%);
   background-size: 400%;
   background-repeat: repeat;
   background-clip: text;
@@ -66,5 +66,4 @@ import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
   }
 }
 </style>
-background-color: #0093E9;
-background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);
+background-color: #0093E9; background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);
