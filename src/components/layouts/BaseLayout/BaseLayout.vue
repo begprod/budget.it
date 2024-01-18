@@ -35,12 +35,18 @@
     </BasePanel>
   </main>
 
-  <BaseSidebar :is-open="isSidebarOpen" @toggle="toggleSidebar" />
+  <BaseSidebar :is-open="isSidebarOpen" @toggle="toggleSidebar">
+    <template #currencies>
+      <BaseLabel v-for="currency in currencies" :key="currency" :label="currency" />
+    </template>
+  </BaseSidebar>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { storeToRefs } from 'pinia';
 import { PlusCircleIcon, Cog6ToothIcon } from '@heroicons/vue/24/outline';
+import { useSettingsStore } from '@/stores';
 import BaseHeader from '@/components/layouts/partials/BaseHeader/BaseHeader.vue';
 import BaseSidebar from '@/components/layouts/partials/BaseSidebar/BaseSidebar.vue';
 import BasePanel from '@/components/ui/BasePanel/BasePanel.vue';
@@ -48,6 +54,10 @@ import BaseStats from '@/components/BaseStats/BaseStats.vue';
 import BaseExpenseList from '@/components/BaseExpenseList/BaseExpenseList.vue';
 import BaseInput from '@/components/ui/controls/BaseInput/BaseInput.vue';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
+import BaseLabel from '@/components/ui/BaseLabel/BaseLabel.vue';
+
+const settingsStore = useSettingsStore();
+const { currencies } = storeToRefs(settingsStore);
 
 const isSidebarOpen = ref(false);
 const expense = ref('');
