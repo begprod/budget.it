@@ -6,10 +6,6 @@ export interface ICalendarStore {
   shouldGenerateNextMonth: boolean;
 }
 
-export interface ISettingsStore {
-  currencies: RemovableRef<Array<string>>;
-}
-
 export interface IMonth {
   id: string;
   name: string;
@@ -24,4 +20,13 @@ export interface IDay {
   name: string;
   isCurrent: boolean;
   isPast: boolean;
+}
+
+export interface ISettingsStore {
+  currencies: RemovableRef<Array<ICurrency>>;
+}
+
+export interface ICurrency {
+  name: string;
+  isActive: boolean;
 }

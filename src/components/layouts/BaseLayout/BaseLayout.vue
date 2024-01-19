@@ -37,23 +37,23 @@
 
   <BaseSidebar :is-open="isSidebarOpen" @toggle="toggleSidebar">
     <template #currencies>
-      > {{ currentCurrency }}
+      > {{ getActiveCurrencies.name }}
       <BaseRadioButton
         v-for="currency in currencies"
-        :id="currency"
-        :key="currency"
-        :label="currency"
-        :checked="isCurrencyActive(currency)"
-        :value="currency"
+        :id="currency.name"
+        :key="currency.name"
+        :label="currency.name"
+        :checked="currency.isActive"
+        :value="currency.name"
         name="currencies"
-        @change="handleCurrencyChange"
+        @change="setActiveCurrency(currency.name)"
       />
     </template>
   </BaseSidebar>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { PlusCircleIcon, Cog6ToothIcon } from '@heroicons/vue/24/outline';
 import { useSettingsStore } from '@/stores';
@@ -67,21 +67,13 @@ import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 import BaseRadioButton from '@/components/ui/controls/BaseRadioButton/BaseRadioButton.vue';
 
 const settingsStore = useSettingsStore();
-const { currencies } = storeToRefs(settingsStore);
+const { setActiveCurrency } = settingsStore;
+const { currencies, getActiveCurrencies } = storeToRefs(settingsStore);
 
 const isSidebarOpen = ref(true);
 const expense = ref('');
-const currentCurrency = ref('thb');
 
 const toggleSidebar = () => {
   isSidebarOpen.value = !isSidebarOpen.value;
-};
-
-const isCurrencyActive = computed(() => (currency: string) => {
-  return currency.toLowerCase() === currentCurrency.value.toLowerCase();
-});
-
-const handleCurrencyChange = (currency: string) => {
-  currentCurrency.value = currency;
 };
 </script>
