@@ -4,7 +4,6 @@ import { useLocalStorage } from '@vueuse/core';
 
 export const useSettingsStore = defineStore('settings', {
   state: (): ISettingsStore => ({
-    // 'USD', 'EUR', 'RUB', 'THB', 'CNY'
     currencies: useLocalStorage('budget.it:currencies', [
       {
         name: 'USD',
@@ -27,12 +26,13 @@ export const useSettingsStore = defineStore('settings', {
         isActive: false,
       },
     ]),
+    dailyBudget: useLocalStorage('budget.it:dailyBudget', 500),
   }),
 
   getters: {
     getActiveCurrencies(state): ICurrency {
       return state.currencies.filter((currency: ICurrency) => currency.isActive)[0];
-    }
+    },
   },
 
   actions: {
@@ -42,6 +42,9 @@ export const useSettingsStore = defineStore('settings', {
 
         return currency;
       });
+    },
+    setDailyBudget(value: number) {
+      this.dailyBudget = value;
     },
   },
 });

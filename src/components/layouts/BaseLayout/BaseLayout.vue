@@ -22,10 +22,10 @@
             v-model="expense"
             type="number"
             placeholder="Enter expense"
-            class="border-r border-slate-300"
+            class="border-none focus:outline-none focus:border-none"
           />
 
-          <BaseButton title="Add expense">
+          <BaseButton title="Add expense" class="w-1/3 rounded-l-none">
             <template #leftIcon>
               <PlusCircleIcon class="w-6 h-6" />
             </template>
@@ -49,6 +49,14 @@
         @change="setActiveCurrency(currency.name)"
       />
     </template>
+
+    <template #daily>
+      {{ dailyBudget }}
+      <BaseInput id="daily-input" v-model="dailyBudgetValue" type="number" placeholder="Enter daily budget" />
+      <BaseButton @click="setDailyBudget(dailyBudgetValue)" class="mt-2">
+        <template #text>Save daily budget</template>
+      </BaseButton>
+    </template>
   </BaseSidebar>
 </template>
 
@@ -67,11 +75,12 @@ import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 import BaseRadioButton from '@/components/ui/controls/BaseRadioButton/BaseRadioButton.vue';
 
 const settingsStore = useSettingsStore();
-const { setActiveCurrency } = settingsStore;
-const { currencies, getActiveCurrencies } = storeToRefs(settingsStore);
+const { setActiveCurrency, setDailyBudget, dailyBudget } = settingsStore;
+const { getActiveCurrencies, currencies } = storeToRefs(settingsStore);
 
-const isSidebarOpen = ref(true);
+const isSidebarOpen = ref(false);
 const expense = ref('');
+const dailyBudgetValue = ref(dailyBudget);
 
 const toggleSidebar = () => {
   isSidebarOpen.value = !isSidebarOpen.value;

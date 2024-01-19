@@ -24,6 +24,7 @@ export interface IDay {
 
 export interface ISettingsStore {
   currencies: RemovableRef<Array<ICurrency>>;
+  dailyBudget: RemovableRef<number>;
 }
 
 export interface ICurrency {

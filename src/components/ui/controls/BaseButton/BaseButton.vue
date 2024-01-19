@@ -1,6 +1,6 @@
 <template>
   <button
-    class="flex items-center justify-center px-3 py-2 bg-sky-400 text-white focus:outline-none"
+    class="flex items-center justify-center px-3 py-2 w-full bg-sky-400 text-white rounded-xl focus:outline-none hover:bg-sky-500 transition-[background-color]"
     :type="type"
     :title="title"
     @click="clickHandler"

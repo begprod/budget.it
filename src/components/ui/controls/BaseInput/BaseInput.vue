@@ -6,13 +6,13 @@
     :value="modelValue"
     :autofocus="autofocus"
     @input="inputHandler"
-    class="w-full p-2 text-sm focus:outline-none focus:border-none"
+    class="w-full p-2 text-sm border border-slate-300 rounded-xl focus:outline-none focus:border-slate-600 transition-[border-color]"
   />
 </template>
 
 <script setup lang="ts">
 interface Props {
-  modelValue: string;
+  modelValue: string | number;
   id: string;
   type: string;
   placeholder: string;
