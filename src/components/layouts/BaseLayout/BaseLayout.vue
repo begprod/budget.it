@@ -18,8 +18,8 @@
           class="flex items-center rounded-xl overflow-hidden bg-white border border-slate-300 shadow-lg"
         >
           <BaseInput
-            v-model="expense"
             id="expense-input"
+            v-model="expense"
             type="number"
             placeholder="Enter expense"
             class="border-r border-slate-300"
@@ -37,13 +37,23 @@
 
   <BaseSidebar :is-open="isSidebarOpen" @toggle="toggleSidebar">
     <template #currencies>
-      <BaseLabel v-for="currency in currencies" :key="currency" :label="currency" />
+      > {{ currentCurrency }}
+      <BaseRadioButton
+        v-for="currency in currencies"
+        :id="currency"
+        :key="currency"
+        :label="currency"
+        :checked="isCurrencyActive(currency)"
+        :value="currency"
+        name="currencies"
+        @change="handleCurrencyChange"
+      />
     </template>
   </BaseSidebar>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { storeToRefs } from 'pinia';
 import { PlusCircleIcon, Cog6ToothIcon } from '@heroicons/vue/24/outline';
 import { useSettingsStore } from '@/stores';
@@ -54,15 +64,24 @@ import BaseStats from '@/components/BaseStats/BaseStats.vue';
 import BaseExpenseList from '@/components/BaseExpenseList/BaseExpenseList.vue';
 import BaseInput from '@/components/ui/controls/BaseInput/BaseInput.vue';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
-import BaseLabel from '@/components/ui/BaseLabel/BaseLabel.vue';
+import BaseRadioButton from '@/components/ui/controls/BaseRadioButton/BaseRadioButton.vue';
 
 const settingsStore = useSettingsStore();
 const { currencies } = storeToRefs(settingsStore);
 
-const isSidebarOpen = ref(false);
+const isSidebarOpen = ref(true);
 const expense = ref('');
+const currentCurrency = ref('thb');
 
 const toggleSidebar = () => {
   isSidebarOpen.value = !isSidebarOpen.value;
+};
+
+const isCurrencyActive = computed(() => (currency: string) => {
+  return currency.toLowerCase() === currentCurrency.value.toLowerCase();
+});
+
+const handleCurrencyChange = (currency: string) => {
+  currentCurrency.value = currency;
 };
 </script>
