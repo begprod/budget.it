@@ -27,7 +27,7 @@
 
           <BaseButton title="Add expense" class="w-1/3 rounded-l-none">
             <template #leftIcon>
-              <PlusCircleIcon class="w-6 h-6" />
+              <PlusIcon class="w-6 h-6" />
             </template>
           </BaseButton>
         </div>
@@ -39,9 +39,10 @@
     <div class="mb-5 text-2xl text-slate-700 font-bold">Settings</div>
 
     <template #currencies>
-      <div class="mb-7">
+      <div class="mb-10">
         <div class="mb-2">
-          <div class="mb-2 text-slate-500">Default currency</div>
+          <div class="mb-3 text-slate-500">Default currency</div>
+
           <div class="flex flex-wrap gap-2">
             <BaseLabel
               v-for="currency in currencies"
@@ -55,31 +56,40 @@
             />
           </div>
         </div>
-        <div>
+        <div class="grid grid-cols-12 mt-5">
           <BaseInput
             id="currency-input"
             v-model="newCurrency"
             type="text"
             placeholder="Enter currency"
+            class="col-span-10 rounded-r-none"
           />
-          <BaseButton class="mt-2" @click="saveNewCurrency(newCurrency)">
-            <template #text>Add new currency</template>
+          <BaseButton class="col-span-2 rounded-l-none" @click="saveNewCurrency(newCurrency)">
+            <template #text>
+              <PlusIcon class="w-6 h-6" />
+            </template>
           </BaseButton>
         </div>
       </div>
     </template>
 
     <template #daily>
-      <div class="mb-2 text-slate-500">Daily budget</div>
-      <BaseInput
-        id="daily-input"
-        v-model="dailyBudgetValue"
-        type="number"
-        placeholder="Enter daily budget"
-      />
-      <BaseButton @click="setDailyBudget(dailyBudgetValue)" class="mt-2">
-        <template #text>Save daily budget</template>
-      </BaseButton>
+      <div class="mb-3 text-slate-500">Daily budget</div>
+
+      <div class="grid grid-cols-12">
+        <BaseInput
+          id="daily-input"
+          v-model="dailyBudgetValue"
+          type="number"
+          placeholder="Set daily budget"
+          class="col-span-10 rounded-r-none"
+        />
+        <BaseButton class="col-span-2 rounded-l-none" @click="setDailyBudget(dailyBudgetValue)">
+          <template #text>
+            <CheckIcon class="w-6 h-6" />
+          </template>
+        </BaseButton>
+      </div>
     </template>
   </BaseSettingsPanel>
 </template>
@@ -87,7 +97,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { storeToRefs } from 'pinia';
-import { PlusCircleIcon, Cog6ToothIcon } from '@heroicons/vue/24/outline';
+import { PlusIcon, Cog6ToothIcon, CheckIcon } from '@heroicons/vue/24/outline';
 import { useSettingsStore } from '@/stores';
 import BaseHeader from '@/components/layouts/partials/BaseHeader/BaseHeader.vue';
 import BaseSettingsPanel from '@/components/layouts/partials/BaseSettingsPanel/BaseSettingsPanel.vue';

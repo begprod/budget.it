@@ -11,7 +11,8 @@
     />
     <BaseButton v-if="!isDefault" class="py-0 h-full rounded-l-none" title="delete currency" @click="deleteCurrency(id)" :is-disabled="isSelected">
       <template #text>
-        <XMarkIcon class="w-4 h-4" />
+        <XMarkIcon v-if="!isSelected" class="w-4 h-4" />
+        <LockClosedIcon v-if="isSelected" class="w-4 h-4 text-slate-950" />
       </template>
     </BaseButton>
   </div>
@@ -19,7 +20,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { XMarkIcon } from '@heroicons/vue/24/outline';
+import { XMarkIcon, LockClosedIcon } from '@heroicons/vue/24/outline';
 import { useSettingsStore } from '@/stores';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 import BaseRadioButton from '@/components/ui/controls/BaseRadioButton/BaseRadioButton.vue';
