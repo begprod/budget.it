@@ -1,7 +1,20 @@
 <template>
   <div>
-    <input :id="id" :name="name" :value="value" type="radio" @change="changeHandler" :checked="checked" />
-    <label :for="id">{{ label }}</label>
+    <input
+      :id="id"
+      :name="name"
+      :value="value"
+      :checked="checked"
+      type="radio"
+      class="hidden peer/radio"
+      @change="changeHandler"
+    />
+    <label
+      :for="id"
+      class="px-3 py-1 text-sm text-slate-500 bg-slate-200 rounded-2xl peer-checked/radio:text-white peer-checked/radio:bg-sky-400"
+    >
+      {{ label }}
+    </label>
   </div>
 </template>
 

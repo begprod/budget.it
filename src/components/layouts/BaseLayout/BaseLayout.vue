@@ -52,7 +52,7 @@
                 name="currencies"
                 @change="setActiveCurrency(currency.name)"
               />
-              <div v-if="currency.isDeletable" @click="deleteCurrency(currency.name)">x</div>
+              <div v-if="currency.isDeletable && !currency.isActive" @click="deleteCurrency(currency.name)">x</div>
             </div>
           </div>
         </div>
@@ -103,7 +103,7 @@ const settingsStore = useSettingsStore();
 const { setActiveCurrency, setDailyBudget, addNewCurrency, deleteCurrency, dailyBudget } = settingsStore;
 const { getActiveCurrencies, currencies } = storeToRefs(settingsStore);
 
-const isSidebarOpen = ref(false);
+const isSidebarOpen = ref(true);
 const expense = ref('');
 const newCurrency = ref('');
 const dailyBudgetValue = ref(dailyBudget);

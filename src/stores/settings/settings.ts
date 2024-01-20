@@ -59,8 +59,6 @@ export const useSettingsStore = defineStore('settings', {
       });
     },
     deleteCurrency(name: ICurrency['name']) {
-      console.log('deleteCurrency', name);
-
       this.currencies = this.currencies.filter((currency: ICurrency) => currency.name !== name);
     },
   },
