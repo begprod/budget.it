@@ -8,27 +8,27 @@ export const useSettingsStore = defineStore('settings', {
       {
         name: 'USD',
         isActive: true,
-        isDeletable: false,
+        isDefault: true,
       },
       {
         name: 'EUR',
         isActive: false,
-        isDeletable: false,
+        isDefault: true,
       },
       {
         name: 'RUB',
         isActive: false,
-        isDeletable: false,
+        isDefault: true,
       },
       {
         name: 'THB',
         isActive: false,
-        isDeletable: false,
+        isDefault: true,
       },
       {
         name: 'CNY',
         isActive: false,
-        isDeletable: false,
+        isDefault: true,
       },
     ]),
     dailyBudget: useLocalStorage('budget.it:dailyBudget', 500),
@@ -55,7 +55,7 @@ export const useSettingsStore = defineStore('settings', {
       this.currencies.push({
         name,
         isActive: false,
-        isDeletable: true,
+        isDefault: false,
       });
     },
     deleteCurrency(name: ICurrency['name']) {

@@ -42,18 +42,17 @@
       <div class="mb-7">
         <div class="mb-2">
           <div class="mb-2 text-slate-500">Default currency</div>
-          <div class="flex flex-wrap gap-3">
-            <div v-for="currency in currencies" :key="currency.name">
-              <BaseRadioButton
-                :id="currency.name"
-                :label="currency.name"
-                :checked="currency.isActive"
-                :value="currency.name"
-                name="currencies"
-                @change="setActiveCurrency(currency.name)"
-              />
-              <div v-if="currency.isDeletable && !currency.isActive" @click="deleteCurrency(currency.name)">x</div>
-            </div>
+          <div class="flex flex-wrap gap-2">
+            <BaseLabel
+              v-for="currency in currencies"
+              :key="currency.name"
+              :id="currency.name"
+              :label="currency.name"
+              :value="currency.name"
+              :is-selected="currency.isActive"
+              :is-default="currency.isDefault"
+              name="currencies"
+            />
           </div>
         </div>
         <div>
@@ -97,10 +96,10 @@ import BaseStats from '@/components/BaseStats/BaseStats.vue';
 import BaseExpenseList from '@/components/BaseExpenseList/BaseExpenseList.vue';
 import BaseInput from '@/components/ui/controls/BaseInput/BaseInput.vue';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
-import BaseRadioButton from '@/components/ui/controls/BaseRadioButton/BaseRadioButton.vue';
+import BaseLabel from '@/components/ui/BaseLabel/BaseLabel.vue';
 
 const settingsStore = useSettingsStore();
-const { setActiveCurrency, setDailyBudget, addNewCurrency, deleteCurrency, dailyBudget } = settingsStore;
+const { setDailyBudget, addNewCurrency, dailyBudget } = settingsStore;
 const { getActiveCurrencies, currencies } = storeToRefs(settingsStore);
 
 const isSidebarOpen = ref(true);
