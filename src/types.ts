@@ -30,4 +30,5 @@ export interface ISettingsStore {
 export interface ICurrency {
   name: string;
   isActive: boolean;
+  isDeletable: boolean;
 }

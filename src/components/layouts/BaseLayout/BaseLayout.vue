@@ -7,7 +7,7 @@
     </template>
   </BaseHeader>
 
-  <main class="relative container mx-auto z-10">
+  <main class="container mx-auto relative z-10">
     <BaseStats />
     {{ expense }}
     <BasePanel>
@@ -21,7 +21,7 @@
             id="expense-input"
             v-model="expense"
             type="number"
-            placeholder="Enter expense"
+            :placeholder="`Enter expense (${getActiveCurrencies.name})`"
             class="border-none focus:outline-none focus:border-none"
           />
 
@@ -35,29 +35,54 @@
     </BasePanel>
   </main>
 
-  <BaseSidebar :is-open="isSidebarOpen" @toggle="toggleSidebar">
+  <BaseSettingsPanel :is-open="isSidebarOpen" @toggle="toggleSidebar">
+    <div class="mb-5 text-2xl text-slate-700 font-bold">Settings</div>
+
     <template #currencies>
-      > {{ getActiveCurrencies.name }}
-      <BaseRadioButton
-        v-for="currency in currencies"
-        :id="currency.name"
-        :key="currency.name"
-        :label="currency.name"
-        :checked="currency.isActive"
-        :value="currency.name"
-        name="currencies"
-        @change="setActiveCurrency(currency.name)"
-      />
+      <div class="mb-7">
+        <div class="mb-2">
+          <div class="mb-2 text-slate-500">Default currency</div>
+          <div class="flex flex-wrap gap-3">
+            <div v-for="currency in currencies" :key="currency.name">
+              <BaseRadioButton
+                :id="currency.name"
+                :label="currency.name"
+                :checked="currency.isActive"
+                :value="currency.name"
+                name="currencies"
+                @change="setActiveCurrency(currency.name)"
+              />
+              <div v-if="currency.isDeletable" @click="deleteCurrency(currency.name)">x</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <BaseInput
+            id="currency-input"
+            v-model="newCurrency"
+            type="text"
+            placeholder="Enter currency"
+          />
+          <BaseButton class="mt-2" @click="saveNewCurrency(newCurrency)">
+            <template #text>Add new currency</template>
+          </BaseButton>
+        </div>
+      </div>
     </template>
 
     <template #daily>
-      {{ dailyBudget }}
-      <BaseInput id="daily-input" v-model="dailyBudgetValue" type="number" placeholder="Enter daily budget" />
+      <div class="mb-2 text-slate-500">Daily budget</div>
+      <BaseInput
+        id="daily-input"
+        v-model="dailyBudgetValue"
+        type="number"
+        placeholder="Enter daily budget"
+      />
       <BaseButton @click="setDailyBudget(dailyBudgetValue)" class="mt-2">
         <template #text>Save daily budget</template>
       </BaseButton>
     </template>
-  </BaseSidebar>
+  </BaseSettingsPanel>
 </template>
 
 <script setup lang="ts">
@@ -66,7 +91,7 @@ import { storeToRefs } from 'pinia';
 import { PlusCircleIcon, Cog6ToothIcon } from '@heroicons/vue/24/outline';
 import { useSettingsStore } from '@/stores';
 import BaseHeader from '@/components/layouts/partials/BaseHeader/BaseHeader.vue';
-import BaseSidebar from '@/components/layouts/partials/BaseSidebar/BaseSidebar.vue';
+import BaseSettingsPanel from '@/components/layouts/partials/BaseSettingsPanel/BaseSettingsPanel.vue';
 import BasePanel from '@/components/ui/BasePanel/BasePanel.vue';
 import BaseStats from '@/components/BaseStats/BaseStats.vue';
 import BaseExpenseList from '@/components/BaseExpenseList/BaseExpenseList.vue';
@@ -75,14 +100,21 @@ import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 import BaseRadioButton from '@/components/ui/controls/BaseRadioButton/BaseRadioButton.vue';
 
 const settingsStore = useSettingsStore();
-const { setActiveCurrency, setDailyBudget, dailyBudget } = settingsStore;
+const { setActiveCurrency, setDailyBudget, addNewCurrency, deleteCurrency, dailyBudget } = settingsStore;
 const { getActiveCurrencies, currencies } = storeToRefs(settingsStore);
 
 const isSidebarOpen = ref(false);
 const expense = ref('');
+const newCurrency = ref('');
 const dailyBudgetValue = ref(dailyBudget);
 
 const toggleSidebar = () => {
   isSidebarOpen.value = !isSidebarOpen.value;
+};
+
+const saveNewCurrency = (currency: string) => {
+  addNewCurrency(currency);
+
+  newCurrency.value = '';
 };
 </script>
