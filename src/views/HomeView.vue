@@ -14,7 +14,7 @@
             class="col-span-10 border-none focus:outline-none focus:border-none"
           />
 
-          <BaseButton title="Add expense" class="col-span-2 rounded-l-none">
+          <BaseButton title="Add expense" class="col-span-2 border-l border-y-0 border-r-0 rounded-l-none">
             <template #leftIcon>
               <PlusIcon class="w-6 h-6" />
             </template>

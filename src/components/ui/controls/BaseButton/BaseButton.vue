@@ -1,6 +1,6 @@
 <template>
   <button
-    class="flex items-center justify-center px-3 py-2 w-full bg-sky-400 text-sm text-white rounded-xl focus:outline-none hover:bg-sky-500 disabled:opacity-50 disabled:bg-slate-300 transition-[background-color]"
+    class="flex items-center justify-center px-3 py-2 w-full text-sm text-sky-400 border border-slate-300 rounded-xl focus:outline-none hover:bg-sky-500 disabled:opacity-50 disabled:bg-slate-300 transition-[background-color]"
     :type="type"
     :title="title"
     :disabled="isDisabled"
