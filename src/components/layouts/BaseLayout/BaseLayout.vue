@@ -7,32 +7,8 @@
     </template>
   </BaseHeader>
 
-  <main class="container mx-auto relative z-10">
-    <BaseStats />
-    {{ expense }}
-    <BasePanel>
-      <BaseExpenseList />
-
-      <div class="container fixed left-0 right-0 bottom-2 w-full px-4 mx-auto">
-        <div
-          class="flex items-center rounded-xl overflow-hidden bg-white border border-slate-300 shadow-lg"
-        >
-          <BaseInput
-            id="expense-input"
-            v-model="expense"
-            type="number"
-            :placeholder="`Enter expense (${getActiveCurrencies.name})`"
-            class="border-none focus:outline-none focus:border-none"
-          />
-
-          <BaseButton title="Add expense" class="w-1/3 rounded-l-none">
-            <template #leftIcon>
-              <PlusIcon class="w-6 h-6" />
-            </template>
-          </BaseButton>
-        </div>
-      </div>
-    </BasePanel>
+  <main class="container mx-auto z-10">
+    <slot />
   </main>
 
   <BaseSettingsPanel :is-open="isSidebarOpen" @toggle="toggleSidebar">
@@ -101,19 +77,15 @@ import { PlusIcon, Cog6ToothIcon, CheckIcon } from '@heroicons/vue/24/outline';
 import { useSettingsStore } from '@/stores';
 import BaseHeader from '@/components/layouts/partials/BaseHeader/BaseHeader.vue';
 import BaseSettingsPanel from '@/components/layouts/partials/BaseSettingsPanel/BaseSettingsPanel.vue';
-import BasePanel from '@/components/ui/BasePanel/BasePanel.vue';
-import BaseStats from '@/components/BaseStats/BaseStats.vue';
-import BaseExpenseList from '@/components/BaseExpenseList/BaseExpenseList.vue';
 import BaseInput from '@/components/ui/controls/BaseInput/BaseInput.vue';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 import BaseLabel from '@/components/ui/BaseLabel/BaseLabel.vue';
 
 const settingsStore = useSettingsStore();
 const { setDailyBudget, addNewCurrency, dailyBudget } = settingsStore;
-const { getActiveCurrencies, currencies } = storeToRefs(settingsStore);
+const { currencies } = storeToRefs(settingsStore);
 
 const isSidebarOpen = ref(false);
-const expense = ref('');
 const newCurrency = ref('');
 const dailyBudgetValue = ref(dailyBudget);
 

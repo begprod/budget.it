@@ -1,12 +1,12 @@
 <template>
-  <div class="relative flex flex-col pb-10">
+  <div class="relative flex flex-col grow gap-5">
     <BaseTitle v-for="month in months" :key="month.id">
-      <div class="sticky top-0 p-3 text-sm font-bold">{{ month.name }}</div>
+      <div class="sticky top-[56px] p-3 text-sm font-bold">{{ month.name }}</div>
 
       <BaseTitle
         v-for="day in getDaysByMonthId(month.id)"
         :key="day.id"
-        class="sticky top-[49px] flex items-center bg-white"
+        class="sticky top-[90px] flex items-center bg-white"
       >
         <div class="p-3 text-sm font-thin">
           {{ day.number }}
@@ -39,7 +39,7 @@ onMounted(() => {
   if (currentDayElement) {
     currentDayElement.scrollIntoView({
       behavior: 'smooth',
-      block: 'center',
+      block: 'start',
     });
   }
 });
