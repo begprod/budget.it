@@ -2,9 +2,9 @@
   <BaseLayout>
       <BaseExpenseList />
 
-      <div class="container fixed left-0 right-0 bottom-2 w-full px-4 mx-auto">
+      <div class="container fixed left-0 right-0 bottom-14 w-full px-3 mx-auto">
         <div
-          class="grid grid-cols-12 rounded-xl overflow-hidden bg-white border border-slate-300 shadow-lg"
+          class="grid grid-cols-12 rounded-xl overflow-hidden bg-white border border-slate-300 shadow-md"
         >
           <BaseInput
             id="expense-input"
@@ -25,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount } from 'vue';
+import { ref, onBeforeMount } from 'vue';
 import { storeToRefs } from 'pinia';
 import { PlusIcon } from '@heroicons/vue/24/outline';
 import { useCalendarStore, useSettingsStore } from '@/stores';

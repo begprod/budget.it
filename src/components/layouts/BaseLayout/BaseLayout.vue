@@ -11,6 +11,8 @@
     <slot />
   </main>
 
+  <BaseMenuBar />
+
   <BaseSettingsPanel :is-open="isSidebarOpen" @toggle="toggleSidebar">
     <div class="mb-5 text-2xl text-slate-700 font-bold">Settings</div>
 
@@ -76,6 +78,7 @@ import { storeToRefs } from 'pinia';
 import { PlusIcon, Cog6ToothIcon, CheckIcon } from '@heroicons/vue/24/outline';
 import { useSettingsStore } from '@/stores';
 import BaseHeader from '@/components/layouts/partials/BaseHeader/BaseHeader.vue';
+import BaseMenuBar from '@/components/layouts/partials/BaseMenuBar/BaseMenuBar.vue';
 import BaseSettingsPanel from '@/components/layouts/partials/BaseSettingsPanel/BaseSettingsPanel.vue';
 import BaseInput from '@/components/ui/controls/BaseInput/BaseInput.vue';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
