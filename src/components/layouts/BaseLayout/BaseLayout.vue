@@ -1,14 +1,10 @@
 <template>
-  <BaseHeader>
-    <template #settings>
-      <button type="button" @click="toggleSidebar">
-        <Cog6ToothIcon class="w-6 h-6 text-slate-600" />
-      </button>
-    </template>
-  </BaseHeader>
+  <BaseHeader />
 
-  <main class="container mx-auto z-10">
+  <main class="container mx-auto pb-24 z-10">
     <slot />
+
+    <BaseFooter />
   </main>
 
   <BaseMenuBar />
@@ -75,9 +71,10 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { storeToRefs } from 'pinia';
-import { PlusIcon, Cog6ToothIcon, CheckIcon } from '@heroicons/vue/24/outline';
+import { PlusIcon, CheckIcon } from '@heroicons/vue/24/outline';
 import { useSettingsStore } from '@/stores';
 import BaseHeader from '@/components/layouts/partials/BaseHeader/BaseHeader.vue';
+import BaseFooter from '@/components/layouts/partials/BaseFooter/BaseFooter.vue';
 import BaseMenuBar from '@/components/layouts/partials/BaseMenuBar/BaseMenuBar.vue';
 import BaseSettingsPanel from '@/components/layouts/partials/BaseSettingsPanel/BaseSettingsPanel.vue';
 import BaseInput from '@/components/ui/controls/BaseInput/BaseInput.vue';
