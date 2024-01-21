@@ -61,7 +61,7 @@
             id="currency-input"
             v-model="newCurrency"
             type="text"
-            placeholder="Enter currency"
+            placeholder="Add new currency"
             class="col-span-10 rounded-r-none"
           />
           <BaseButton class="col-span-2 rounded-l-none" @click="saveNewCurrency(newCurrency)">
@@ -112,7 +112,7 @@ const settingsStore = useSettingsStore();
 const { setDailyBudget, addNewCurrency, dailyBudget } = settingsStore;
 const { getActiveCurrencies, currencies } = storeToRefs(settingsStore);
 
-const isSidebarOpen = ref(true);
+const isSidebarOpen = ref(false);
 const expense = ref('');
 const newCurrency = ref('');
 const dailyBudgetValue = ref(dailyBudget);

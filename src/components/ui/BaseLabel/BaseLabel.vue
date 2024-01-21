@@ -6,10 +6,23 @@
       :label="label"
       :value="value"
       :checked="isSelected"
-      :additional-classes="[classes, 'rounded-r-none']"
+      :additional-classes="[
+        classes,
+        'max-w-30',
+        'rounded-r-none',
+        'overflow-hidden',
+        'whitespace-nowrap',
+        'text-ellipsis',
+      ]"
       @change="setActiveCurrency(id)"
     />
-    <BaseButton v-if="!isDefault" class="py-0 h-full rounded-l-none" title="delete currency" @click="deleteCurrency(id)" :is-disabled="isSelected">
+    <BaseButton
+      v-if="!isDefault"
+      class="grow-0 !py-0 h-full rounded-l-none"
+      title="delete currency"
+      @click="deleteCurrency(id)"
+      :is-disabled="isSelected"
+    >
       <template #text>
         <XMarkIcon v-if="!isSelected" class="w-4 h-4" />
         <LockClosedIcon v-if="isSelected" class="w-4 h-4 text-slate-950" />
