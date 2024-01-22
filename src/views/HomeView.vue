@@ -1,44 +1,19 @@
 <template>
   <BaseLayout>
-      <BaseExpenseList />
-
-      <div class="container fixed left-0 right-0 bottom-14 w-full px-3 mx-auto">
-        <div
-          class="grid grid-cols-12 rounded-xl overflow-hidden bg-white border border-slate-300 shadow-md"
-        >
-          <BaseInput
-            id="expense-input"
-            v-model="expense"
-            type="number"
-            :placeholder="`Enter expense (${getActiveCurrencies.name})`"
-            class="col-span-10 border-none focus:outline-none focus:border-none"
-          />
-
-          <BaseButton title="Add expense" class="col-span-2 border-l border-y-0 border-r-0 rounded-l-none">
-            <template #leftIcon>
-              <PlusIcon class="w-6 h-6" />
-            </template>
-          </BaseButton>
-        </div>
-      </div>
+    <BaseExpensesList />
+    <BaseAddExpenseBar />
   </BaseLayout>
 </template>
 
 <script setup lang="ts">
-import { ref, onBeforeMount } from 'vue';
-import { storeToRefs } from 'pinia';
-import { PlusIcon } from '@heroicons/vue/24/outline';
-import { useCalendarStore, useSettingsStore } from '@/stores';
+import { onBeforeMount } from 'vue';
+import { useCalendarStore } from '@/stores';
 import BaseLayout from '@/components/layouts/BaseLayout/BaseLayout.vue';
-import BaseExpenseList from '@/components/BaseExpenseList/BaseExpenseList.vue';
-import BaseInput from '@/components/ui/controls/BaseInput/BaseInput.vue';
-import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
+import BaseExpensesList from '@/components/BaseExpensesList/BaseExpensesList.vue';
+import BaseAddExpenseBar from '@/components/BaseAddExpenseBar/BaseAddExpenseBar.vue';
 
 const calendarStore = useCalendarStore();
-const settingsStore = useSettingsStore();
 const { initCalendar } = calendarStore;
-const { getActiveCurrencies } = storeToRefs(settingsStore);
-const expense = ref('');
 
 onBeforeMount(() => {
   initCalendar();

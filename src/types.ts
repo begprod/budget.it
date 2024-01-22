@@ -22,6 +22,18 @@ export interface IDay {
   isPast: boolean;
 }
 
+export interface IExpensesStore {
+  expenses: RemovableRef<Record<string, Record<'items', Array<IExpense>>>>;
+}
+
+export interface IExpense {
+  id: string;
+  value: number;
+  currency: string;
+  time: string;
+  dayId: string;
+}
+
 export interface ISettingsStore {
   currencies: RemovableRef<Array<ICurrency>>;
   dailyBudget: RemovableRef<number>;
