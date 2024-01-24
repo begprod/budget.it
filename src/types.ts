@@ -28,9 +28,9 @@ export interface IExpensesStore {
 
 export interface IExpense {
   id: string;
-  value: number;
+  value: number | string;
   currency: string;
-  time: string;
+  createdAt: string;
   dayId: string;
 }
 

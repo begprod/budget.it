@@ -31,11 +31,11 @@ export const useSettingsStore = defineStore('settings', {
         isDefault: true,
       },
     ]),
-    dailyBudget: useLocalStorage('budget.it:dailyBudget', 500),
+    dailyBudget: useLocalStorage('budget.it:daily', 500),
   }),
 
   getters: {
-    getActiveCurrencies(state): ICurrency {
+    getActiveCurrency(state): ICurrency {
       return state.currencies.filter((currency: ICurrency) => currency.isActive)[0];
     },
   },
