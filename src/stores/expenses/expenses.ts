@@ -46,8 +46,8 @@ export const useExpensesStore = defineStore('expenses', {
 
       this.expenses[expense.dayId].items.push(expense);
     },
-    removeExpense() {
-      console.log('removeExpense');
+    removeExpense(id: IExpense['id'], dayId: IExpense['dayId']) {
+      this.expenses[dayId].items = this.expenses[dayId].items.filter((expense: IExpense) => expense.id !== id);
     },
     checkAndCleanupExpensesByDayObject() {
       const { months } = storeToRefs(useCalendarStore());

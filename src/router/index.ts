@@ -10,8 +10,7 @@ export const router = createRouter({
     if (currentDayElement) {
       currentDayElement.scrollIntoView({
         behavior: 'smooth',
-        block: 'center',
-        inline: 'center',
+        block: 'start',
       });
     } else {
       window.scrollTo({
