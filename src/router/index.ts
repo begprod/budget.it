@@ -9,14 +9,12 @@ export const router = createRouter({
 
     if (currentDayElement) {
       currentDayElement.scrollIntoView({
-        behavior: 'smooth',
         block: 'start',
       });
     } else {
       window.scrollTo({
         top: 0,
         left: 0,
-        behavior: 'instant',
       });
     }
   },
