@@ -1,5 +1,5 @@
 <template>
-  <div class="container fixed left-0 right-0 bottom-14 w-full px-3 mx-auto">
+  <div class="container fixed left-0 right-0 bottom-14 w-full px-3 mx-auto z-[100]">
     <div
       class="grid grid-cols-12 rounded-xl overflow-hidden bg-white border border-slate-300 shadow-md"
     >
