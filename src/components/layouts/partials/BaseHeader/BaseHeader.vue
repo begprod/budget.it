@@ -16,7 +16,7 @@
           class="w-7 opacity-80 hover:opacity-100 transition-all duration-300"
           width="40"
           height="40"
-          alt="todo.it github"
+          alt="budget.it github"
         />
       </a>
     </div>
