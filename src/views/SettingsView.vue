@@ -1,9 +1,9 @@
 <template>
   <BaseLayout>
-    <div class="mb-5 text-2xl text-slate-700 font-bold">Settings</div>
+    <div class="mb-5 text-2xl text-slate-700 font-bold select-none">Settings</div>
 
     <div class="mb-10">
-      <div class="mb-3 text-slate-500">Daily budget</div>
+      <div class="mb-3 text-slate-500 select-none">Daily budget</div>
 
       <div class="grid grid-cols-12">
         <BaseInput
@@ -25,7 +25,7 @@
     </div>
 
     <div class="mb-2">
-      <div class="mb-3 text-slate-500">Default currency</div>
+      <div class="mb-3 text-slate-500 select-none">Default currency</div>
 
       <div class="flex flex-wrap gap-1">
         <BaseCurrencyGroupItem

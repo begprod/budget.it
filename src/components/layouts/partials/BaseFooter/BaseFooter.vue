@@ -1,5 +1,5 @@
 <template>
-  <footer class="w-full bg-white">
+  <footer class="w-full bg-white select-none">
     <div
       class="container flex flex-col items-center justify-center mx-auto p-5 text-sm text-center text-gray-700"
     >

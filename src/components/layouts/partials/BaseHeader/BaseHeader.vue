@@ -1,6 +1,6 @@
 <template>
   <header class="sticky top-0 w-full bg-white z-[100]">
-    <div class="container mx-auto px-5 py-3 flex items-center justify-between">
+    <div class="container mx-auto px-5 py-3 flex items-center justify-between select-none">
       <div class="flex items-center">
         <a href="/budget.it/" class="flex items-baseline font-bold">
           <div class="logo-gradient gradient-animation text-lg">budget.it</div>
@@ -10,7 +10,7 @@
         </a>
       </div>
 
-      <a href="https://github.com/begprod/budget.it" target="_blank">
+      <a href="https://github.com/begprod/budget.it" target="_blank" class="select-none">
         <img
           src="@/assets/images/github-mark.svg"
           class="w-7 opacity-80 hover:opacity-100 transition-all duration-300"

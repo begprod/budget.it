@@ -6,7 +6,7 @@
     :value="modelValue"
     :autofocus="autofocus"
     @input="inputHandler"
-    class="w-full p-2 text-sm border border-slate-300 rounded-xl focus:outline-none focus:border-slate-600 transition-[border-color]"
+    class="w-full p-2 text-sm border border-slate-300 rounded-xl focus:outline-none focus:border-slate-600 transition-[border-color] select-none"
   />
 </template>
 
