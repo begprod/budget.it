@@ -1,17 +1,21 @@
 <template>
   <BaseDateWrapper v-for="month in months" :key="month.id">
     <template #title>
-      <div class="sticky top-[50px] py-4 text-2xl text-slate-700 font-bold bg-white z-50">
+      <div class="sticky top-[50px] py-4 text-2xl text-slate-700 font-bold bg-white select-none z-50">
         {{ month.name }}
       </div>
     </template>
 
     <template #content>
       <div class="grid gap-3">
-        <BaseDateWrapper v-for="day in getDaysByMonthId(month.id)" :key="day.id">
+        <BaseDateWrapper
+          v-for="day in getDaysByMonthId(month.id)"
+          :key="day.id"
+          :class="{ 'opacity-30': !day.isCurrent }"
+        >
           <template #title>
             <div
-              class="sticky top-[100px] flex items-center py-3 bg-white font-bold z-40"
+              class="sticky top-[100px] flex items-center py-3 bg-white font-bold select-none z-40"
               :class="{
                 'current-day': day.isCurrent,
               }"
@@ -20,7 +24,6 @@
               {{ day.name }}
               <div
                 v-if="day.isCurrent"
-                :class="day.isCurrent ? 'current-day' : ''"
                 class="shrink-0 w-2 h-2 ml-2 rounded-full bg-green-500 select-none animate-pulse"
               />
             </div>
@@ -37,6 +40,7 @@
                   :createdAt="expense.createdAt"
                   :value="expense.value"
                   :currency="expense.currency"
+                  @click="removeExpense(expense.id, day.id)"
                 />
               </div>
             </div>
@@ -63,6 +67,7 @@ const expensesStore = useExpensesStore();
 const { months } = storeToRefs(calendarStore);
 const { getDaysByMonthId } = calendarStore;
 const { expenses } = storeToRefs(expensesStore);
+const { removeExpense } = expensesStore;
 </script>
 
 <style scoped lang="scss">
