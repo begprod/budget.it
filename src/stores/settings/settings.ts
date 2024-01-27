@@ -6,27 +6,27 @@ export const useSettingsStore = defineStore('settings', {
   state: (): ISettingsStore => ({
     currencies: useLocalStorage('budget.it:currencies', [
       {
-        name: 'USD',
+        name: '$',
         isActive: true,
         isDefault: true,
       },
       {
-        name: 'EUR',
+        name: '€',
         isActive: false,
         isDefault: true,
       },
       {
-        name: 'RUB',
+        name: '₽',
         isActive: false,
         isDefault: true,
       },
       {
-        name: 'THB',
+        name: '฿',
         isActive: false,
         isDefault: true,
       },
       {
-        name: 'CNY',
+        name: '¥',
         isActive: false,
         isDefault: true,
       },
