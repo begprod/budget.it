@@ -19,7 +19,7 @@
 
       <BaseButton
         v-if="isControlsVisible"
-        class="absolute top-5 h-[110%] !items-end !p-0 !pb-1 !rounded-2xl !rounded-t-none bg-red-500 hover:bg-red-600 z-30"
+        class="absolute top-5 h-[110%] !items-end !p-0 !pb-1 !rounded-2xl !rounded-t-none !bg-red-500 hover:!bg-red-600 z-30"
         @click="clickHandler"
       >
         <template #text>
