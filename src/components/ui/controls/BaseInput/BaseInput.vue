@@ -5,6 +5,8 @@
     :placeholder="placeholder"
     :value="modelValue"
     :autofocus="autofocus"
+    :autocomplete="autocomplete"
+    :class="hasError ? '!border-red-500 !focus:border-red-500' : ''"
     @input="inputHandler"
     class="w-full px-3 py-2 text-sm border border-slate-300 rounded-xl focus:outline-none focus:border-slate-400 transition-[border-color] select-none"
   />
@@ -17,6 +19,8 @@ interface Props {
   type: string;
   placeholder: string;
   autofocus?: boolean;
+  autocomplete?: string;
+  hasError?: boolean;
 }
 
 defineProps<Props>();

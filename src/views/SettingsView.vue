@@ -13,6 +13,8 @@
             type="number"
             placeholder="Set daily budget"
             class="pr-14"
+            autocomplete="off"
+            :has-error="isDailyBudgetFieldHasError"
           />
         </template>
         <template #button>
@@ -50,6 +52,8 @@
           type="text"
           placeholder="Add new currency"
           class="pr-14"
+          autocomplete="off"
+          :has-error="isCurrencyFieldHasError"
         />
       </template>
       <template #button>
@@ -66,8 +70,9 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { storeToRefs } from 'pinia';
-import { useSettingsStore } from '@/stores';
+import { number, string } from 'yup';
 import { PlusIcon, CheckIcon } from '@heroicons/vue/24/outline';
+import { useSettingsStore } from '@/stores';
 import BaseLayout from '@/components/layouts/BaseLayout/BaseLayout.vue';
 import BaseInput from '@/components/ui/controls/BaseInput/BaseInput.vue';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
@@ -81,16 +86,39 @@ const { currencies } = storeToRefs(settingsStore);
 
 const newCurrency = ref('');
 const dailyBudgetValue = ref(dailyBudget);
+const isDailyBudgetFieldHasError = ref(false);
+const isCurrencyFieldHasError = ref(false);
+
+const dailyBudgetSchema = number().integer().required().min(2);
+const newCurrencySchema = string().required().min(1).max(10);
 
 const submitDailyBudget = (budget: number) => {
-  setDailyBudget(budget);
+  try {
+    dailyBudgetSchema.validateSync(budget);
+    setDailyBudget(budget);
 
-  dailyBudgetValue.value = budget;
+    dailyBudgetValue.value = budget;
+    isDailyBudgetFieldHasError.value = false;
+  } catch (error) {
+    isDailyBudgetFieldHasError.value = true;
+  }
 };
 
 const submitNewCurrency = (currency: string) => {
-  addNewCurrency(currency);
+  if (currencies.value.some((item) => item.name === currency)) {
+    isCurrencyFieldHasError.value = true;
 
-  newCurrency.value = '';
+    return;
+  }
+
+  try {
+    newCurrencySchema.validateSync(currency);
+    addNewCurrency(currency);
+
+    newCurrency.value = '';
+    isCurrencyFieldHasError.value = false;
+  } catch (error) {
+    isCurrencyFieldHasError.value = true;
+  }
 };
 </script>
