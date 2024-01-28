@@ -11,7 +11,6 @@
         <BaseDateWrapper
           v-for="day in getDaysByMonthId(month.id)"
           :key="day.id"
-          :class="{ 'opacity-30': !day.isCurrent }"
         >
           <template #title>
             <div
@@ -40,6 +39,7 @@
                   :createdAt="expense.createdAt"
                   :value="expense.value"
                   :currency="expense.currency"
+                  :class="{ 'opacity-30': !day.isCurrent }"
                   @click="removeExpense(expense.id, day.id)"
                 />
               </div>
