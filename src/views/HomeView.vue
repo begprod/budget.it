@@ -10,7 +10,6 @@
             type="number"
             :placeholder="`Enter expense (${getActiveCurrency.name})`"
             :has-error="isExpenseFieldHasError"
-            class="pr-14"
           />
         </template>
         <template #button>

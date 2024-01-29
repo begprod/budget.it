@@ -12,7 +12,6 @@
             v-model="dailyBudgetValue"
             type="number"
             placeholder="Set daily budget"
-            class="pr-14"
             autocomplete="off"
             :has-error="isDailyBudgetFieldHasError"
           />
@@ -51,9 +50,9 @@
           v-model="newCurrency"
           type="text"
           placeholder="Add new currency"
-          class="pr-14"
           autocomplete="off"
           :has-error="isCurrencyFieldHasError"
+          error-message="Currency already exists"
         />
       </template>
       <template #button>
@@ -68,7 +67,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { number, string } from 'yup';
 import { PlusIcon, CheckIcon } from '@heroicons/vue/24/outline';
@@ -91,6 +90,10 @@ const isCurrencyFieldHasError = ref(false);
 
 const dailyBudgetSchema = number().integer().required().min(2);
 const newCurrencySchema = string().required().min(1).max(10);
+
+watch(newCurrency, () => {
+  newCurrency.value.length === 0 && (isCurrencyFieldHasError.value = false);
+});
 
 const submitDailyBudget = (budget: number) => {
   try {
