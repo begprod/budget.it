@@ -1,5 +1,5 @@
 <template>
-  <BaseLayout>
+  <BaseLayout additional-classes="!pb-24">
     <BaseExpensesList />
     <div class="container fixed left-0 right-0 bottom-14 w-full px-3 mx-auto z-[100]">
       <BaseFormBar @submit="submitExpense(expense)" class="rounded-xl shadow-md">
@@ -13,10 +13,7 @@
           />
         </template>
         <template #button>
-          <BaseButton
-            title="Add expense"
-            @click="submitExpense(expense)"
-          >
+          <BaseButton title="Add expense" @click="submitExpense(expense)">
             <template #leftIcon>
               <BanknotesIcon class="w-5 h-5" />
             </template>
