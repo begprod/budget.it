@@ -41,6 +41,7 @@ export const useExpensesStore = defineStore('expenses', {
         value: value,
         currency: getActiveCurrency.value.name,
         createdAt: getTime(),
+        monthId: getCurrentDay.value?.monthId || '',
         dayId: getCurrentDay.value?.id || '',
       };
 

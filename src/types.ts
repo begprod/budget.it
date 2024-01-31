@@ -31,7 +31,8 @@ export interface IExpense {
   value: number | string;
   currency: string;
   createdAt: string;
-  dayId: string;
+  monthId: IMonth['id'];
+  dayId: IDay['id'];
 }
 
 export interface ISettingsStore {
