@@ -1,7 +1,10 @@
 <template>
-  <div class="relative flex flex-col items-center" :class="{
-          'z-[41]': isControlsVisible,
-        }">
+  <div
+    class="relative flex flex-col items-center"
+    :class="{
+      'z-[60]': isControlsVisible,
+    }"
+  >
     <div class="text-xs text-slate-300 select-none">{{ createdAt }}</div>
 
     <div class="relative flex items-center select-none cursor-pointer">

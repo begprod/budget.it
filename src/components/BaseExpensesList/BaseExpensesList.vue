@@ -7,13 +7,13 @@
         {{ month.name }}
 
         <BaseProgressBar
-          :label="`${countMonthsExpenses(month.id)} / ${
+          :label="`${getMonthlyExpenses(month.id)} / ${
             getDaysByMonthId(month.id).length * dailyBudget
           }`"
           :percentage="countProgressPercentage(month.id)"
           :isFull="countProgressPercentage(month.id) >= 100"
           :class="{
-            'opacity-20': !month.isCurrent,
+            'opacity-10': !month.isCurrent,
           }"
         />
       </div>
@@ -24,17 +24,31 @@
         <BaseDateWrapper v-for="day in getDaysByMonthId(month.id)" :key="day.id">
           <template #title>
             <div
-              class="sticky top-[110px] flex items-center py-3 bg-white font-bold select-none z-40"
+              class="sticky top-[110px] flex flex-col items-start py-3 bg-white font-bold select-none z-40"
               :class="{
                 'current-day': day.isCurrent,
               }"
             >
-              {{ day.number }}
-              {{ day.name }}
+              <div class="flex items-center">
+                {{ day.number }}
+                {{ day.name }}
+
+                <div
+                  v-if="day.isCurrent"
+                  class="shrink-0 w-2 h-2 ml-2 rounded-full bg-green-500 select-none animate-pulse"
+                />
+              </div>
+
               <div
-                v-if="day.isCurrent"
-                class="shrink-0 w-2 h-2 ml-2 rounded-full bg-green-500 select-none animate-pulse"
-              />
+                class="text-xs opacity-70"
+                :class="{
+                  'text-emerald-400': getDailyExpenses(day.id) <= dailyBudget,
+                  'text-rose-400': getDailyExpenses(day.id) > dailyBudget,
+                  '!text-slate-400': getDailyExpenses(day.id) === 0,
+                }"
+              >
+                {{ getDailyExpenses(day.id) }} / {{ dailyBudget }}
+              </div>
             </div>
           </template>
 
@@ -66,7 +80,7 @@
 </template>
 
 <script setup lang="ts">
-import type { IMonth, IExpense } from '@/types';
+import type { IMonth } from '@/types';
 import { storeToRefs } from 'pinia';
 import { useCalendarStore, useExpensesStore, useSettingsStore } from '@/stores';
 import BaseDateWrapper from '@/components/ui/BaseDateWrapper/BaseDateWrapper.vue';
@@ -81,34 +95,11 @@ const settingsStore = useSettingsStore();
 const { months } = storeToRefs(calendarStore);
 const { getDaysByMonthId } = calendarStore;
 const { expenses } = storeToRefs(expensesStore);
-const { removeExpense } = expensesStore;
+const { getDailyExpenses, getMonthlyExpenses, removeExpense } = expensesStore;
 const { dailyBudget } = storeToRefs(settingsStore);
 
-const countMonthsExpenses = (monthId: IMonth['id']) => {
-  const expenseItems: Array<IExpense> = [];
-
-  Object.keys(expenses.value).forEach((expense: IExpense['value']) => {
-    if (!expenses.value[expense].items.length) {
-      return;
-    }
-
-    const items = expenses.value[expense].items.filter(
-      (item: IExpense) => item.monthId === monthId,
-    );
-
-    return expenseItems.push(...items);
-  });
-
-  const monthExpensesCounter = expenseItems.reduce(
-    (acc: number, item: IExpense) => acc + Number(item.value),
-    0,
-  );
-
-  return monthExpensesCounter;
-};
-
 const countProgressPercentage = (monthId: IMonth['id']) => {
-  const monthExpensesCounter = countMonthsExpenses(monthId);
+  const monthExpensesCounter = getMonthlyExpenses(monthId);
 
   if (monthExpensesCounter > getDaysByMonthId(monthId).length * dailyBudget.value) {
     return 100;
