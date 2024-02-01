@@ -10,6 +10,53 @@ export const useExpensesStore = defineStore('expenses', {
     expenses: useLocalStorage('budget.it:expenses', {}),
   }),
 
+  getters: {
+    getMonthlyExpenses: (state) => (monthId: IMonth['id']) => {
+      const expenseItems: Array<IExpense> = [];
+
+      Object.keys(state.expenses).forEach((expense: IExpense['value']) => {
+        if (!state.expenses[expense].items.length) {
+          return;
+        }
+
+        const items = state.expenses[expense].items.filter(
+          (item: IExpense) => item.monthId === monthId,
+        );
+
+        return expenseItems.push(...items);
+      });
+
+      const monthExpensesCounter = expenseItems.reduce(
+        (acc: number, item: IExpense) => acc + Number(item.value),
+        0,
+      );
+
+      return monthExpensesCounter;
+    },
+    getDailyExpenses: (state) => (dayId: IDay['id']) => {
+      const expenseItems: Array<IExpense> = [];
+
+      Object.keys(state.expenses).forEach((expense: IExpense['value']) => {
+        if (!state.expenses[expense].items.length) {
+          return;
+        }
+
+        const items = state.expenses[expense].items.filter(
+          (item: IExpense) => item.dayId === dayId,
+        );
+
+        return expenseItems.push(...items);
+      });
+
+      const dayExpensesCounter = expenseItems.reduce(
+        (acc: number, item: IExpense) => acc + Number(item.value),
+        0,
+      );
+
+      return dayExpensesCounter;
+    },
+  },
+
   actions: {
     initExpensesObject() {
       const { shouldGenerateNextMonth } = storeToRefs(useCalendarStore());
@@ -35,7 +82,6 @@ export const useExpensesStore = defineStore('expenses', {
       const { getCurrentDay } = storeToRefs(useCalendarStore());
       const { getActiveCurrency } = storeToRefs(useSettingsStore());
 
-
       const expense: IExpense = {
         id: uuidv4(),
         value: value,
@@ -48,7 +94,9 @@ export const useExpensesStore = defineStore('expenses', {
       this.expenses[expense.dayId].items.push(expense);
     },
     removeExpense(id: IExpense['id'], dayId: IExpense['dayId']) {
-      this.expenses[dayId].items = this.expenses[dayId].items.filter((expense: IExpense) => expense.id !== id);
+      this.expenses[dayId].items = this.expenses[dayId].items.filter(
+        (expense: IExpense) => expense.id !== id,
+      );
     },
     checkAndCleanupExpensesByDayObject() {
       const { months } = storeToRefs(useCalendarStore());
