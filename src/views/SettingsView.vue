@@ -5,19 +5,20 @@
     <div class="mb-10">
       <div class="mb-3 text-slate-500 select-none">Daily budget</div>
 
-      <BaseFormBar @submit="submitDailyBudget(dailyBudgetValue)">
+      <BaseFormBar @submit="submitDailyBudget(dailyBudgetInput.value)">
         <template #input>
           <BaseInput
             id="daily-input"
-            v-model="dailyBudgetValue"
+            v-model="dailyBudgetInput.value"
             type="number"
             placeholder="Set daily budget"
             autocomplete="off"
-            :has-error="isDailyBudgetFieldHasError"
+            :is-error="dailyBudgetInput.isError"
+            :error-message="dailyBudgetInput.errorMessage"
           />
         </template>
         <template #button>
-          <BaseButton @click="submitDailyBudget(dailyBudgetValue)">
+          <BaseButton type="submit">
             <template #text>
               <CheckIcon class="w-5 h-5" />
             </template>
@@ -43,20 +44,20 @@
       </div>
     </div>
 
-    <BaseFormBar @submit="submitNewCurrency(newCurrency)">
+    <BaseFormBar @submit="submitNewCurrency(newCurrencyInput.value)">
       <template #input>
         <BaseInput
           id="currency-input"
-          v-model="newCurrency"
+          v-model="newCurrencyInput.value"
           type="text"
           placeholder="Add new currency"
           autocomplete="off"
-          :has-error="isCurrencyFieldHasError"
-          error-message="Currency already exists"
+          :is-error="newCurrencyInput.isError"
+          :error-message="newCurrencyInput.errorMessage"
         />
       </template>
       <template #button>
-        <BaseButton @click="submitNewCurrency(newCurrency)">
+        <BaseButton type="submit">
           <template #text>
             <PlusIcon class="w-5 h-5" />
           </template>
@@ -67,7 +68,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { reactive, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { number, string } from 'yup';
 import { PlusIcon, CheckIcon } from '@heroicons/vue/24/outline';
@@ -83,16 +84,23 @@ const settingsStore = useSettingsStore();
 const { setDailyBudget, addNewCurrency, dailyBudget } = settingsStore;
 const { currencies } = storeToRefs(settingsStore);
 
-const newCurrency = ref('');
-const dailyBudgetValue = ref(dailyBudget);
-const isDailyBudgetFieldHasError = ref(false);
-const isCurrencyFieldHasError = ref(false);
+const dailyBudgetInput = reactive({
+  value: dailyBudget,
+  isError: false,
+  errorMessage: 'Enter an integer greater than 9',
+});
 
-const dailyBudgetSchema = number().integer().required().min(2);
+const newCurrencyInput = reactive({
+  value: '',
+  isError: false,
+  errorMessage: 'Currency already exists',
+});
+
+const dailyBudgetSchema = number().integer().required().min(10);
 const newCurrencySchema = string().required().min(1).max(10);
 
-watch(newCurrency, () => {
-  newCurrency.value.length === 0 && (isCurrencyFieldHasError.value = false);
+watch(newCurrencyInput, () => {
+  newCurrencyInput.value.length === 0 && (newCurrencyInput.isError = false);
 });
 
 const submitDailyBudget = (budget: number) => {
@@ -100,16 +108,16 @@ const submitDailyBudget = (budget: number) => {
     dailyBudgetSchema.validateSync(budget);
     setDailyBudget(budget);
 
-    dailyBudgetValue.value = budget;
-    isDailyBudgetFieldHasError.value = false;
+    dailyBudgetInput.value = budget;
+    dailyBudgetInput.isError = false;
   } catch (error) {
-    isDailyBudgetFieldHasError.value = true;
+    dailyBudgetInput.isError = true;
   }
 };
 
 const submitNewCurrency = (currency: string) => {
   if (currencies.value.some((item) => item.name === currency)) {
-    isCurrencyFieldHasError.value = true;
+    newCurrencyInput.isError = true;
 
     return;
   }
@@ -118,10 +126,10 @@ const submitNewCurrency = (currency: string) => {
     newCurrencySchema.validateSync(currency);
     addNewCurrency(currency);
 
-    newCurrency.value = '';
-    isCurrencyFieldHasError.value = false;
+    newCurrencyInput.value = '';
+    newCurrencyInput.isError = false;
   } catch (error) {
-    isCurrencyFieldHasError.value = true;
+    newCurrencyInput.isError = true;
   }
 };
 </script>

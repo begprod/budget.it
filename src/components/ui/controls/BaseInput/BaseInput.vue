@@ -7,13 +7,13 @@
       :value="modelValue"
       :autofocus="autofocus"
       :autocomplete="autocomplete"
-      :class="hasError ? '!border-red-500 !focus:border-red-500' : ''"
+      :class="isError ? '!border-red-500 !focus:border-red-500' : ''"
       @input="inputHandler"
       class="w-full px-3 py-2 pr-14 text-sm border border-slate-300 rounded-xl focus:outline-none focus:border-slate-400 transition-[border-color] select-none"
     />
     <span
-      v-if="hasError && errorMessage"
-      class="absolute left-3 -bottom-4 w-full text-xs text-red-500"
+      v-if="isError && errorMessage"
+      class="absolute left-3 -bottom-4 w-full text-xs text-rose-500"
     >
       {{ errorMessage }}
     </span>
@@ -28,8 +28,8 @@ interface Props {
   placeholder: string;
   autofocus?: boolean;
   autocomplete?: string;
+  isError?: boolean;
   errorMessage?: string;
-  hasError?: boolean;
 }
 
 defineProps<Props>();
