@@ -12,9 +12,6 @@
           }`"
           :percentage="countProgressPercentage(month.id)"
           :isFull="countProgressPercentage(month.id) >= 100"
-          :class="{
-            'opacity-10': !month.isCurrent,
-          }"
         />
       </div>
     </template>
@@ -44,7 +41,7 @@
                 :class="{
                   'text-emerald-400': getDailyExpenses(day.id) <= dailyBudget,
                   'text-rose-400': getDailyExpenses(day.id) > dailyBudget,
-                  '!text-slate-400': getDailyExpenses(day.id) === 0,
+                  'hidden': getDailyExpenses(day.id) === 0,
                 }"
               >
                 {{ getDailyExpenses(day.id) }} / {{ dailyBudget }}

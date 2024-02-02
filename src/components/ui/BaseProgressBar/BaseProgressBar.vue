@@ -38,7 +38,7 @@ const classes = computed(() => ({
     transition: background-size 0.5s ease-in-out;
 
     &_overfilled {
-      background-image: linear-gradient(43deg, #ff0000 0%, #ff0000 46%, #ff0000 100%);
+      background-image: linear-gradient(43deg, #ff9191 0%, #ff9191 46%, #ff0000 100%);
     }
   }
 }

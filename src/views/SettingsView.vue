@@ -1,6 +1,6 @@
 <template>
   <BaseLayout>
-    <div class="mb-7 text-2xl text-slate-700 font-bold select-none">Settings</div>
+    <div class="mb-7 pt-4 text-2xl text-slate-700 font-bold select-none">Settings</div>
 
     <div class="mb-10">
       <div class="mb-3 text-slate-500 select-none">Daily budget</div>
