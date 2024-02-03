@@ -1,5 +1,9 @@
 import type { RemovableRef } from '@vueuse/core';
 
+export interface ICommonStore {
+  lastCalendarUpdateDate: RemovableRef<string>;
+}
+
 export interface ICalendarStore {
   months: Array<IMonth>;
   days: Array<IDay>;
