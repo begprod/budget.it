@@ -15,6 +15,8 @@
             autocomplete="off"
             :is-error="dailyBudgetInput.isError"
             :error-message="dailyBudgetInput.errorMessage"
+            :is-success="dailyBudgetInput.isSuccess"
+            :success-message="dailyBudgetInput.successMessage"
           />
         </template>
         <template #button>
@@ -88,6 +90,8 @@ const dailyBudgetInput = reactive({
   value: dailyBudget,
   isError: false,
   errorMessage: 'Enter an integer greater than 9',
+  isSuccess: false,
+  successMessage: 'Daily budget updated',
 });
 
 const newCurrencyInput = reactive({
@@ -108,10 +112,17 @@ const submitDailyBudget = (budget: number) => {
     dailyBudgetSchema.validateSync(budget);
     setDailyBudget(budget);
 
+    dailyBudgetInput.isSuccess = true;
+
     dailyBudgetInput.value = budget;
     dailyBudgetInput.isError = false;
+
+    setTimeout(() => {
+      dailyBudgetInput.isSuccess = false;
+    }, 3000);
   } catch (error) {
     dailyBudgetInput.isError = true;
+    dailyBudgetInput.isSuccess = false;
   }
 };
 

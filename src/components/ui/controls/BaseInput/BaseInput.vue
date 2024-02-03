@@ -17,6 +17,12 @@
     >
       {{ errorMessage }}
     </span>
+    <span
+      v-if="isSuccess && successMessage"
+      class="absolute left-3 -bottom-4 w-full text-xs text-green-500"
+    >
+      {{ successMessage }}
+    </span>
   </div>
 </template>
 
@@ -30,6 +36,8 @@ interface Props {
   autocomplete?: string;
   isError?: boolean;
   errorMessage?: string;
+  isSuccess?: boolean;
+  successMessage?: string;
 }
 
 defineProps<Props>();
