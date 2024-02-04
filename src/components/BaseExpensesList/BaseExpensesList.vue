@@ -7,11 +7,11 @@
         {{ month.name }}
 
         <BaseProgressBar
-          :label="`${getMonthlyExpenses(month.id)} / ${
-            getDaysByMonthId(month.id).length * dailyBudget
-          }`"
+          :label="`
+            ${getMonthlyExpenses(month.id)} / ${getDaysByMonthId(month.id).length * dailyBudget}
+          `"
           :percentage="countProgressPercentage(month.id)"
-          :isFull="countProgressPercentage(month.id) >= 100"
+          :show-total="!month.isCurrent"
         />
       </div>
     </template>
@@ -41,7 +41,7 @@
                 :class="{
                   'text-emerald-400': getDailyExpenses(day.id) <= dailyBudget,
                   'text-rose-400': getDailyExpenses(day.id) > dailyBudget,
-                  'hidden': getDailyExpenses(day.id) === 0,
+                  hidden: getDailyExpenses(day.id) === 0,
                 }"
               >
                 {{ getDailyExpenses(day.id) }} / {{ dailyBudget }}

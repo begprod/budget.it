@@ -1,10 +1,10 @@
 <template>
   <div
     class="progress-bar relative flex items-center justify-center h-3 text-xs text-slate-700 rounded-[4px] overflow-hidden"
+    :class="classes"
   >
     <div
       class="progress-bar__background absolute top-0 left-0 w-full h-full"
-      :class="classes"
       :style="{
         'background-size': `${percentage}%`,
       }"
@@ -20,13 +20,14 @@ import { computed } from 'vue';
 interface IProps {
   label: string;
   percentage: number;
-  isFull: boolean;
+  showTotal?: boolean;
 }
 
 const props = defineProps<IProps>();
 
 const classes = computed(() => ({
-  'progress-bar__background_overfilled': props.isFull,
+  'progress-bar_overfilled': props.percentage >= 100,
+  'progress-bar_total': props.showTotal,
 }));
 </script>
 
@@ -36,9 +37,22 @@ const classes = computed(() => ({
     background-image: linear-gradient(43deg, #85ffbd 0%, #00dbde 46%, #0093e9 100%);
     background-repeat: no-repeat;
     transition: background-size 0.5s ease-in-out;
+  }
 
-    &_overfilled {
+  &_overfilled {
+    color: #ff0000;
+    opacity: 0.7;
+
+    .progress-bar__background {
       background-image: linear-gradient(43deg, #ff9191 0%, #ff9191 46%, #ff0000 100%);
+    }
+  }
+
+  &_total {
+    justify-content: flex-start;
+
+    .progress-bar__background {
+      background-image: none;
     }
   }
 }
