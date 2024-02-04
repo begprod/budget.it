@@ -29,16 +29,19 @@ import { ref, onBeforeMount } from 'vue';
 import { storeToRefs } from 'pinia';
 import { number } from 'yup';
 import { BanknotesIcon } from '@heroicons/vue/24/outline';
-import { useCalendarStore, useExpensesStore, useSettingsStore } from '@/stores';
+import { useCommonStore, useCalendarStore, useExpensesStore, useSettingsStore } from '@/stores';
 import BaseLayout from '@/components/layouts/BaseLayout/BaseLayout.vue';
 import BaseInput from '@/components/ui/controls/BaseInput/BaseInput.vue';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 import BaseExpensesList from '@/components/BaseExpensesList/BaseExpensesList.vue';
 import BaseFormBar from '@/components//BaseFormBar/BaseFormBar.vue';
 
+const commonStore = useCommonStore();
 const calendarStore = useCalendarStore();
 const expensesStore = useExpensesStore();
 const settingsStore = useSettingsStore();
+const { lastCalendarUpdateDate } = storeToRefs(commonStore);
+const { setLastUpdateDate } = commonStore;
 const { initCalendar } = calendarStore;
 const { initExpensesObject, addExpense } = expensesStore;
 const { getActiveCurrency } = storeToRefs(settingsStore);
@@ -46,8 +49,14 @@ const expense = ref('');
 const isExpenseFieldHasError = ref(false);
 
 onBeforeMount(() => {
+  const updateDate = new Date().toLocaleDateString();
+
+  setLastUpdateDate(updateDate);
+
   initCalendar();
   initExpensesObject();
+
+  window.addEventListener('focus', tabFocusHandler);
 });
 
 const expenseSchema = number().integer().required().min(1);
@@ -61,6 +70,20 @@ const submitExpense = (expenseValue: string) => {
     isExpenseFieldHasError.value = false;
   } catch (error) {
     isExpenseFieldHasError.value = true;
+  }
+};
+
+const tabFocusHandler = () => {
+  if (!lastCalendarUpdateDate.value) {
+    return;
+  }
+
+  const currentDate = new Date().toLocaleDateString();
+
+  if (currentDate !== lastCalendarUpdateDate.value) {
+    setLastUpdateDate(currentDate);
+    initCalendar();
+    initExpensesObject();
   }
 };
 </script>
