@@ -16,7 +16,7 @@
 
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
-import { HomeIcon, ChartBarIcon, Cog6ToothIcon } from '@heroicons/vue/24/outline';
+import { HomeIcon, Cog6ToothIcon } from '@heroicons/vue/24/outline';
 </script>
 
 <style scoped lang="scss">
