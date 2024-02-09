@@ -1,6 +1,45 @@
-# Vue 3 + TypeScript + Vite
+# budget.it – Another budget app, but this one is handy
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+A simple application for tracking the budget for each day
+
+![Version](https://img.shields.io/github/package-json/v/begprod/budget.it)
+![Last Commit](https://img.shields.io/github/last-commit/begprod/budget.it)
+![Issues](https://img.shields.io/github/issues/begprod/budget.it)
+![Top Language](https://img.shields.io/github/languages/top/begprod/budget.it)
+
+<img src="./public/screenshots/mobile.jpg" alt="budget.it – another budget app, but this one is handy" />
+
+## Features
+
+- Automatic calendar generating
+- Daily budget tracking
+- Monthly budget tracking
+- Last 6 month history
+- Currencies setup
+- Daily budget setup
+- PWA available
+
+## How data is stored?
+
+For this moment data is stored in local storage of your browser.
+
+## Install application on your device
+
+### iOS
+
+Open the following link on your iPhone or iPad: [https://begprod.github.io/budget.it/](https://begprod.github.io/budget.it/)
+
+Push the button "Share" in the browser menu, then push the button "Add to Home Screen":
+
+![budget.it – another budget app, but this one is handy](./public/screenshots/ios.jpg)
+
+### Android
+
+Open the following link on your Android device: [https://begprod.github.io/budget.it/](https://begprod.github.io/budget.it/)
+
+Push the button "Add to Home screen" in the browser menu:
+
+![budget.it – another budget app, but this one is handy](./public/screenshots/android.jpg)
 
 ## Recommended IDE Setup
 
