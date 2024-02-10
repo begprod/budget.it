@@ -8,6 +8,7 @@
             id="expense-input"
             v-model="expense"
             type="number"
+            inputmode="numeric"
             :placeholder="`Enter expense (${getActiveCurrency.name})`"
             :has-error="isExpenseFieldHasError"
           />

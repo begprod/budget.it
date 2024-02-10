@@ -11,6 +11,7 @@
             id="daily-input"
             v-model="dailyBudgetInput.value"
             type="number"
+            inputmode="numeric"
             placeholder="Set daily budget"
             autocomplete="off"
             :is-error="dailyBudgetInput.isError"
