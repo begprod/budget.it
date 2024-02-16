@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onBeforeMount } from 'vue';
+import { ref, onBeforeMount, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
 import { number } from 'yup';
 import { BanknotesIcon } from '@heroicons/vue/24/outline';
@@ -59,6 +59,20 @@ onBeforeMount(() => {
 
   window.addEventListener('focus', tabFocusHandler);
 });
+
+onMounted(() => {
+  scrollToCurrentDay();
+});
+
+const scrollToCurrentDay = () => {
+  const currentDayElement = document.getElementsByClassName('current-day')[0];
+
+  if (currentDayElement) {
+    currentDayElement.scrollIntoView({
+      block: 'start',
+    });
+  }
+};
 
 const expenseSchema = number().integer().required().min(1);
 
