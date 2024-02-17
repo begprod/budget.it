@@ -1,10 +1,7 @@
 <template>
   <BaseHeader />
 
-  <main
-    class="container flex flex-col min-h-[calc(100vh-55px)] mx-auto px-5 pb-14 z-10"
-    :class="additionalClasses"
-  >
+  <main class="container flex flex-col mx-auto px-5 pb-14 z-10" :class="additionalClasses">
     <div class="grow">
       <slot />
     </div>

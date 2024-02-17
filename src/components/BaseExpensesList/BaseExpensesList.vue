@@ -1,39 +1,39 @@
 <template>
   <BaseDateWrapper v-for="month in months" :key="month.id">
     <template #title>
-      <div
-        class="sticky top-[50px] flex flex-col py-4 text-2xl text-slate-700 font-bold bg-white select-none z-50"
-      >
-        {{ month.name }}
-
+      <div class="sticky top-[calc(100%-130px)] flex flex-col text-2xl bg-white select-none z-50">
         <BaseProgressBar
+          class="shadow-md"
           :label="`
-            ${getMonthlyExpenses(month.id)} / ${getDaysByMonthId(month.id).length * dailyBudget}
+            ${month.name} – ${getMonthlyExpenses(month.id)} / ${
+              getDaysByMonthId(month.id).length * dailyBudget
+            }
           `"
           :percentage="countProgressPercentage(month.id)"
-          :show-total="!month.isCurrent"
         />
       </div>
     </template>
 
     <template #content>
       <div class="grid gap-3">
-        <BaseDateWrapper v-for="day in getDaysByMonthId(month.id)" :key="day.id">
+        <BaseDateWrapper v-for="day in getDaysByMonthId(month.id)" :key="day.id" class="last:mb-10">
           <template #title>
             <div
-              class="sticky top-[110px] flex flex-col items-start py-3 bg-white font-bold select-none z-40"
+              class="sticky top-[52px] flex flex-col items-start py-1 bg-white font-bold select-none z-40"
               :class="{
                 'current-day': day.isCurrent,
               }"
             >
-              <div class="flex items-center">
-                {{ day.number }}
-                {{ day.name }}
-
-                <div
-                  v-if="day.isCurrent"
-                  class="shrink-0 w-2 h-2 ml-2 rounded-full bg-green-500 select-none animate-pulse"
-                />
+              <div class="flex">
+                <div class="flex flex-col">
+                  <div class="flex items-center text-sm">
+                    {{ day.number }} {{ day.name }}
+                    <div
+                      v-if="day.isCurrent"
+                      class="shrink-0 w-2 h-2 ml-2 rounded-full bg-green-500 select-none animate-pulse"
+                    />
+                  </div>
+                </div>
               </div>
 
               <div
@@ -108,6 +108,6 @@ const countProgressPercentage = (monthId: IMonth['id']) => {
 
 <style scoped lang="scss">
 .current-day {
-  scroll-margin-top: 120px;
+  scroll-margin-top: 52px;
 }
 </style>

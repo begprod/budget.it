@@ -1,7 +1,7 @@
 <template>
   <BaseLayout additional-classes="!pb-24">
     <BaseExpensesList />
-    <div class="container fixed left-0 right-0 bottom-14 w-full px-3 mx-auto z-[100]">
+    <div class="container fixed left-0 right-0 bottom-14 w-full px-5 mx-auto z-[100]">
       <BaseFormBar @submit="submitExpense(expense)" class="rounded-xl shadow-md">
         <template #input>
           <BaseInput
