@@ -47,7 +47,7 @@
       </div>
     </div>
 
-    <BaseFormBar @submit="submitNewCurrency(newCurrencyInput.value)">
+    <BaseFormBar class="mb-10" @submit="submitNewCurrency(newCurrencyInput.value)">
       <template #input>
         <BaseInput
           id="currency-input"

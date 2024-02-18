@@ -1,7 +1,7 @@
 <template>
   <BaseDateWrapper v-for="month in months" :key="month.id">
     <template #title>
-      <div class="sticky top-[calc(100%-90px)] flex flex-col text-2xl bg-white select-none z-50">
+      <div class="sticky top-[calc(100%-100px)] flex flex-col text-2xl bg-white select-none z-50">
         <BaseProgressBar
           class="shadow-md"
           :label="`${month.name} – ${countMonthlyExpenses(month.id)}`"
