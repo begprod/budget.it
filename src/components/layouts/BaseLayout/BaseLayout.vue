@@ -1,7 +1,7 @@
 <template>
   <BaseHeader />
 
-  <main class="container flex flex-col mx-auto px-5 pb-14 z-10" :class="additionalClasses">
+  <main class="container flex flex-col mx-auto px-5 pb-5 z-10">
     <div class="grow">
       <slot />
     </div>
@@ -16,10 +16,4 @@
 import BaseHeader from '@/components/layouts/partials/BaseHeader/BaseHeader.vue';
 import BaseFooter from '@/components/layouts/partials/BaseFooter/BaseFooter.vue';
 import BaseMenuBar from '@/components/layouts/partials/BaseMenuBar/BaseMenuBar.vue';
-
-interface IProps {
-  additionalClasses?: string | Object;
-}
-
-defineProps<IProps>();
 </script>
