@@ -4,6 +4,7 @@ import DashboardView from '@/views/DashboardView.vue';
 import SettingsView from '@/views/SettingsView.vue';
 
 export const router = createRouter({
+  // @ts-ignore
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
