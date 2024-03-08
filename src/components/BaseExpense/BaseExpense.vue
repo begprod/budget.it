@@ -10,14 +10,14 @@
     <div class="relative flex items-center select-none cursor-pointer">
       <div
         ref="expense"
-        class="relative flex items-baseline py-1 px-3 bg-white border border-sky-400 rounded-2xl"
+        class="relative flex items-center py-1 px-3 text-sm lg:text-base bg-white border border-sky-400 rounded-2xl"
         :class="{
           'z-40': isControlsVisible,
         }"
         @click="showControls"
       >
-        <div class="text-sm text-slate-700 leading-6 break-all">{{ value }}</div>
-        <div class="ml-1 text-xs leading-5">{{ currency }}</div>
+        <div>{{ value }}</div>
+        <div class="ml-1">{{ currency }}</div>
       </div>
 
       <BaseButton

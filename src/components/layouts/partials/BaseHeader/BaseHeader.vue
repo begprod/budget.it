@@ -3,7 +3,7 @@
     <div class="container mx-auto px-5 py-3 flex items-center justify-between select-none">
       <div class="flex items-center">
         <a href="/budget.it/" class="flex items-baseline font-bold">
-          <div class="logo-gradient gradient-animation text-lg">budget.it</div>
+          <div class="logo-gradient gradient-animation text-lg lg:text-2xl">budget.it</div>
           <sub class="logo-sub-gradient gradient-animation text-xs ml-2 bottom-0">
             v{{ version }}
           </sub>

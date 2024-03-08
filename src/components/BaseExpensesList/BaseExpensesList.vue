@@ -22,7 +22,7 @@
             >
               <div class="flex">
                 <div class="flex flex-col">
-                  <div class="flex items-center text-sm">
+                  <div class="flex items-center text-sm lg:text-base">
                     {{ day.number }} {{ day.name }}
                     <div
                       v-if="day.isCurrent"
@@ -33,7 +33,7 @@
               </div>
 
               <div
-                class="text-xs opacity-70"
+                class="text-xs lg:text-sm opacity-70"
                 :class="{
                   'text-emerald-400': getDailyExpenses(day.id) <= dailyBudget,
                   'text-rose-400': getDailyExpenses(day.id) > dailyBudget,
@@ -49,7 +49,7 @@
             <div
               v-for="(expenseItem, index) in expenses[day.id]"
               :key="index"
-              class="flex flex-wrap gap-1"
+              class="flex flex-wrap gap-2"
             >
               <div v-for="expense in expenseItem" :key="expense.id">
                 <BaseExpense
@@ -58,7 +58,6 @@
                   :currency="expense.currency"
                   :class="{ 'opacity-30': !day.isCurrent }"
                   @click="removeExpense(expense.id, day.id)"
-                  class="mb-5"
                 />
               </div>
 
@@ -69,7 +68,7 @@
               <BaseFormBar
                 v-if="day.isCurrent"
                 @submit="submitExpense(expense)"
-                class="w-full rounded-xl shadow-md"
+                class="w-full rounded-xl shadow-md mt-3"
               >
                 <template #input>
                   <BaseInput

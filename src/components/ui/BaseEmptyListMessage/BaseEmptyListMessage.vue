@@ -1,5 +1,7 @@
 <template>
-  <div class="flex items-center justify-center h-16 text-xs text-slate-300 select-none">
+  <div
+    class="flex items-center justify-center h-16 text-xs lg:text-base text-slate-300 select-none"
+  >
     <XCircleIcon class="mr-2 w-6 h-6" />
     {{ message }}
   </div>

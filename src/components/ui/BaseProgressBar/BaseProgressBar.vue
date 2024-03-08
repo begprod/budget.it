@@ -1,6 +1,6 @@
 <template>
   <div
-    class="progress-bar relative flex items-center justify-center h-6 text-xs text-slate-700 rounded-[4px] overflow-hidden"
+    class="progress-bar relative flex items-center justify-center h-6 text-xs lg:text-sm text-slate-700 rounded-[4px] overflow-hidden"
     :class="classes"
   >
     <div
