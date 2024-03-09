@@ -78,6 +78,7 @@
                     inputmode="numeric"
                     :placeholder="`Enter expense (${getActiveCurrency.name})`"
                     :has-error="isExpenseFieldHasError"
+                    :autofocus="true"
                   />
                 </template>
                 <template #button>
