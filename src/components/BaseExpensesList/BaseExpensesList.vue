@@ -68,7 +68,7 @@
               <BaseFormBar
                 v-if="day.isCurrent"
                 @submit="submitExpense(expense)"
-                class="w-full rounded-xl shadow-md mt-3"
+                class="w-full rounded-xl shadow-md mt-6 mb-6"
               >
                 <template #input>
                   <BaseInput
@@ -78,7 +78,6 @@
                     inputmode="numeric"
                     :placeholder="`Enter expense (${getActiveCurrency.name})`"
                     :has-error="isExpenseFieldHasError"
-                    :autofocus="true"
                   />
                 </template>
                 <template #button>

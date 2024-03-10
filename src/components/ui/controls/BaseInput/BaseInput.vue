@@ -5,7 +5,6 @@
       :type="type"
       :placeholder="placeholder"
       :value="modelValue"
-      :autofocus="autofocus"
       :autocomplete="autocomplete"
       :class="isError ? '!border-red-500 !focus:border-red-500' : ''"
       @input="inputHandler"
@@ -32,7 +31,6 @@ interface Props {
   id: string;
   type: string;
   placeholder: string;
-  autofocus?: boolean;
   autocomplete?: string;
   isError?: boolean;
   errorMessage?: string;
