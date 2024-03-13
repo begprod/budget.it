@@ -8,6 +8,7 @@
       :autocomplete="autocomplete"
       :class="isError ? '!border-red-500 !focus:border-red-500' : ''"
       @input="inputHandler"
+      @blur="blurHandler"
       class="w-full px-3 py-2 pr-14 text-sm border border-slate-300 rounded-xl focus:outline-none focus:border-slate-400 transition-[border-color] select-none"
     />
     <span
@@ -40,9 +41,13 @@ interface Props {
 
 defineProps<Props>();
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'onBlur']);
 
 const inputHandler = (event: Event) => {
   emit('update:modelValue', (event.target as HTMLInputElement).value);
+};
+
+const blurHandler = () => {
+  emit('onBlur');
 };
 </script>

@@ -1,7 +1,15 @@
 <template>
   <BaseDateWrapper v-for="month in months" :key="month.id">
     <template #title>
-      <div class="sticky top-[calc(100%-100px)] flex flex-col text-2xl bg-white select-none z-50">
+      <div class="sticky top-[calc(100%-150px)] flex flex-col text-2xl select-none z-50">
+        <BaseButton class="shadow-md" @click="showExpenseInput">
+          <template #text> Add expense </template>
+          <template #leftIcon>
+            <BanknotesIcon class="w-5 h-5" />
+          </template>
+        </BaseButton>
+      </div>
+      <div class="sticky top-[calc(100%-100px)] flex flex-col text-2xl bg-white select-none z-40">
         <BaseProgressBar
           class="shadow-md"
           :label="`${month.name} – ${countMonthlyExpenses(month.id)}`"
@@ -12,10 +20,14 @@
 
     <template #content>
       <div class="grid gap-3">
-        <BaseDateWrapper v-for="day in getDaysByMonthId(month.id)" :key="day.id" class="last:mb-12">
+        <BaseDateWrapper
+          v-for="day in getDaysByMonthId(month.id)"
+          :key="day.id"
+          class="relative last:mb-12"
+        >
           <template #title>
             <div
-              class="sticky top-[52px] flex flex-col items-start py-1 bg-white font-bold select-none z-40"
+              class="sticky top-[52px] flex flex-col items-start py-1 bg-white font-bold select-none z-30"
               :class="{
                 'current-day': day.isCurrent,
               }"
@@ -66,9 +78,9 @@
               </div>
 
               <BaseFormBar
-                v-if="day.isCurrent"
+                v-if="day.isCurrent && isExpenseInputVisible"
                 @submit="submitExpense(expense)"
-                class="w-full rounded-xl shadow-md mt-6 mb-6"
+                class="!absolute top-[calc(100%+10px)] w-full rounded-xl shadow-md mb-6 z-50"
               >
                 <template #input>
                   <BaseInput
@@ -78,14 +90,8 @@
                     inputmode="numeric"
                     :placeholder="`Enter expense (${getActiveCurrency.name})`"
                     :has-error="isExpenseFieldHasError"
+                    @on-blur="hideExpenseInput"
                   />
-                </template>
-                <template #button>
-                  <BaseButton title="Add expense" @click="submitExpense(expense)">
-                    <template #leftIcon>
-                      <BanknotesIcon class="w-5 h-5" />
-                    </template>
-                  </BaseButton>
                 </template>
               </BaseFormBar>
             </div>
@@ -98,7 +104,7 @@
 
 <script setup lang="ts">
 import type { IMonth } from '@/types';
-import { ref } from 'vue';
+import { ref, nextTick } from 'vue';
 import { storeToRefs } from 'pinia';
 import { number } from 'yup';
 import { BanknotesIcon } from '@heroicons/vue/24/outline';
@@ -122,6 +128,7 @@ const { getDailyExpenses, getMonthlyExpenses, addExpense, removeExpense } = expe
 const { getActiveCurrency, dailyBudget } = storeToRefs(settingsStore);
 
 const expense = ref('');
+const isExpenseInputVisible = ref(false);
 const isExpenseFieldHasError = ref(false);
 const expenseSchema = number().integer().required().min(1);
 
@@ -137,6 +144,18 @@ const countProgressPercentage = (monthId: IMonth['id']) => {
 
 const countMonthlyExpenses = (monthId: IMonth['id']) => {
   return `${getMonthlyExpenses(monthId)} / ${getDaysByMonthId(monthId).length * dailyBudget.value}`;
+};
+
+const showExpenseInput = () => {
+  isExpenseInputVisible.value = true;
+
+  nextTick(() => {
+    document.getElementById('expense-input')?.focus();
+  });
+};
+
+const hideExpenseInput = () => {
+  isExpenseInputVisible.value = false;
 };
 
 const submitExpense = (expenseValue: string) => {
