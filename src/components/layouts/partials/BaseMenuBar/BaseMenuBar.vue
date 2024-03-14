@@ -1,6 +1,6 @@
 <template>
   <div class="fixed right-0 bottom-0 left-0 w-full z-[100]">
-    <div class="px-5">
+    <div v-if="route.name === 'home'" class="px-5">
       <BaseButton class="mb-2 shadow-md" @click="showExpenseInputHandler">
         <template #text> Add expense </template>
         <template #rightIcon>
@@ -34,13 +34,14 @@
 <script setup lang="ts">
 import type { IMonth } from '@/types';
 import { nextTick } from 'vue';
-import { RouterLink } from 'vue-router';
+import { useRoute, RouterLink } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import { HomeIcon, Cog6ToothIcon, BanknotesIcon } from '@heroicons/vue/24/outline';
 import { useCommonStore, useSettingsStore, useCalendarStore, useExpensesStore } from '@/stores';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 import BaseProgressBar from '@/components/ui/BaseProgressBar/BaseProgressBar.vue';
 
+const route = useRoute();
 const commonStore = useCommonStore();
 const settingsStore = useSettingsStore();
 const calendarStore = useCalendarStore();
