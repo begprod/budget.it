@@ -2,6 +2,7 @@ import type { RemovableRef } from '@vueuse/core';
 
 export interface ICommonStore {
   lastCalendarUpdateDate: RemovableRef<string>;
+  isAddExpenseInputVisible: boolean;
 }
 
 export interface ICalendarStore {

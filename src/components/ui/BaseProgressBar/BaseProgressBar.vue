@@ -1,6 +1,6 @@
 <template>
   <div
-    class="progress-bar relative flex items-center justify-center h-6 text-xs lg:text-sm text-slate-700 rounded-md overflow-hidden"
+    class="progress-bar relative flex items-center justify-center h-6 text-xs lg:text-sm text-slate-700 bg-white rounded-md overflow-hidden"
     :class="classes"
   >
     <div
@@ -40,8 +40,6 @@ const classes = computed(() => ({
   }
 
   &_overfilled {
-    opacity: 0.8;
-
     .progress-bar__background {
       background-image: linear-gradient(43deg, #ff9191 0%, #ff9191 46%, #ff0000 100%);
     }

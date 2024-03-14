@@ -1,20 +1,8 @@
 <template>
   <BaseDateWrapper v-for="month in months" :key="month.id">
     <template #title>
-      <div class="sticky top-[calc(100%-150px)] flex flex-col text-2xl select-none z-50">
-        <BaseButton class="shadow-md" @click="showExpenseInput">
-          <template #text> Add expense </template>
-          <template #leftIcon>
-            <BanknotesIcon class="w-5 h-5" />
-          </template>
-        </BaseButton>
-      </div>
-      <div class="sticky top-[calc(100%-100px)] flex flex-col text-2xl bg-white select-none z-40">
-        <BaseProgressBar
-          class="shadow-md"
-          :label="`${month.name} – ${countMonthlyExpenses(month.id)}`"
-          :percentage="countProgressPercentage(month.id)"
-        />
+      <div class="mb-5 py-5 text-xl font-bold border-t border-b">
+        {{ month.name }} / {{ getMonthlyExpenses(month.id) }}
       </div>
     </template>
 
@@ -78,7 +66,7 @@
               </div>
 
               <BaseFormBar
-                v-if="day.isCurrent && isExpenseInputVisible"
+                v-if="day.isCurrent && isAddExpenseInputVisible"
                 @submit="submitExpense(expense)"
                 class="!absolute top-[calc(100%+10px)] w-full rounded-xl shadow-md mb-6 z-50"
               >
@@ -90,7 +78,7 @@
                     inputmode="numeric"
                     :placeholder="`Enter expense (${getActiveCurrency.name})`"
                     :has-error="isExpenseFieldHasError"
-                    @on-blur="hideExpenseInput"
+                    @on-blur="hideAddExpenseInput"
                   />
                 </template>
               </BaseFormBar>
@@ -103,60 +91,32 @@
 </template>
 
 <script setup lang="ts">
-import type { IMonth } from '@/types';
-import { ref, nextTick } from 'vue';
+import { ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { number } from 'yup';
-import { BanknotesIcon } from '@heroicons/vue/24/outline';
-import { useCalendarStore, useExpensesStore, useSettingsStore } from '@/stores';
+import { useCommonStore, useSettingsStore, useCalendarStore, useExpensesStore } from '@/stores';
 import BaseDateWrapper from '@/components/ui/BaseDateWrapper/BaseDateWrapper.vue';
 import BaseEmptyListMessage from '@/components/ui/BaseEmptyListMessage/BaseEmptyListMessage.vue';
 import BaseExpense from '@/components/BaseExpense/BaseExpense.vue';
-import BaseProgressBar from '@/components/ui/BaseProgressBar/BaseProgressBar.vue';
 import BaseFormBar from '@/components//BaseFormBar/BaseFormBar.vue';
 import BaseInput from '@/components/ui/controls/BaseInput/BaseInput.vue';
-import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 
+const commonStore = useCommonStore();
+const settingsStore = useSettingsStore();
 const calendarStore = useCalendarStore();
 const expensesStore = useExpensesStore();
-const settingsStore = useSettingsStore();
 
+const { isAddExpenseInputVisible } = storeToRefs(commonStore);
 const { months } = storeToRefs(calendarStore);
-const { getDaysByMonthId } = calendarStore;
 const { expenses } = storeToRefs(expensesStore);
-const { getDailyExpenses, getMonthlyExpenses, addExpense, removeExpense } = expensesStore;
+const { hideAddExpenseInput } = commonStore;
+const { getDaysByMonthId } = calendarStore;
+const { getMonthlyExpenses, getDailyExpenses, addExpense, removeExpense } = expensesStore;
 const { getActiveCurrency, dailyBudget } = storeToRefs(settingsStore);
 
 const expense = ref('');
-const isExpenseInputVisible = ref(false);
 const isExpenseFieldHasError = ref(false);
 const expenseSchema = number().integer().required().min(1);
-
-const countProgressPercentage = (monthId: IMonth['id']) => {
-  const monthExpensesCounter = getMonthlyExpenses(monthId);
-
-  if (monthExpensesCounter > getDaysByMonthId(monthId).length * dailyBudget.value) {
-    return 100;
-  }
-
-  return (monthExpensesCounter / (getDaysByMonthId(monthId).length * dailyBudget.value)) * 100;
-};
-
-const countMonthlyExpenses = (monthId: IMonth['id']) => {
-  return `${getMonthlyExpenses(monthId)} / ${getDaysByMonthId(monthId).length * dailyBudget.value}`;
-};
-
-const showExpenseInput = () => {
-  isExpenseInputVisible.value = true;
-
-  nextTick(() => {
-    document.getElementById('expense-input')?.focus();
-  });
-};
-
-const hideExpenseInput = () => {
-  isExpenseInputVisible.value = false;
-};
 
 const submitExpense = (expenseValue: string) => {
   try {
