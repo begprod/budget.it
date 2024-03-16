@@ -1,6 +1,6 @@
 <template>
   <div class="fixed right-0 bottom-0 left-0 w-full z-[100]">
-    <div v-if="route.name === 'home'" class="px-5">
+    <div v-if="route.name === 'home'" class="container mx-auto px-5">
       <BaseButton class="mb-2 shadow-md" @click="showExpenseInputHandler">
         <template #text> Add expense </template>
         <template #rightIcon>
