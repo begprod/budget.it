@@ -10,25 +10,24 @@
     <div class="relative flex items-center select-none cursor-pointer">
       <div
         ref="expense"
-        class="relative flex items-center py-1 px-3 text-sm lg:text-base bg-white border border-sky-400 rounded-2xl"
-        :class="{
-          'z-40': isControlsVisible,
-        }"
+        class="relative flex items-center py-1 px-3 text-sm lg:text-base bg-white border border-sky-400 rounded-2xl hover:shadow-md transition-shadow duration-300 z-40"
         @click="showControls"
       >
         <div>{{ value }}</div>
         <div class="ml-1">{{ currency }}</div>
       </div>
 
-      <BaseButton
-        v-if="isControlsVisible"
-        class="absolute top-5 h-[110%] !items-end !p-0 !pb-1 !rounded-2xl !rounded-t-none !bg-red-500 hover:!bg-red-600 z-30"
-        @click="clickHandler"
-      >
-        <template #text>
-          <XMarkIcon class="w-4 h-4 text-white" />
-        </template>
-      </BaseButton>
+      <Transition>
+        <BaseButton
+          v-if="isControlsVisible"
+          class="absolute top-5 h-[110%] !items-end !p-0 !pb-1 !rounded-2xl !rounded-t-none !bg-red-500 hover:!bg-red-600"
+          @click="clickHandler"
+        >
+          <template #text>
+            <XMarkIcon class="w-4 h-4 text-white" />
+          </template>
+        </BaseButton>
+      </Transition>
     </div>
   </div>
 </template>
@@ -43,6 +42,13 @@ interface IProps {
   currency: string;
   createdAt?: string;
 }
+
+defineProps<IProps>();
+
+const emit = defineEmits(['click', 'delete']);
+
+const expense = ref<HTMLElement | null>(null);
+const isControlsVisible = ref(false);
 
 onMounted(() => {
   document.addEventListener('click', (event) => {
@@ -78,13 +84,6 @@ onBeforeUnmount(() => {
   });
 });
 
-defineProps<IProps>();
-
-const emit = defineEmits(['click', 'delete']);
-
-const expense = ref<HTMLElement | null>(null);
-const isControlsVisible = ref(false);
-
 const showControls = () => {
   isControlsVisible.value = !isControlsVisible.value;
 };
@@ -93,3 +92,15 @@ const clickHandler = () => {
   emit('click');
 };
 </script>
+
+<style scoped lang="scss">
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+</style>

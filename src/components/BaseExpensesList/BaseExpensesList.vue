@@ -51,7 +51,7 @@
               :key="index"
               class="flex flex-wrap gap-2"
             >
-              <div v-for="expense in expenseItem" :key="expense.id">
+              <template v-for="expense in expenseItem" :key="expense.id">
                 <BaseExpense
                   :createdAt="expense.createdAt"
                   :value="expense.value"
@@ -59,7 +59,7 @@
                   :class="{ 'opacity-30': !day.isCurrent }"
                   @click="removeExpense(expense.id, day.id)"
                 />
-              </div>
+              </template>
 
               <div v-if="!expenses[day.id].items.length" class="flex items-center w-full">
                 <BaseEmptyListMessage message="No expenses for this day" />
