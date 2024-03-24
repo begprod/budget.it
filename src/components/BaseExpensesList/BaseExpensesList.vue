@@ -33,10 +33,10 @@
               </div>
 
               <div
-                class="text-xs lg:text-sm opacity-70"
+                class="text-xs lg:text-sm"
                 :class="{
-                  'text-emerald-400': getDailyExpenses(day.id) <= dailyBudget,
-                  'text-rose-400': getDailyExpenses(day.id) > dailyBudget,
+                  'text-emerald-500': getDailyExpenses(day.id) <= dailyBudget,
+                  'text-rose-500': getDailyExpenses(day.id) > dailyBudget,
                   hidden: getDailyExpenses(day.id) === 0,
                 }"
               >
@@ -65,23 +65,25 @@
                 <BaseEmptyListMessage message="No expenses for this day" />
               </div>
 
-              <BaseFormBar
-                v-if="day.isCurrent && isAddExpenseInputVisible"
-                @submit="submitExpense(expense)"
-                class="!absolute top-[calc(100%+10px)] w-full rounded-xl shadow-md mb-6 z-50"
-              >
-                <template #input>
-                  <BaseInput
-                    id="expense-input"
-                    v-model="expense"
-                    type="number"
-                    inputmode="numeric"
-                    :placeholder="`Enter expense (${getActiveCurrency.name})`"
-                    :has-error="isExpenseFieldHasError"
-                    @on-blur="hideAddExpenseInput"
-                  />
-                </template>
-              </BaseFormBar>
+              <Transition>
+                <BaseFormBar
+                  v-if="day.isCurrent && isAddExpenseInputVisible"
+                  @submit="submitExpense(expense)"
+                  class="!absolute top-[calc(100%+10px)] w-full rounded-xl shadow-md mb-6 z-50"
+                >
+                  <template #input>
+                    <BaseInput
+                      id="expense-input"
+                      v-model="expense"
+                      type="number"
+                      inputmode="numeric"
+                      :placeholder="`Enter expense (${getActiveCurrency.name})`"
+                      :has-error="isExpenseFieldHasError"
+                      @on-blur="hideAddExpenseInput"
+                    />
+                  </template>
+                </BaseFormBar>
+              </Transition>
             </div>
           </template>
         </BaseDateWrapper>
@@ -134,5 +136,17 @@ const submitExpense = (expenseValue: string) => {
 <style scoped lang="scss">
 .current-day {
   scroll-margin-top: 52px;
+}
+
+.v-enter-active,
+.v-leave-active {
+  transform: translateY(0);
+  transition: all 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  transform: translateY(100%);
+  opacity: 0;
 }
 </style>
