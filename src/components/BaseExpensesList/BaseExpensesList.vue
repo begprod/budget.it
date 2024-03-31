@@ -15,7 +15,7 @@
         >
           <template #title>
             <div
-              class="sticky top-[52px] flex flex-col items-start py-1 bg-white font-bold select-none z-30"
+              class="sticky top-[52px] flex flex-col items-start py-1 bg-white font-bold select-none z-40"
               :class="{
                 'current-day': day.isCurrent,
               }"

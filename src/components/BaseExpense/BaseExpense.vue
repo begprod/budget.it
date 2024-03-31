@@ -2,7 +2,7 @@
   <div
     class="relative flex flex-col items-center"
     :class="{
-      'z-[60]': isControlsVisible,
+      'z-[50]': isControlsVisible,
     }"
   >
     <div class="text-xs text-slate-500 select-none">{{ createdAt }}</div>
@@ -10,7 +10,7 @@
     <div class="relative flex items-center select-none cursor-pointer">
       <div
         ref="expense"
-        class="relative flex items-center py-1 px-3 text-sm lg:text-base bg-white border border-sky-400 rounded-2xl hover:shadow-md transition-shadow duration-300 z-40"
+        class="relative flex items-center py-1 px-3 text-sm lg:text-base bg-white border border-sky-400 rounded-2xl hover:shadow-md transition-shadow duration-300 z-[39]"
         @click="showControls"
       >
         <div>{{ value }}</div>
