@@ -31,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-interface Props {
+interface IProps {
   modelValue: string | number;
   id: string;
   type: string;
@@ -43,7 +43,7 @@ interface Props {
   successMessage?: string;
 }
 
-defineProps<Props>();
+defineProps<IProps>();
 
 const emit = defineEmits(['update:modelValue', 'onBlur']);
 

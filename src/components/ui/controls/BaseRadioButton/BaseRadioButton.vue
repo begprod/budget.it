@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-interface Props {
+interface IProps {
   id: string;
   name: string;
   label: string;
@@ -29,7 +29,7 @@ interface Props {
   additionalClasses?: string | Object;
 }
 
-defineProps<Props>();
+defineProps<IProps>();
 
 const emit = defineEmits(['change']);
 

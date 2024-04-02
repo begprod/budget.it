@@ -13,13 +13,13 @@
 </template>
 
 <script setup lang="ts">
-interface Props {
+interface IProps {
   type?: 'button' | 'submit' | 'reset';
   title?: string;
   isDisabled?: boolean;
 }
 
-withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<IProps>(), {
   type: 'button',
 });
 
