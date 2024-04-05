@@ -9,7 +9,8 @@ describe('BaseRadioButton', () => {
       name: 'test name',
       value: 'test value',
       checked: false,
-      additionalClasses: 1,
+      label: 'test label',
+      additionalClasses: 'test-class',
     } as any,
   });
 
@@ -17,6 +18,7 @@ describe('BaseRadioButton', () => {
     expect(wrapper.props().id).toBe('test id');
     expect(wrapper.props().name).toBe('test name');
     expect(wrapper.props().value).toBe('test value');
+    expect(wrapper.props().label).toBe('test label');
     expect(wrapper.props().checked).toBe(false);
     expect(wrapper.props().additionalClasses).toBe('test-class');
   });
