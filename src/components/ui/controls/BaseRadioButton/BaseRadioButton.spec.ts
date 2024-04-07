@@ -11,7 +11,7 @@ describe('BaseRadioButton', () => {
       checked: false,
       label: 'test label',
       additionalClasses: 'test-class',
-    } as any,
+    },
   });
 
   it('should contain the correct props', () => {

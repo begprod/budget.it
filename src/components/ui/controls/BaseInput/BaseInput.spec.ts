@@ -14,7 +14,7 @@ describe('BaseInput', () => {
       errorMessage: 'test error message',
       isSuccess: false,
       successMessage: 'test success message',
-    } as any,
+    },
   });
 
   it('should contain the correct props', () => {

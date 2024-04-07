@@ -7,7 +7,7 @@ describe('BaseButton', () => {
     props: {
       title: 'test title',
       isDisabled: false,
-    } as any,
+    },
     slots: {
       text: 'test text',
       leftIcon: '<div>left icon</div>',
