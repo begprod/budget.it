@@ -1,4 +1,5 @@
 import type { RemovableRef } from '@vueuse/core';
+import { mount } from '@vue/test-utils';
 
 export interface ICommonStore {
   lastCalendarUpdateDate: RemovableRef<string>;
@@ -50,3 +51,6 @@ export interface ICurrency {
   isActive: boolean;
   isDefault: boolean;
 }
+
+const mountComponent = <T>(component: T) => mount(component);
+export type ComponentWrapperType<T> = ReturnType<typeof mountComponent<T>>;

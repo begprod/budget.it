@@ -1,17 +1,30 @@
-import { describe, it, expect } from 'vitest';
+import type { ComponentWrapperType } from '@/types';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { mount } from '@vue/test-utils';
 import BaseRadioButton from '@/components/ui/controls/BaseRadioButton/BaseRadioButton.vue';
 
 describe('BaseRadioButton', () => {
-  const wrapper = mount(BaseRadioButton, {
-    props: {
-      id: 'test id',
-      name: 'test name',
-      value: 'test value',
-      checked: false,
-      label: 'test label',
-      additionalClasses: 'test-class',
-    },
+  let wrapper: ComponentWrapperType<typeof BaseRadioButton>;
+
+  const createComponent = () => {
+    wrapper = mount(BaseRadioButton, {
+      props: {
+        id: 'test id',
+        name: 'test name',
+        value: 'test value',
+        checked: false,
+        label: 'test label',
+        additionalClasses: 'test-class',
+      },
+    });
+  };
+
+  beforeEach(() => {
+    createComponent();
+  });
+
+  afterEach(() => {
+    wrapper.unmount();
   });
 
   it('should contain the correct props', () => {
