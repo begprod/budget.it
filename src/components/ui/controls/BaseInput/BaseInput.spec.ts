@@ -1,20 +1,33 @@
-import { describe, it, expect } from 'vitest';
+import type { ComponentWrapperType } from '@/types';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { mount } from '@vue/test-utils';
 import BaseInput from '@/components/ui/controls/BaseInput/BaseInput.vue';
 
 describe('BaseInput', () => {
-  const wrapper = mount(BaseInput, {
-    props: {
-      modelValue: '',
-      id: 'test id',
-      type: 'text',
-      placeholder: 'test placeholder',
-      autocomplete: 'true',
-      isError: false,
-      errorMessage: 'test error message',
-      isSuccess: false,
-      successMessage: 'test success message',
-    },
+  let wrapper: ComponentWrapperType<typeof BaseInput>;
+
+  const createComponent = () => {
+    wrapper = mount(BaseInput, {
+      props: {
+        modelValue: '',
+        id: 'test id',
+        type: 'text',
+        placeholder: 'test placeholder',
+        autocomplete: 'true',
+        isError: false,
+        errorMessage: 'test error message',
+        isSuccess: false,
+        successMessage: 'test success message',
+      },
+    });
+  };
+
+  beforeEach(() => {
+    createComponent();
+  });
+
+  afterEach(() => {
+    wrapper.unmount();
   });
 
   it('should contain the correct props', () => {

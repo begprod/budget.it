@@ -1,18 +1,31 @@
-import { describe, it, expect } from 'vitest';
+import type { ComponentWrapperType } from '@/types';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { mount } from '@vue/test-utils';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 
 describe('BaseButton', () => {
-  const wrapper = mount(BaseButton, {
-    props: {
-      title: 'test title',
-      isDisabled: false,
-    },
-    slots: {
-      text: 'test text',
-      leftIcon: '<div>left icon</div>',
-      rightIcon: '<div>right icon</div>',
-    },
+  let wrapper: ComponentWrapperType<typeof BaseButton>;
+
+  const createComponent = () => {
+    wrapper = mount(BaseButton, {
+      props: {
+        title: 'test title',
+        isDisabled: false,
+      },
+      slots: {
+        text: 'test text',
+        leftIcon: '<div>left icon</div>',
+        rightIcon: '<div>right icon</div>',
+      },
+    });
+  };
+
+  beforeEach(() => {
+    createComponent();
+  });
+
+  afterEach(() => {
+    wrapper.unmount();
   });
 
   it('should contain the correct props', () => {

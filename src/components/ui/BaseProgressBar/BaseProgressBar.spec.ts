@@ -1,14 +1,27 @@
-import { describe, it, expect } from 'vitest';
+import type { ComponentWrapperType } from '@/types';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { mount } from '@vue/test-utils';
 import BaseProgressBar from '@/components/ui/BaseProgressBar/BaseProgressBar.vue';
 
 describe('BaseProgressBar', () => {
-  const wrapper = mount(BaseProgressBar, {
-    props: {
-      label: 'test label',
-      percentage: 50,
-      showTotal: true,
-    },
+  let wrapper: ComponentWrapperType<typeof BaseProgressBar>;
+
+  const createComponent = () => {
+    wrapper = mount(BaseProgressBar, {
+      props: {
+        label: 'test label',
+        percentage: 50,
+        showTotal: true,
+      },
+    });
+  };
+
+  beforeEach(() => {
+    createComponent();
+  });
+
+  afterEach(() => {
+    wrapper.unmount();
   });
 
   it('should contain the correct props', () => {
