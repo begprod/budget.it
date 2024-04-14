@@ -7,7 +7,7 @@ describe('BaseFooter', () => {
   let wrapper: ComponentWrapperType<typeof BaseFooter>;
 
   const createComponent = () => {
-    wrapper = mount(BaseFooter, {});
+    wrapper = mount(BaseFooter);
   };
 
   beforeEach(() => {
