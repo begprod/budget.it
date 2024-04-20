@@ -1,5 +1,9 @@
 <template>
-  <BaseButton class="mb-2 shadow-md" @click="showExpenseInputHandler">
+  <BaseButton
+    class="mb-2 shadow-md"
+    @click="showExpenseInputHandler()"
+    data-test-id="add-expense-button"
+  >
     <template #text> Add expense </template>
     <template #rightIcon>
       <BanknotesIcon class="w-5 h-5 ml-2" />
@@ -18,9 +22,9 @@ import type { IMonth } from '@/types';
 import { nextTick } from 'vue';
 import { storeToRefs } from 'pinia';
 import { BanknotesIcon } from '@heroicons/vue/24/outline';
+import { useCommonStore, useSettingsStore, useCalendarStore, useExpensesStore } from '@/stores';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 import BaseProgressBar from '@/components/ui/BaseProgressBar/BaseProgressBar.vue';
-import { useCommonStore, useSettingsStore, useCalendarStore, useExpensesStore } from '@/stores';
 
 const commonStore = useCommonStore();
 const settingsStore = useSettingsStore();
@@ -62,4 +66,8 @@ const countMonthlyExpenses = (monthId: IMonth['id'] | undefined) => {
 
   return `${getMonthlyExpenses(monthId)} / ${getDaysByMonthId(monthId).length * dailyBudget.value}`;
 };
+
+defineExpose({
+  showExpenseInputHandler,
+});
 </script>
