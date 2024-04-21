@@ -111,10 +111,10 @@ const expensesStore = useExpensesStore();
 const { isAddExpenseInputVisible } = storeToRefs(commonStore);
 const { months } = storeToRefs(calendarStore);
 const { expenses } = storeToRefs(expensesStore);
+const { getActiveCurrency, dailyBudget } = storeToRefs(settingsStore);
 const { hideAddExpenseInput } = commonStore;
 const { getDaysByMonthId } = calendarStore;
 const { getMonthlyExpenses, getDailyExpenses, addExpense, removeExpense } = expensesStore;
-const { getActiveCurrency, dailyBudget } = storeToRefs(settingsStore);
 
 const expense = ref('');
 const isExpenseFieldHasError = ref(false);
