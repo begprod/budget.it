@@ -91,6 +91,10 @@ const showControls = () => {
 const clickHandler = () => {
   emit('click');
 };
+
+defineExpose({
+  showControls,
+});
 </script>
 
 <style scoped lang="scss">
