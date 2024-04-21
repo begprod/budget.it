@@ -1,5 +1,5 @@
-import { format, startOfMonth, endOfMonth, eachDayOfInterval, isPast } from 'date-fns';
 import type { IDay, IMonth } from '@/types';
+import { format, startOfMonth, endOfMonth, eachDayOfInterval, isPast } from 'date-fns';
 
 export function generateDays(months: Array<IMonth> | IMonth): Array<IDay> {
   if (!Array.isArray(months)) {
