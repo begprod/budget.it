@@ -1,8 +1,19 @@
 <template>
   <BaseDateWrapper v-for="month in months" :key="month.id">
     <template #title>
-      <div class="mb-5 py-5 text-xl font-bold border-t border-b">
-        {{ month.name }} / {{ getMonthlyExpenses(month.id) }}
+      <div
+        class="flex items-center mb-5 py-5 text-xl font-bold border-t border-b"
+        data-testid="month-title"
+      >
+        <CheckCircleIcon
+          v-if="getMonthlyExpenses(month.id) <= getDaysByMonthId(month.id).length * dailyBudget"
+          data-testid="check-circle-icon"
+          class="w-7 h-7 mr-2 text-emerald-500"
+        />
+        <XCircleIcon v-else class="w-7 h-7 mr-2 text-rose-500" data-testid="check-circle-icon" />
+
+        {{ month.name }} – {{ getMonthlyExpenses(month.id) }} /
+        {{ getDaysByMonthId(month.id).length * dailyBudget }}
       </div>
     </template>
 
@@ -96,6 +107,7 @@
 import { ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { number } from 'yup';
+import { CheckCircleIcon, XCircleIcon } from '@heroicons/vue/24/outline';
 import { useCommonStore, useSettingsStore, useCalendarStore, useExpensesStore } from '@/stores';
 import BaseDateWrapper from '@/components/ui/BaseDateWrapper/BaseDateWrapper.vue';
 import BaseEmptyListMessage from '@/components/ui/BaseEmptyListMessage/BaseEmptyListMessage.vue';

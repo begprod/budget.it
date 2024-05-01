@@ -3,11 +3,9 @@ import { storeToRefs } from 'pinia';
 import { describe, it, expect, vi } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { createTestingPinia } from '@pinia/testing';
-import { useCommonStore, useCalendarStore, useExpensesStore } from '@/stores';
+import { useCommonStore, useCalendarStore, useExpensesStore, useSettingsStore } from '@/stores';
 import BaseExpensesList from '@/components/BaseExpensesList/BaseExpensesList.vue';
-import BaseDateWrapper from '@/components/ui/BaseDateWrapper/BaseDateWrapper.vue';
 import BaseEmptyListMessage from '@/components/ui/BaseEmptyListMessage/BaseEmptyListMessage.vue';
-import BaseExpense from '@/components/BaseExpense/BaseExpense.vue';
 import BaseFormBar from '@/components//BaseFormBar/BaseFormBar.vue';
 import BaseInput from '@/components/ui/controls/BaseInput/BaseInput.vue';
 
@@ -18,26 +16,18 @@ describe('BaseExpensesList', () => {
         createSpy: vi.fn,
       }),
     ],
-    global: {
-      components: {
-        BaseDateWrapper,
-        BaseEmptyListMessage,
-        BaseExpense,
-        BaseFormBar,
-        BaseInput,
-      },
-    },
   });
 
   const commonStore = useCommonStore();
   const calendarStore = useCalendarStore();
   const expensesStore = useExpensesStore();
+  const settingsStore = useSettingsStore();
 
   const { isAddExpenseInputVisible } = storeToRefs(commonStore);
   const { months, days } = storeToRefs(calendarStore);
   const { expenses } = storeToRefs(expensesStore);
+  const { dailyBudget } = storeToRefs(settingsStore);
 
-  const DAILY_BUDGET = '500';
   const CURRENCY = 'USD';
   const VALUE = '100';
   const CREATED_AT_TIME = '10:00';
@@ -78,11 +68,42 @@ describe('BaseExpensesList', () => {
   };
 
   it('should contain data from store', () => {
-    expect(wrapper.html()).toContain(`April / ${VALUE}`);
-    expect(wrapper.html()).toContain(`${VALUE} / ${DAILY_BUDGET}`);
+    expect(wrapper.html()).toContain(`April – ${VALUE} / ${dailyBudget.value * days.value.length}`);
+    expect(wrapper.html()).toContain(`${VALUE} / ${dailyBudget.value}`);
     expect(wrapper.html()).toContain(`${CREATED_AT_TIME}`);
     expect(wrapper.html()).toContain(`${VALUE}`);
     expect(wrapper.html()).toContain(`${CURRENCY}`);
+  });
+
+  it('should contain CheckCircleIcon icon in title if monthly budget is not exceeded', async () => {
+    const title = wrapper.find('[data-testid="month-title"]');
+
+    expect(title.html()).toContain('w-7 h-7 mr-2 text-emerald-500');
+    expect(title.html()).not.toContain('w-7 h-7 mr-2 text-rose-500');
+  });
+
+  it('should contain XCircleIcon icon in title if monthly budget is exceeded', async () => {
+    expenses.value = {
+      '01042024': {
+        items: [
+          {
+            id: '1',
+            value: '600',
+            currency: CURRENCY,
+            createdAt: CREATED_AT_TIME,
+            monthId: '042024',
+            dayId: '01042024',
+          },
+        ],
+      },
+    };
+
+    await nextTick();
+
+    const title = wrapper.find('[data-testid="month-title"]');
+
+    expect(title.html()).toContain('w-7 h-7 mr-2 text-rose-500');
+    expect(title.html()).not.toContain('w-7 h-7 mr-2 text-emerald-500');
   });
 
   it('should show current day icon if day is current', () => {
