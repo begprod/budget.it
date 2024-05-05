@@ -18,5 +18,7 @@ describe('generateMonths', () => {
 
     expect(months).toHaveLength(3);
     expect(months[0].name).toBe(nextMonthName);
+    expect(months[0].isCurrent).toBe(false);
+    expect(months[0].isFuture).toBe(true);
   });
 });

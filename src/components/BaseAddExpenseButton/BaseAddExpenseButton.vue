@@ -32,7 +32,7 @@ const calendarStore = useCalendarStore();
 const expensesStore = useExpensesStore();
 
 const { showAddExpenseInput } = commonStore;
-const { getCurrentMonth, getDaysByMonthId } = calendarStore;
+const { getCurrentMonth, getAllDaysByMonthId } = calendarStore;
 const { getMonthlyExpenses } = expensesStore;
 const { dailyBudget } = storeToRefs(settingsStore);
 
@@ -52,11 +52,11 @@ const countProgressPercentage = (monthId: IMonth['id'] | undefined) => {
 
   const monthExpensesCounter = getMonthlyExpenses(monthId);
 
-  if (monthExpensesCounter > getDaysByMonthId(monthId).length * dailyBudget.value) {
+  if (monthExpensesCounter > getAllDaysByMonthId(monthId).length * dailyBudget.value) {
     return 100;
   }
 
-  return (monthExpensesCounter / (getDaysByMonthId(monthId).length * dailyBudget.value)) * 100;
+  return (monthExpensesCounter / (getAllDaysByMonthId(monthId).length * dailyBudget.value)) * 100;
 };
 
 const countMonthlyExpenses = (monthId: IMonth['id'] | undefined) => {
@@ -64,7 +64,7 @@ const countMonthlyExpenses = (monthId: IMonth['id'] | undefined) => {
     return '';
   }
 
-  return `${getMonthlyExpenses(monthId)} / ${getDaysByMonthId(monthId).length * dailyBudget.value}`;
+  return `${getMonthlyExpenses(monthId)} / ${getAllDaysByMonthId(monthId).length * dailyBudget.value}`;
 };
 
 defineExpose({

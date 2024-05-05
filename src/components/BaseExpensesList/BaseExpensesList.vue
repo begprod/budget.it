@@ -1,26 +1,26 @@
 <template>
-  <BaseDateWrapper v-for="month in months" :key="month.id">
+  <BaseDateWrapper v-for="month in getCurrentMonths" :key="month.id">
     <template #title>
       <div
         class="flex items-center mb-5 py-5 text-xl font-bold border-t border-b"
         data-testid="month-title"
       >
         <CheckCircleIcon
-          v-if="getMonthlyExpenses(month.id) <= getDaysByMonthId(month.id).length * dailyBudget"
+          v-if="getMonthlyExpenses(month.id) <= getAllDaysByMonthId(month.id).length * dailyBudget"
           data-testid="check-circle-icon"
           class="w-7 h-7 mr-2 text-emerald-500"
         />
         <XCircleIcon v-else class="w-7 h-7 mr-2 text-rose-500" data-testid="check-circle-icon" />
 
         {{ month.name }} – {{ getMonthlyExpenses(month.id) }} /
-        {{ getDaysByMonthId(month.id).length * dailyBudget }}
+        {{ getAllDaysByMonthId(month.id).length * dailyBudget }}
       </div>
     </template>
 
     <template #content>
       <div class="grid gap-3">
         <BaseDateWrapper
-          v-for="day in getDaysByMonthId(month.id)"
+          v-for="day in getDaysByMonthIdWidthOutFutureDays(month.id)"
           :key="day.id"
           class="relative last:mb-12"
         >
@@ -121,11 +121,11 @@ const calendarStore = useCalendarStore();
 const expensesStore = useExpensesStore();
 
 const { isAddExpenseInputVisible } = storeToRefs(commonStore);
-const { months } = storeToRefs(calendarStore);
 const { expenses } = storeToRefs(expensesStore);
 const { getActiveCurrency, dailyBudget } = storeToRefs(settingsStore);
+const { getCurrentMonths } = storeToRefs(calendarStore);
 const { hideAddExpenseInput } = commonStore;
-const { getDaysByMonthId } = calendarStore;
+const { getAllDaysByMonthId, getDaysByMonthIdWidthOutFutureDays } = calendarStore;
 const { getMonthlyExpenses, getDailyExpenses, addExpense, removeExpense } = expensesStore;
 
 const expense = ref('');

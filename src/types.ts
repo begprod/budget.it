@@ -17,6 +17,7 @@ export interface IMonth {
   name: string;
   monthString: Date;
   isCurrent: boolean;
+  isFuture: boolean;
 }
 
 export interface IDay {
@@ -25,6 +26,7 @@ export interface IDay {
   number: string;
   name: string;
   isCurrent: boolean;
+  isFuture: boolean;
   isPast: boolean;
 }
 

@@ -9,6 +9,7 @@ describe('generateDays', () => {
       name: 'April',
       monthString: new Date('2024-04-01'),
       isCurrent: true,
+      isFuture: false,
     },
   ];
 

@@ -8,28 +8,45 @@ describe('Calendar store', () => {
   setActivePinia(pinia);
 
   const calendarStore = useCalendarStore();
-  const { months, days, getCurrentDay, getCurrentMonth } = storeToRefs(calendarStore);
-  const { initCalendar, getDaysByMonthId } = calendarStore;
+  const { months, days, getCurrentMonths, getCurrentDay, getCurrentMonth } =
+    storeToRefs(calendarStore);
+  const { initCalendar, getDaysByMonthIdWidthOutFutureDays, getAllDaysByMonthId } = calendarStore;
 
   it('should generate months and days', () => {
     initCalendar();
 
-    expect(months.value.length).toEqual(6);
-    expect(days.value.length).greaterThan(180);
+    expect(months.value.length).toEqual(7);
+    expect(months.value[0].isFuture).toBe(true);
+    expect(days.value.length).greaterThan(200);
   });
 
-  it('should get days by month id', () => {
-    const monthId = months.value[0].id;
-    const daysByMonthId = getDaysByMonthId(monthId);
+  it('should get current months without future month', () => {
+    expect(getCurrentMonths.value.length).greaterThanOrEqual(5);
+  });
+
+  it('should get all days by month id for current months', () => {
+    const monthId = months.value[1].id;
+    const daysByMonthId = getAllDaysByMonthId(monthId);
 
     expect(daysByMonthId.length).greaterThanOrEqual(30);
   });
 
+  it('should not get days by month id for future months', () => {
+    const monthId = months.value[1].id;
+    const daysByMonthId = getDaysByMonthIdWidthOutFutureDays(monthId);
+
+    expect(daysByMonthId.length).greaterThanOrEqual(1);
+  });
+
   it('should get current month', () => {
-    expect(typeof getCurrentMonth.value).toEqual('object');
+    const currentMonth = months.value.find((month) => month.isCurrent);
+
+    expect(getCurrentMonth.value).toEqual(currentMonth);
   });
 
   it('should get current day', () => {
-    expect(typeof getCurrentDay.value).toEqual('object');
+    const currentDay = days.value.find((day) => day.isCurrent);
+
+    expect(getCurrentDay.value).toEqual(currentDay);
   });
 });

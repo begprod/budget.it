@@ -13,12 +13,14 @@ export function generateMonths(
     const month = new Date(currentDate.getFullYear(), currentDate.getMonth() + offset, 1);
     const monthNumber = month.getMonth();
     const isCurrent = monthNumber === currentDate.getMonth();
+    const isFuture = monthNumber > currentDate.getMonth();
 
     months.push({
       id: format(month, 'MMyyyy'),
       name: format(month, 'MMMM'),
       monthString: month,
       isCurrent,
+      isFuture,
     });
   }
 

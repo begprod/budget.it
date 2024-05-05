@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount, onMounted } from 'vue';
+import { onBeforeMount } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useCommonStore, useCalendarStore, useExpensesStore } from '@/stores';
 import BaseLayout from '@/components/layouts/BaseLayout/BaseLayout.vue';
@@ -29,20 +29,6 @@ onBeforeMount(() => {
 
   window.addEventListener('focus', tabFocusHandler);
 });
-
-onMounted(() => {
-  scrollToCurrentDay();
-});
-
-const scrollToCurrentDay = () => {
-  const currentDayElement = document.getElementsByClassName('current-day')[0];
-
-  if (currentDayElement) {
-    currentDayElement.scrollIntoView({
-      block: 'start',
-    });
-  }
-};
 
 const tabFocusHandler = () => {
   if (!lastCalendarUpdateDate.value) {

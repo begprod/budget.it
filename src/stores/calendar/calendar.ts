@@ -1,5 +1,4 @@
 import type { ICalendarStore, IDay } from '@/types';
-import { format } from 'date-fns';
 import { defineStore } from 'pinia';
 import { generateMonths, generateDays } from '@/helpers';
 
@@ -11,7 +10,15 @@ export const useCalendarStore = defineStore('calendar', {
   }),
 
   getters: {
-    getDaysByMonthId:
+    getCurrentMonths: (state) => {
+      return state.months.filter((month) => !month.isFuture);
+    },
+    getDaysByMonthIdWidthOutFutureDays:
+      (state) =>
+      (monthId: string): Array<IDay> => {
+        return state.days.filter((day) => day.monthId === monthId && !day.isFuture);
+      },
+    getAllDaysByMonthId:
       (state) =>
       (monthId: string): Array<IDay> => {
         return state.days.filter((day) => day.monthId === monthId);
@@ -28,13 +35,8 @@ export const useCalendarStore = defineStore('calendar', {
     initCalendar() {
       const monthsList = generateMonths(5);
       const daysList = generateDays(monthsList);
-      const triggerDayId = Number(daysList[daysList.length - 25].id);
-      const currentDayId = Number(format(new Date(), 'ddMMyyyy'));
-
-      this.shouldGenerateNextMonth = currentDayId > triggerDayId;
-
-      const nextMonth = this.shouldGenerateNextMonth ? generateMonths(0, 1) : [];
-      const nextMonthDays = this.shouldGenerateNextMonth ? generateDays(nextMonth) : [];
+      const nextMonth = generateMonths(0, 1);
+      const nextMonthDays = generateDays(nextMonth);
 
       this.months = [...nextMonth, ...monthsList];
       this.days = [...nextMonthDays, ...daysList];
