@@ -1,19 +1,13 @@
 <template>
   <BaseDateWrapper v-for="month in getCurrentMonths" :key="month.id">
     <template #title>
-      <div
-        class="flex items-center mb-5 py-5 text-xl font-bold border-t border-b"
-        data-testid="month-title"
-      >
-        <CheckCircleIcon
-          v-if="getMonthlyExpenses(month.id) <= getAllDaysByMonthId(month.id).length * dailyBudget"
-          data-testid="check-circle-icon"
-          class="w-7 h-7 mr-2 text-emerald-500"
+      <div class="flex flex-col py-5 text-xl font-bold" data-testid="month-title">
+        {{ month.name }}
+        <BaseProgressBar
+          class="shadow-md"
+          :label="`${countMonthlyExpenses(getCurrentMonth?.id)}`"
+          :percentage="countProgressPercentage(getCurrentMonth?.id)"
         />
-        <XCircleIcon v-else class="w-7 h-7 mr-2 text-rose-500" data-testid="check-circle-icon" />
-
-        {{ month.name }} – {{ getMonthlyExpenses(month.id) }} /
-        {{ getAllDaysByMonthId(month.id).length * dailyBudget }}
       </div>
     </template>
 
@@ -104,16 +98,17 @@
 </template>
 
 <script setup lang="ts">
+import type { IMonth } from '@/types';
 import { ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { number } from 'yup';
-import { CheckCircleIcon, XCircleIcon } from '@heroicons/vue/24/outline';
 import { useCommonStore, useSettingsStore, useCalendarStore, useExpensesStore } from '@/stores';
 import BaseDateWrapper from '@/components/ui/BaseDateWrapper/BaseDateWrapper.vue';
 import BaseEmptyListMessage from '@/components/ui/BaseEmptyListMessage/BaseEmptyListMessage.vue';
 import BaseExpense from '@/components/BaseExpense/BaseExpense.vue';
 import BaseFormBar from '@/components//BaseFormBar/BaseFormBar.vue';
 import BaseInput from '@/components/ui/controls/BaseInput/BaseInput.vue';
+import BaseProgressBar from '@/components/ui/BaseProgressBar/BaseProgressBar.vue';
 
 const commonStore = useCommonStore();
 const settingsStore = useSettingsStore();
@@ -123,7 +118,7 @@ const expensesStore = useExpensesStore();
 const { isAddExpenseInputVisible } = storeToRefs(commonStore);
 const { expenses } = storeToRefs(expensesStore);
 const { getActiveCurrency, dailyBudget } = storeToRefs(settingsStore);
-const { getCurrentMonths } = storeToRefs(calendarStore);
+const { getCurrentMonths, getCurrentMonth } = storeToRefs(calendarStore);
 const { hideAddExpenseInput } = commonStore;
 const { getAllDaysByMonthId, getDaysByMonthIdWidthOutFutureDays } = calendarStore;
 const { getMonthlyExpenses, getDailyExpenses, addExpense, removeExpense } = expensesStore;
@@ -131,6 +126,28 @@ const { getMonthlyExpenses, getDailyExpenses, addExpense, removeExpense } = expe
 const expense = ref('');
 const isExpenseFieldHasError = ref(false);
 const expenseSchema = number().integer().required().min(1);
+
+const countProgressPercentage = (monthId: IMonth['id'] | undefined) => {
+  if (monthId === undefined) {
+    return 0;
+  }
+
+  const monthExpensesCounter = getMonthlyExpenses(monthId);
+
+  if (monthExpensesCounter > getAllDaysByMonthId(monthId).length * dailyBudget.value) {
+    return 100;
+  }
+
+  return (monthExpensesCounter / (getAllDaysByMonthId(monthId).length * dailyBudget.value)) * 100;
+};
+
+const countMonthlyExpenses = (monthId: IMonth['id'] | undefined) => {
+  if (monthId === undefined) {
+    return '';
+  }
+
+  return `${getMonthlyExpenses(monthId)} / ${getAllDaysByMonthId(monthId).length * dailyBudget.value}`;
+};
 
 const submitExpense = (expenseValue: string) => {
   try {
