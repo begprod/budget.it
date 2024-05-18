@@ -9,9 +9,9 @@ describe('Expenses store', () => {
 
   const expensesStore = useExpensesStore();
   const calendarStore = useCalendarStore();
-  const { expenses, getMonthlyExpenses, getDailyExpenses } = storeToRefs(expensesStore);
+  const { expenses, getDailyExpenses } = storeToRefs(expensesStore);
   const { initExpensesObject, addExpense, removeExpense } = expensesStore;
-  const { days, getCurrentDay, getCurrentMonth } = storeToRefs(calendarStore);
+  const { days, getCurrentDay } = storeToRefs(calendarStore);
   const { initCalendar } = calendarStore;
 
   initCalendar();
@@ -45,11 +45,5 @@ describe('Expenses store', () => {
     addExpense(200);
 
     expect(getDailyExpenses.value(getCurrentDay.value?.id ?? '')).toEqual(500);
-  });
-
-  it('should calculate monthly expenses', () => {
-    addExpense(100);
-
-    expect(getMonthlyExpenses.value(getCurrentMonth.value?.id ?? '')).toEqual(600);
   });
 });

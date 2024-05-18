@@ -23,9 +23,6 @@ export const useCalendarStore = defineStore('calendar', {
       (monthId: string): Array<IDay> => {
         return state.days.filter((day) => day.monthId === monthId);
       },
-    getCurrentMonth: (state) => {
-      return state.months.find((month) => month.isCurrent);
-    },
     getCurrentDay: (state) => {
       return state.days.find((day) => day.isCurrent);
     },

@@ -1,13 +1,23 @@
 <template>
   <BaseDateWrapper v-for="month in getCurrentMonths" :key="month.id">
     <template #title>
-      <div class="flex flex-col py-5 text-xl font-bold" data-testid="month-title">
-        {{ month.name }}
-        <BaseProgressBar
-          class="shadow-md"
-          :label="`${countMonthlyExpenses(getCurrentMonth?.id)}`"
-          :percentage="countProgressPercentage(getCurrentMonth?.id)"
-        />
+      <div class="flex flex-col py-5 text-xl" data-testid="month-title">
+        <div class="mb-2">
+          <div class="mb-2">{{ month.name }}</div>
+          <div class="text-4xl font-bold">{{ getMonthlyExpenses(month.id) }}</div>
+        </div>
+        <div class="w-full">
+          <div class="flex justify-between text-xs">
+            <div class="flex">
+              <div class="mr-2 font-bold">Monthly budget</div>
+              <div class="text-slate-400">
+                {{ getAllDaysByMonthId(month.id).length * dailyBudget }}
+              </div>
+            </div>
+            <div class="font-bold">{{ countProgressPercentage(month.id) }}%</div>
+          </div>
+          <BaseProgressBar :percentage="countProgressPercentage(month.id)" />
+        </div>
       </div>
     </template>
 
@@ -118,7 +128,7 @@ const expensesStore = useExpensesStore();
 const { isAddExpenseInputVisible } = storeToRefs(commonStore);
 const { expenses } = storeToRefs(expensesStore);
 const { getActiveCurrency, dailyBudget } = storeToRefs(settingsStore);
-const { getCurrentMonths, getCurrentMonth } = storeToRefs(calendarStore);
+const { getCurrentMonths } = storeToRefs(calendarStore);
 const { hideAddExpenseInput } = commonStore;
 const { getAllDaysByMonthId, getDaysByMonthIdWidthOutFutureDays } = calendarStore;
 const { getMonthlyExpenses, getDailyExpenses, addExpense, removeExpense } = expensesStore;
@@ -134,19 +144,9 @@ const countProgressPercentage = (monthId: IMonth['id'] | undefined) => {
 
   const monthExpensesCounter = getMonthlyExpenses(monthId);
 
-  if (monthExpensesCounter > getAllDaysByMonthId(monthId).length * dailyBudget.value) {
-    return 100;
-  }
-
-  return (monthExpensesCounter / (getAllDaysByMonthId(monthId).length * dailyBudget.value)) * 100;
-};
-
-const countMonthlyExpenses = (monthId: IMonth['id'] | undefined) => {
-  if (monthId === undefined) {
-    return '';
-  }
-
-  return `${getMonthlyExpenses(monthId)} / ${getAllDaysByMonthId(monthId).length * dailyBudget.value}`;
+  return Math.round(
+    (monthExpensesCounter / (getAllDaysByMonthId(monthId).length * dailyBudget.value)) * 100,
+  );
 };
 
 const submitExpense = (expenseValue: string) => {

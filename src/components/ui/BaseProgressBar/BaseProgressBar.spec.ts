@@ -9,7 +9,6 @@ describe('BaseProgressBar', () => {
   const createComponent = () => {
     wrapper = mount(BaseProgressBar, {
       props: {
-        label: 'test label',
         percentage: 50,
         showTotal: true,
       },
@@ -25,7 +24,6 @@ describe('BaseProgressBar', () => {
   });
 
   it('should contain the correct props', () => {
-    expect(wrapper.props().label).toBe('test label');
     expect(wrapper.props().percentage).toBe(50);
     expect(wrapper.props().showTotal).toBe(true);
   });

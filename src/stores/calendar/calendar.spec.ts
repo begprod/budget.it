@@ -8,8 +8,7 @@ describe('Calendar store', () => {
   setActivePinia(pinia);
 
   const calendarStore = useCalendarStore();
-  const { months, days, getCurrentMonths, getCurrentDay, getCurrentMonth } =
-    storeToRefs(calendarStore);
+  const { months, days, getCurrentMonths, getCurrentDay } = storeToRefs(calendarStore);
   const { initCalendar, getDaysByMonthIdWidthOutFutureDays, getAllDaysByMonthId } = calendarStore;
 
   it('should generate months and days', () => {
@@ -36,12 +35,6 @@ describe('Calendar store', () => {
     const daysByMonthId = getDaysByMonthIdWidthOutFutureDays(monthId);
 
     expect(daysByMonthId.length).greaterThanOrEqual(1);
-  });
-
-  it('should get current month', () => {
-    const currentMonth = months.value.find((month) => month.isCurrent);
-
-    expect(getCurrentMonth.value).toEqual(currentMonth);
   });
 
   it('should get current day', () => {

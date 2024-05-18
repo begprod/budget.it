@@ -1,6 +1,6 @@
 <template>
   <div
-    class="progress-bar relative flex items-center justify-center h-6 text-xs lg:text-sm text-slate-700 bg-white rounded-md overflow-hidden"
+    class="progress-bar relative flex items-center justify-center h-3 text-xs lg:text-sm text-slate-700 bg-white shadow-md rounded-[4px] overflow-hidden"
     :class="classes"
   >
     <div
@@ -9,8 +9,6 @@
         'background-size': `${percentage}%`,
       }"
     />
-
-    <span class="text-slate-700 font-bold opacity-60 select-none">{{ label }}</span>
   </div>
 </template>
 
@@ -18,7 +16,6 @@
 import { computed } from 'vue';
 
 interface IProps {
-  label: string;
   percentage: number;
   showTotal?: boolean;
 }
