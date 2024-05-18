@@ -1,16 +1,19 @@
 <template>
   <BaseDateWrapper v-for="month in getCurrentMonths" :key="month.id">
     <template #title>
-      <div class="flex flex-col py-5 text-xl" data-testid="month-title">
+      <div
+        class="sticky top-[52px] flex flex-col py-5 px-5 gradient lg:!bg-none lg:bg-white text-white lg:text-slate-700 rounded-tl-3xl rounded-tr-3xl z-40"
+        data-testid="month-title"
+      >
         <div class="mb-2">
-          <div class="mb-2">{{ month.name }}</div>
+          <div class="mb-2 text-xl">{{ month.name }}</div>
           <div class="text-4xl font-bold">{{ getMonthlyExpenses(month.id) }}</div>
         </div>
         <div class="w-full">
           <div class="flex justify-between text-xs">
             <div class="flex">
-              <div class="mr-2 font-bold">Monthly budget</div>
-              <div class="text-slate-400">
+              <div class="mr-2 font-bold">Monthly budget:</div>
+              <div>
                 {{ getAllDaysByMonthId(month.id).length * dailyBudget }}
               </div>
             </div>
@@ -22,18 +25,15 @@
     </template>
 
     <template #content>
-      <div class="grid gap-3">
+      <div class="relative grid gap-3 p-5 z-0">
         <BaseDateWrapper
           v-for="day in getDaysByMonthIdWidthOutFutureDays(month.id)"
           :key="day.id"
-          class="relative last:mb-12"
+          class="relative"
         >
           <template #title>
             <div
-              class="sticky top-[52px] flex flex-col items-start py-1 bg-white font-bold select-none z-40"
-              :class="{
-                'current-day': day.isCurrent,
-              }"
+              class="sticky top-[200px] flex flex-col items-start py-1 bg-white font-bold select-none z-40"
             >
               <div class="flex">
                 <div class="flex flex-col">
@@ -163,8 +163,8 @@ const submitExpense = (expenseValue: string) => {
 </script>
 
 <style scoped lang="scss">
-.current-day {
-  scroll-margin-top: 52px;
+.gradient {
+  background-image: linear-gradient(180deg, #19a4f8 0%, #006396 100%);
 }
 
 .v-enter-active,
