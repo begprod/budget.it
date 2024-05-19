@@ -3,7 +3,6 @@ import { shallowMount } from '@vue/test-utils';
 import { createTestingPinia } from '@pinia/testing';
 import BaseAddExpenseButton from '@/components/BaseAddExpenseButton/BaseAddExpenseButton.vue';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
-import BaseProgressBar from '@/components/ui/BaseProgressBar/BaseProgressBar.vue';
 
 describe('BaseAddExpenseButton', () => {
   const wrapper = shallowMount(BaseAddExpenseButton, {
@@ -16,7 +15,6 @@ describe('BaseAddExpenseButton', () => {
 
   it('should contain components', () => {
     expect(wrapper.findComponent(BaseButton).exists()).toBe(true);
-    expect(wrapper.findComponent(BaseProgressBar).exists()).toBe(true);
   });
 
   it('should call method "showExpenseInputHandler" on click button "Add expenses"', async () => {
