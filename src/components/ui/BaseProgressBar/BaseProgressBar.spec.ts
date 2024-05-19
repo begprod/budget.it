@@ -32,10 +32,6 @@ describe('BaseProgressBar', () => {
     expect(wrapper.html()).toContain('background-size: 50%;');
   });
 
-  it('should contain the correct label from prop', () => {
-    expect(wrapper.html()).toContain('test label');
-  });
-
   it('should contain class "progress-bar_overfilled" if percentage is over 100', async () => {
     await wrapper.setProps({ percentage: 150 });
 

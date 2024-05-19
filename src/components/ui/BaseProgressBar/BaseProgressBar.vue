@@ -31,7 +31,7 @@ const classes = computed(() => ({
 <style scoped lang="scss">
 .progress-bar {
   &__background {
-    background-image: linear-gradient(43deg, #85ffbd 0%, #fffd49 46%, #ff7d00 100%);
+    background-image: linear-gradient(43deg, #85ffbd 0%, #00dbde 46%, #0093e9 100%);
     background-repeat: no-repeat;
     transition: background-size 0.5s ease-in-out;
   }
