@@ -3,21 +3,24 @@
     <template #title>
       <div
         class="sticky top-[52px] flex flex-col py-5 px-5 gradient lg:!bg-none lg:bg-white text-white lg:text-slate-700 rounded-tl-3xl rounded-tr-3xl z-40"
-        data-testid="month-title"
       >
         <div class="mb-2">
-          <div class="mb-2 text-xl">{{ month.name }}</div>
-          <div class="text-4xl font-bold">{{ getMonthlyExpenses(month.id) }}</div>
+          <div class="mb-2 text-xl" data-testid="month-title">{{ month.name }}</div>
+          <div class="text-4xl font-bold" data-testid="monthly-expenses">
+            {{ getMonthlyExpenses(month.id) }}
+          </div>
         </div>
         <div class="w-full">
           <div class="flex justify-between text-xs">
             <div class="flex">
               <div class="mr-2 font-bold">Monthly budget:</div>
-              <div>
+              <div data-testid="monthly-budget">
                 {{ getAllDaysByMonthId(month.id).length * dailyBudget }}
               </div>
             </div>
-            <div class="font-bold">{{ countProgressPercentage(month.id) }}%</div>
+            <div class="font-bold" data-testid="monthly-percents">
+              {{ countProgressPercentage(month.id) }}%
+            </div>
           </div>
           <BaseProgressBar :percentage="countProgressPercentage(month.id)" />
         </div>
@@ -37,10 +40,11 @@
             >
               <div class="flex">
                 <div class="flex flex-col">
-                  <div class="flex items-center text-sm lg:text-base">
+                  <div class="flex items-center text-sm lg:text-base" data-testid="day-title">
                     {{ day.number }} {{ day.name }}
                     <div
                       v-if="day.isCurrent"
+                      data-testid="current-day-indicator"
                       class="shrink-0 w-2 h-2 ml-2 rounded-full bg-green-500 select-none animate-pulse"
                     />
                   </div>
@@ -54,6 +58,7 @@
                   'text-rose-500': getDailyExpenses(day.id) > dailyBudget,
                   hidden: getDailyExpenses(day.id) === 0,
                 }"
+                data-testid="daily-expenses"
               >
                 {{ getDailyExpenses(day.id) }} / {{ dailyBudget }}
               </div>

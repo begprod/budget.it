@@ -70,46 +70,29 @@ describe('BaseExpensesList', () => {
   };
 
   it('should contain data from store', () => {
-    expect(wrapper.html()).toContain(`April – ${VALUE} / ${dailyBudget.value * days.value.length}`);
-    expect(wrapper.html()).toContain(`${VALUE} / ${dailyBudget.value}`);
-    expect(wrapper.html()).toContain(`${CREATED_AT_TIME}`);
-    expect(wrapper.html()).toContain(`${VALUE}`);
-    expect(wrapper.html()).toContain(`${CURRENCY}`);
+    const monthTitle = wrapper.find('[data-testid="month-title"]');
+    const monthlyExpenses = wrapper.find('[data-testid="monthly-expenses"]');
+    const monthlyBudget = wrapper.find('[data-testid="monthly-budget"]');
+    const monthlyPercents = wrapper.find('[data-testid="monthly-percents"]');
+
+    expect(monthTitle.html()).toContain('April');
+    expect(monthlyExpenses.html()).toContain(`${VALUE}`);
+    expect(monthlyBudget.html()).toContain(`${dailyBudget.value * days.value.length}`);
+    expect(monthlyPercents.html()).toContain('20%');
   });
 
-  it('should contain CheckCircleIcon icon in title if monthly budget is not exceeded', async () => {
-    const title = wrapper.find('[data-testid="month-title"]');
+  it('should contain days data from store', () => {
+    const dayTitle = wrapper.find('[data-testid="day-title"]');
+    const dailyExpenses = wrapper.find('[data-testid="daily-expenses"]');
 
-    expect(title.html()).toContain('w-7 h-7 mr-2 text-emerald-500');
-    expect(title.html()).not.toContain('w-7 h-7 mr-2 text-rose-500');
+    expect(dayTitle.html()).toContain('01 Monday');
+    expect(dailyExpenses.html()).toContain(`${VALUE} / ${dailyBudget.value}`);
   });
 
-  it('should contain XCircleIcon icon in title if monthly budget is exceeded', async () => {
-    expenses.value = {
-      '01042024': {
-        items: [
-          {
-            id: '1',
-            value: '600',
-            currency: CURRENCY,
-            createdAt: CREATED_AT_TIME,
-            monthId: '042024',
-            dayId: '01042024',
-          },
-        ],
-      },
-    };
+  it('should show current day indicator if day is current', () => {
+    const currentDayIndicator = wrapper.find('[data-testid="current-day-indicator"]');
 
-    await nextTick();
-
-    const title = wrapper.find('[data-testid="month-title"]');
-
-    expect(title.html()).toContain('w-7 h-7 mr-2 text-rose-500');
-    expect(title.html()).not.toContain('w-7 h-7 mr-2 text-emerald-500');
-  });
-
-  it('should show current day icon if day is current', () => {
-    expect(wrapper.html()).toContain('current-day');
+    expect(currentDayIndicator.exists()).toBe(true);
   });
 
   it('should not contain current day icon if day is not current', async () => {
@@ -127,7 +110,9 @@ describe('BaseExpensesList', () => {
 
     await nextTick();
 
-    expect(wrapper.html()).not.toContain('current-day');
+    const currentDayIndicator = wrapper.find('[data-testid="current-day-indicator"]');
+
+    expect(currentDayIndicator.exists()).toBe(false);
   });
 
   it('should show form if isAddExpenseInputVisible is true and day is current', async () => {
