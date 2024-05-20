@@ -1,72 +1,74 @@
 <template>
   <BaseLayout>
-    <div class="mb-7 pt-4 text-2xl text-slate-700 font-bold select-none">Settings</div>
+    <div class="px-5">
+      <div class="mb-7 pt-4 text-2xl text-slate-700 font-bold select-none">Settings</div>
 
-    <div class="mb-10">
-      <div class="mb-3 text-slate-500 select-none">Daily budget</div>
+      <div class="mb-10">
+        <div class="mb-3 text-slate-500 select-none">Daily budget</div>
 
-      <BaseFormBar @submit="submitDailyBudget(dailyBudgetInput.value)">
+        <BaseFormBar @submit="submitDailyBudget(dailyBudgetInput.value)">
+          <template #input>
+            <BaseInput
+              id="daily-input"
+              v-model="dailyBudgetInput.value"
+              type="number"
+              inputmode="numeric"
+              placeholder="Set daily budget"
+              autocomplete="off"
+              :is-error="dailyBudgetInput.isError"
+              :error-message="dailyBudgetInput.errorMessage"
+              :is-success="dailyBudgetInput.isSuccess"
+              :success-message="dailyBudgetInput.successMessage"
+            />
+          </template>
+          <template #button>
+            <BaseButton type="submit">
+              <template #text>
+                <CheckIcon class="w-5 h-5" />
+              </template>
+            </BaseButton>
+          </template>
+        </BaseFormBar>
+      </div>
+
+      <div class="mb-2">
+        <div class="mb-3 text-slate-500 select-none">Default currency</div>
+
+        <div class="flex flex-wrap gap-1 mb-3">
+          <BaseCurrencyGroupItem
+            v-for="currency in currencies"
+            :key="currency.name"
+            :id="currency.name"
+            :label="currency.name"
+            :value="currency.name"
+            :is-selected="currency.isActive"
+            :is-default="currency.isDefault"
+            name="currencies"
+          />
+        </div>
+      </div>
+
+      <BaseFormBar class="mb-10" @submit="submitNewCurrency(newCurrencyInput.value)">
         <template #input>
           <BaseInput
-            id="daily-input"
-            v-model="dailyBudgetInput.value"
-            type="number"
-            inputmode="numeric"
-            placeholder="Set daily budget"
+            id="currency-input"
+            v-model="newCurrencyInput.value"
+            type="text"
+            placeholder="Add new currency"
             autocomplete="off"
-            :is-error="dailyBudgetInput.isError"
-            :error-message="dailyBudgetInput.errorMessage"
-            :is-success="dailyBudgetInput.isSuccess"
-            :success-message="dailyBudgetInput.successMessage"
+            :is-error="newCurrencyInput.isError"
+            :error-message="newCurrencyInput.errorMessage"
           />
         </template>
         <template #button>
           <BaseButton type="submit">
             <template #text>
-              <CheckIcon class="w-5 h-5" />
+              <PlusIcon class="w-5 h-5" />
             </template>
           </BaseButton>
         </template>
       </BaseFormBar>
     </div>
-
-    <div class="mb-2">
-      <div class="mb-3 text-slate-500 select-none">Default currency</div>
-
-      <div class="flex flex-wrap gap-1 mb-3">
-        <BaseCurrencyGroupItem
-          v-for="currency in currencies"
-          :key="currency.name"
-          :id="currency.name"
-          :label="currency.name"
-          :value="currency.name"
-          :is-selected="currency.isActive"
-          :is-default="currency.isDefault"
-          name="currencies"
-        />
-      </div>
-    </div>
-
-    <BaseFormBar class="mb-10" @submit="submitNewCurrency(newCurrencyInput.value)">
-      <template #input>
-        <BaseInput
-          id="currency-input"
-          v-model="newCurrencyInput.value"
-          type="text"
-          placeholder="Add new currency"
-          autocomplete="off"
-          :is-error="newCurrencyInput.isError"
-          :error-message="newCurrencyInput.errorMessage"
-        />
-      </template>
-      <template #button>
-        <BaseButton type="submit">
-          <template #text>
-            <PlusIcon class="w-5 h-5" />
-          </template>
-        </BaseButton>
-      </template>
-    </BaseFormBar>
   </BaseLayout>
 </template>
 
