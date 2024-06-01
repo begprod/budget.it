@@ -28,7 +28,7 @@
     </template>
 
     <template #content>
-      <div class="relative grid gap-3 p-5 z-0">
+      <div class="relative grid gap-3 p-5 z-0 last:pb-14">
         <BaseDateWrapper
           v-for="day in getDaysByMonthIdWidthOutFutureDays(month.id)"
           :key="day.id"
