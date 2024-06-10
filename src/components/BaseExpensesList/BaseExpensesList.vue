@@ -71,15 +71,17 @@
               :key="index"
               class="flex flex-wrap gap-2"
             >
-              <template v-for="expense in expenseItem" :key="expense.id">
-                <BaseExpense
-                  :createdAt="expense.createdAt"
-                  :value="expense.value"
-                  :currency="expense.currency"
-                  :class="{ 'opacity-30': !day.isCurrent }"
-                  @click="removeExpense(expense.id, day.id)"
-                />
-              </template>
+              <TransitionGroup name="list">
+                <template v-for="expense in expenseItem" :key="expense.id">
+                  <BaseExpense
+                    :createdAt="expense.createdAt"
+                    :value="expense.value"
+                    :currency="expense.currency"
+                    :class="{ 'opacity-30': !day.isCurrent }"
+                    @click="removeExpense(expense.id, day.id)"
+                  />
+                </template>
+              </TransitionGroup>
 
               <div v-if="!expenses[day.id].items.length" class="flex items-center w-full">
                 <BaseEmptyListMessage message="No expenses for this day" />
@@ -182,5 +184,23 @@ const submitExpense = (expenseValue: string) => {
 .v-leave-to {
   transform: translateY(100%);
   opacity: 0;
+}
+
+.list-move,
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px) scale(0.5);
+  transition: all 0.5s ease;
+}
+
+.list-leave-active {
+  position: absolute;
+  transition: all 0.5s ease;
 }
 </style>
