@@ -31,7 +31,7 @@
         </BaseFormBar>
       </div>
 
-      <div class="mb-2">
+      <div class="mb-10">
         <div class="mb-3 text-slate-500 select-none">Default currency</div>
 
         <div class="flex flex-wrap gap-1 mb-3">
@@ -46,28 +46,28 @@
             name="currencies"
           />
         </div>
-      </div>
 
-      <BaseFormBar class="mb-10" @submit="submitNewCurrency(newCurrencyInput.value)">
-        <template #input>
-          <BaseInput
-            id="currency-input"
-            v-model="newCurrencyInput.value"
-            type="text"
-            placeholder="Add new currency"
-            autocomplete="off"
-            :is-error="newCurrencyInput.isError"
-            :error-message="newCurrencyInput.errorMessage"
-          />
-        </template>
-        <template #button>
-          <BaseButton type="submit">
-            <template #text>
-              <PlusIcon class="w-5 h-5" />
-            </template>
-          </BaseButton>
-        </template>
-      </BaseFormBar>
+        <BaseFormBar @submit="submitNewCurrency(newCurrencyInput.value)">
+          <template #input>
+            <BaseInput
+              id="currency-input"
+              v-model="newCurrencyInput.value"
+              type="text"
+              placeholder="Add new currency"
+              autocomplete="off"
+              :is-error="newCurrencyInput.isError"
+              :error-message="newCurrencyInput.errorMessage"
+            />
+          </template>
+          <template #button>
+            <BaseButton type="submit">
+              <template #text>
+                <PlusIcon class="w-5 h-5" />
+              </template>
+            </BaseButton>
+          </template>
+        </BaseFormBar>
+      </div>
     </div>
   </BaseLayout>
 </template>
