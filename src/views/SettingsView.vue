@@ -72,10 +72,10 @@
       <div class="mb-10">
         <div class="mb-3 text-slate-500 select-none">Import/Export expenses data</div>
 
-        <BaseButton class="w-full" @click="exportData">
+        <BaseButton class="w-full" @click="exportDataFromLocalStorage('budget.it:expenses')">
           <template #text> Export to file </template>
         </BaseButton>
-        <BaseButton class="w-full mt-2" @click="importData">
+        <BaseButton class="w-full mt-2" @click="importDataToLocalStorage('budget.it:expenses')">
           <template #text> Import from file </template>
         </BaseButton>
       </div>
@@ -89,6 +89,7 @@ import { storeToRefs } from 'pinia';
 import { number, string } from 'yup';
 import { PlusIcon, CheckIcon } from '@heroicons/vue/24/outline';
 import { useSettingsStore } from '@/stores';
+import { exportDataFromLocalStorage, importDataToLocalStorage } from '@/helpers';
 import BaseLayout from '@/components/layouts/BaseLayout/BaseLayout.vue';
 import BaseInput from '@/components/ui/controls/BaseInput/BaseInput.vue';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
@@ -156,66 +157,5 @@ const submitNewCurrency = (currency: string) => {
   } catch (error) {
     newCurrencyInput.isError = true;
   }
-};
-
-const exportData = () => {
-  const data = localStorage.getItem('budget.it:expenses');
-
-  if (!data) {
-    return;
-  }
-
-  const blob = new Blob([data], { type: 'text/json' });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
-
-  link.href = url;
-  link.download = `budget.it.backup.${new Date().toLocaleDateString()}.json`;
-
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-
-  URL.revokeObjectURL(url);
-};
-
-const importData = () => {
-  const fileInput = document.createElement('input');
-  fileInput.type = 'file';
-  fileInput.accept = 'application/json';
-
-  fileInput.onchange = function (event: Event) {
-    if (!event.target) {
-      return;
-    }
-
-    const { files } = event.target as HTMLInputElement;
-
-    if (!files) {
-      return;
-    }
-
-    const file = files[0];
-
-    if (file) {
-      const reader = new FileReader();
-
-      reader.onload = (event: ProgressEvent<FileReader>) => {
-        if (!event.target) {
-          return;
-        }
-
-        const data = event.target.result;
-
-        localStorage.setItem('budget.it:expenses', data as string);
-      };
-
-      reader.readAsText(file);
-
-      location.reload();
-    }
-  };
-
-  fileInput.click();
 };
 </script>
