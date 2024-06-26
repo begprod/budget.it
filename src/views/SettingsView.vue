@@ -75,7 +75,7 @@
         <BaseButton class="w-full" @click="exportDataFromLocalStorage('budget.it:expenses')">
           <template #text> Export to file </template>
         </BaseButton>
-        <BaseButton class="w-full mt-2" @click="importDataToLocalStorage('budget.it:expenses')">
+        <BaseButton class="w-full mt-2" @click="importDataHandler">
           <template #text> Import from file </template>
         </BaseButton>
       </div>
@@ -157,5 +157,15 @@ const submitNewCurrency = (currency: string) => {
   } catch (error) {
     newCurrencyInput.isError = true;
   }
+};
+
+const importDataHandler = async () => {
+  await importDataToLocalStorage('budget.it:expenses')
+    .then(() => {
+      alert('Data exported successfully');
+    })
+    .catch((error) => {
+      alert(error);
+    });
 };
 </script>

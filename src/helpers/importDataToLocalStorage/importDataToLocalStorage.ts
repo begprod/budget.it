@@ -1,39 +1,33 @@
 export function importDataToLocalStorage(itemName: string) {
-  const fileInput = document.createElement('input');
-  fileInput.type = 'file';
-  fileInput.accept = 'application/json';
+  return new Promise<void>((resolve, reject) => {
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'application/json';
 
-  fileInput.onchange = function (event: Event) {
-    if (!event.target) {
-      return;
-    }
+    fileInput.onchange = function (event: Event) {
+      const { files } = event.target as HTMLInputElement;
 
-    const { files } = event.target as HTMLInputElement;
+      if (!files || files.length === 0) {
+        return reject(new Error('No files selected'));
+      }
 
-    if (!files) {
-      return;
-    }
-
-    const file = files[0];
-
-    if (file) {
+      const file = files[0];
       const reader = new FileReader();
 
       reader.onload = (event: ProgressEvent<FileReader>) => {
-        if (!event.target) {
-          return;
-        }
+        const { result } = event.target as FileReader;
 
-        const data = event.target.result;
+        localStorage.setItem(itemName, result as string);
+        location.reload();
 
-        localStorage.setItem(itemName, data as string);
+        resolve();
       };
 
+      reader.onerror = () => reject(new Error('File read error'));
+
       reader.readAsText(file);
+    };
 
-      location.reload();
-    }
-  };
-
-  fileInput.click();
+    fileInput.click();
+  });
 }
