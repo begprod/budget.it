@@ -4,6 +4,7 @@ import { mount } from '@vue/test-utils';
 export interface ICommonStore {
   lastCalendarUpdateDate: RemovableRef<string>;
   isAddExpenseInputVisible: boolean;
+  toast: IToast;
 }
 
 export interface ICalendarStore {
@@ -52,6 +53,11 @@ export interface ICurrency {
   name: string;
   isActive: boolean;
   isDefault: boolean;
+}
+
+export interface IToast {
+  type: 'success' | 'error' | null;
+  message: string;
 }
 
 const mountComponent = <T>(component: T) => mount(component);
