@@ -16,9 +16,6 @@
               placeholder="Set daily budget"
               autocomplete="off"
               :is-error="dailyBudgetInput.isError"
-              :error-message="dailyBudgetInput.errorMessage"
-              :is-success="dailyBudgetInput.isSuccess"
-              :success-message="dailyBudgetInput.successMessage"
             />
           </template>
           <template #button>
@@ -88,7 +85,7 @@ import { reactive, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { number, string } from 'yup';
 import { PlusIcon, CheckIcon } from '@heroicons/vue/24/outline';
-import { useSettingsStore } from '@/stores';
+import { useCommonStore, useSettingsStore } from '@/stores';
 import { exportDataFromLocalStorage, importDataToLocalStorage } from '@/helpers';
 import BaseLayout from '@/components/layouts/BaseLayout/BaseLayout.vue';
 import BaseInput from '@/components/ui/controls/BaseInput/BaseInput.vue';
@@ -96,23 +93,21 @@ import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 import BaseFormBar from '@/components//BaseFormBar/BaseFormBar.vue';
 import BaseCurrencyGroupItem from '@/components//BaseCurrencyGroupItem/BaseCurrencyGroupItem.vue';
 
+const commonStore = useCommonStore();
 const settingsStore = useSettingsStore();
 
+const { setToast } = commonStore;
 const { setDailyBudget, addNewCurrency, dailyBudget } = settingsStore;
 const { currencies } = storeToRefs(settingsStore);
 
 const dailyBudgetInput = reactive({
   value: dailyBudget,
   isError: false,
-  errorMessage: 'Enter an integer greater than 9',
-  isSuccess: false,
-  successMessage: 'Daily budget updated',
 });
 
 const newCurrencyInput = reactive({
   value: '',
   isError: false,
-  errorMessage: 'Currency already exists',
 });
 
 const dailyBudgetSchema = number().integer().required().min(10);
@@ -127,23 +122,22 @@ const submitDailyBudget = (budget: number) => {
     dailyBudgetSchema.validateSync(budget);
     setDailyBudget(budget);
 
-    dailyBudgetInput.isSuccess = true;
-
     dailyBudgetInput.value = budget;
     dailyBudgetInput.isError = false;
 
-    setTimeout(() => {
-      dailyBudgetInput.isSuccess = false;
-    }, 3000);
+    setToast({ type: 'success', message: 'Daily budget updated', duration: 5 });
   } catch (error) {
     dailyBudgetInput.isError = true;
-    dailyBudgetInput.isSuccess = false;
+
+    setToast({ type: 'error', message: 'Enter an integer greater than 9', duration: 5 });
   }
 };
 
 const submitNewCurrency = (currency: string) => {
   if (currencies.value.some((item) => item.name === currency)) {
     newCurrencyInput.isError = true;
+
+    setToast({ type: 'error', message: 'Currency already exists', duration: 5 });
 
     return;
   }
@@ -154,18 +148,26 @@ const submitNewCurrency = (currency: string) => {
 
     newCurrencyInput.value = '';
     newCurrencyInput.isError = false;
+
+    setToast({ type: 'success', message: 'Currency added successfully', duration: 5 });
   } catch (error) {
     newCurrencyInput.isError = true;
+
+    setToast({ type: 'error', message: 'Enter a valid currency', duration: 5 });
   }
 };
 
 const importDataHandler = async () => {
   await importDataToLocalStorage('budget.it:expenses')
     .then(() => {
-      alert('Data exported successfully');
+      setToast({ type: 'success', message: 'Data imported successfully', duration: 5, callback: () => location.reload() });
     })
-    .catch((error) => {
-      alert(error);
+    .catch(() => {
+      setToast({
+        type: 'error',
+        message: 'Something went wrong while importing data',
+        duration: 5,
+      });
     });
 };
 </script>

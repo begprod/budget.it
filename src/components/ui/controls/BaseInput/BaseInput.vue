@@ -11,22 +11,6 @@
       @blur="blurHandler"
       class="w-full px-3 py-2 pr-14 text-sm border border-slate-300 rounded-xl hover:border-slate-400 focus:outline-none focus:border-slate-400 transition-[border-color] select-none"
     />
-    <Transition>
-      <span
-        v-if="isError && errorMessage"
-        class="absolute left-3 -bottom-4 w-full text-xs text-rose-500"
-      >
-        {{ errorMessage }}
-      </span>
-    </Transition>
-    <Transition>
-      <span
-        v-if="isSuccess && successMessage"
-        class="absolute left-3 -bottom-4 w-full text-xs text-green-500"
-      >
-        {{ successMessage }}
-      </span>
-    </Transition>
   </div>
 </template>
 
@@ -38,9 +22,6 @@ interface IProps {
   placeholder: string;
   autocomplete?: string;
   isError?: boolean;
-  errorMessage?: string;
-  isSuccess?: boolean;
-  successMessage?: string;
 }
 
 defineProps<IProps>();
@@ -55,15 +36,3 @@ const blurHandler = () => {
   emit('onBlur');
 };
 </script>
-
-<style scoped lang="scss">
-.v-enter-active,
-.v-leave-active {
-  transition: opacity 0.5s ease;
-}
-
-.v-enter-from,
-.v-leave-to {
-  opacity: 0;
-}
-</style>

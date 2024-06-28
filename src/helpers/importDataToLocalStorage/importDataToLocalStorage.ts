@@ -18,7 +18,6 @@ export function importDataToLocalStorage(itemName: string) {
         const { result } = event.target as FileReader;
 
         localStorage.setItem(itemName, result as string);
-        location.reload();
 
         resolve();
       };
