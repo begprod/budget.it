@@ -58,6 +58,8 @@ export interface ICurrency {
 export interface IToast {
   type: 'success' | 'error' | null;
   message: string;
+  duration: number;
+  callback?: () => void;
 }
 
 const mountComponent = <T>(component: T) => mount(component);

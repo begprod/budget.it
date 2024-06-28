@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[272px] z-[1000]">
+  <div class="fixed bottom-20 left-1/2 -translate-x-1/2 w-[272px] z-[1000]">
     <Transition name="slide-up">
       <div
         v-if="isVisible"
@@ -39,6 +39,7 @@ interface IProps {
   type: 'success' | 'error' | null;
   message: string;
   duration: number;
+  callback?: () => void;
 }
 
 const props = defineProps<IProps>();
@@ -70,6 +71,10 @@ const updateTimer = (timeLeft = props.duration) => {
       isVisible.value = false;
 
       clearTimeout(currentToastTimerId.value);
+
+      emit('timesup');
+
+      props.callback?.();
     }
   }, 1000);
 };
@@ -78,6 +83,10 @@ const closeToast = () => {
   isVisible.value = false;
 
   clearTimeout(currentToastTimerId.value);
+
+  emit('timesup');
+
+  props.callback?.();
 };
 
 const classObject = computed(() => {
@@ -91,3 +100,16 @@ const classObject = computed(() => {
   }
 });
 </script>
+
+<style lang="scss" scoped>
+.slide-up-enter-active,
+.slide-up-leave-active {
+  transition: all 0.3s ease-out;
+}
+
+.slide-up-enter-from,
+.slide-up-leave-to {
+  transform: translateY(100%);
+  opacity: 0;
+}
+</style>
