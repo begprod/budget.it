@@ -160,7 +160,12 @@ const submitNewCurrency = (currency: string) => {
 const importDataHandler = async () => {
   await importDataToLocalStorage('budget.it:expenses')
     .then(() => {
-      setToast({ type: 'success', message: 'Data imported successfully', duration: 5, callback: () => location.reload() });
+      setToast({
+        type: 'success',
+        message: 'Data imported successfully',
+        duration: 5,
+        callback: () => location.reload(),
+      });
     })
     .catch(() => {
       setToast({

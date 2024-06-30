@@ -56,7 +56,7 @@ export interface ICurrency {
 }
 
 export interface IToast {
-  type: 'success' | 'error' | null;
+  type: 'success' | 'error' | 'default';
   message: string;
   duration: number;
   callback?: () => void;

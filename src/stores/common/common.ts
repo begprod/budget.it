@@ -7,7 +7,7 @@ export const useCommonStore = defineStore('common', {
     lastCalendarUpdateDate: useLocalStorage('budget.it:lastUpdateDate', ''),
     isAddExpenseInputVisible: false,
     toast: {
-      type: null,
+      type: 'default',
       message: '',
       duration: 3,
     },

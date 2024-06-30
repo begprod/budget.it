@@ -32,11 +32,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, onBeforeUnmount } from 'vue';
 import { HandThumbUpIcon, ExclamationTriangleIcon } from '@heroicons/vue/24/solid';
 
 interface IProps {
-  type: 'success' | 'error' | null;
+  type: 'success' | 'error' | 'default';
   message: string;
   duration: number;
   callback?: () => void;
@@ -60,6 +60,10 @@ watch(
     updateTimer();
   },
 );
+
+onBeforeUnmount(() => {
+  clearTimeout(currentToastTimerId.value);
+});
 
 const updateTimer = (timeLeft = props.duration) => {
   clearTimeout(currentToastTimerId.value);

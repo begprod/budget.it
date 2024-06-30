@@ -33,6 +33,6 @@ const { getToast } = storeToRefs(commonStore);
 const { setToast } = commonStore;
 
 const clearToast = () => {
-  setToast({ type: null, message: '', duration: 0 });
+  setToast({ type: 'default', message: '', duration: 0 });
 };
 </script>
