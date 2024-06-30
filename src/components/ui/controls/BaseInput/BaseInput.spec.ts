@@ -15,9 +15,6 @@ describe('BaseInput', () => {
         placeholder: 'test placeholder',
         autocomplete: 'true',
         isError: false,
-        errorMessage: 'test error message',
-        isSuccess: false,
-        successMessage: 'test success message',
       },
     });
   };
@@ -37,21 +34,12 @@ describe('BaseInput', () => {
     expect(wrapper.props().placeholder).toBe('test placeholder');
     expect(wrapper.props().autocomplete).toBe('true');
     expect(wrapper.props().isError).toBe(false);
-    expect(wrapper.html()).not.toContain('test error message');
-    expect(wrapper.props().isSuccess).toBe(false);
-    expect(wrapper.html()).not.toContain('test success message');
   });
 
-  it('should show error message', async () => {
+  it('should contain correct css class if isError is true', async () => {
     await wrapper.setProps({ isError: true });
 
-    expect(wrapper.html()).toContain('test error message');
-  });
-
-  it('should show success message', async () => {
-    await wrapper.setProps({ isSuccess: true });
-
-    expect(wrapper.html()).toContain('test success message');
+    expect(wrapper.html()).toContain('!border-red-500 !focus:border-red-500');
   });
 
   it('should update model value', async () => {
