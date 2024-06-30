@@ -1,6 +1,7 @@
 import type { ComponentWrapperType } from '@/types';
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { shallowMount } from '@vue/test-utils';
+import { createTestingPinia } from '@pinia/testing';
 import BaseLayout from '@/components/layouts/BaseLayout/BaseLayout.vue';
 
 describe('BaseLayout', () => {
@@ -11,6 +12,11 @@ describe('BaseLayout', () => {
       slots: {
         default: 'test content',
       },
+      plugins: [
+        createTestingPinia({
+          createSpy: vi.fn,
+        }),
+      ],
     });
   };
 
