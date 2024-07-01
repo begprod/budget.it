@@ -1,5 +1,4 @@
 import type { ComponentWrapperType } from '@/types';
-import { nextTick } from 'vue';
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { HandThumbUpIcon, ExclamationTriangleIcon } from '@heroicons/vue/24/solid';
