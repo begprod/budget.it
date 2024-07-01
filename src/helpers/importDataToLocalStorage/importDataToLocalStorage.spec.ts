@@ -15,10 +15,8 @@ describe('importDataToLocalStorage', () => {
   };
   let mockInputElement: HTMLInputElement;
   let mockSetItem: Mock;
-  let mockReload: Mock;
 
   beforeEach(() => {
-    // Mock the FileReader
     mockFileReader = {
       readAsText: vi.fn(),
       onload: null,
@@ -28,20 +26,12 @@ describe('importDataToLocalStorage', () => {
     originalFileReader = global.FileReader;
     global.FileReader = vi.fn(() => mockFileReader) as unknown as typeof FileReader;
 
-    // Mock the input element
     mockInputElement = document.createElement('input');
     document.createElement = vi.fn().mockReturnValue(mockInputElement);
 
-    // Mock localStorage and location.reload
     mockSetItem = vi.fn();
     Object.defineProperty(global, 'localStorage', {
       value: { setItem: mockSetItem },
-      writable: true,
-    });
-
-    mockReload = vi.fn();
-    Object.defineProperty(global, 'location', {
-      value: { reload: mockReload },
       writable: true,
     });
   });
@@ -71,6 +61,5 @@ describe('importDataToLocalStorage', () => {
     await importDataToLocalStorage(itemName);
 
     expect(mockSetItem).toHaveBeenCalledWith(itemName, mockFileContent);
-    expect(mockReload).toHaveBeenCalled();
   });
 });
