@@ -53,7 +53,6 @@
               placeholder="Add new currency"
               autocomplete="off"
               :is-error="newCurrencyInput.isError"
-              :error-message="newCurrencyInput.errorMessage"
             />
           </template>
           <template #button>
