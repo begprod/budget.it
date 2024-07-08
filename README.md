@@ -18,6 +18,7 @@ A simple application for tracking the budget for each day
 - Currencies setup
 - Daily budget setup
 - PWA available
+- Import/export data
 
 ## How data is stored?
 
