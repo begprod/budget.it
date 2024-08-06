@@ -10,7 +10,6 @@ export interface ICommonStore {
 export interface ICalendarStore {
   months: Array<IMonth>;
   days: Array<IDay>;
-  shouldGenerateNextMonth: boolean;
 }
 
 export interface IMonth {

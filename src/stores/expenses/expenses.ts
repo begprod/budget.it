@@ -59,9 +59,7 @@ export const useExpensesStore = defineStore('expenses', {
 
   actions: {
     initExpensesObject() {
-      const { shouldGenerateNextMonth } = storeToRefs(useCalendarStore());
-
-      if (shouldGenerateNextMonth || !this.expenses || Object.keys(this.expenses).length === 0) {
+      if (!this.expenses || Object.keys(this.expenses).length === 0) {
         this.createExpensesByDayObject();
       }
 
