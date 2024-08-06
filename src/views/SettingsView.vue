@@ -4,7 +4,7 @@
       <div class="mb-7 pt-4 text-2xl text-slate-700 font-bold select-none">Settings</div>
 
       <div class="mb-10">
-        <div class="mb-3 text-slate-500 select-none">Daily budget</div>
+        <div class="mb-3 text-slate-500 select-none">Current month daily budget</div>
 
         <BaseFormBar @submit="submitDailyBudget(dailyBudgetInput.value)">
           <template #input>
@@ -80,7 +80,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, watch } from 'vue';
+import { reactive, watch, onBeforeMount } from 'vue';
 import { storeToRefs } from 'pinia';
 import { number, string } from 'yup';
 import { PlusIcon, CheckIcon } from '@heroicons/vue/24/outline';
@@ -96,8 +96,12 @@ const commonStore = useCommonStore();
 const settingsStore = useSettingsStore();
 
 const { setToast } = commonStore;
-const { setDailyBudget, addNewCurrency, dailyBudget } = settingsStore;
+const { initMonthlyDailyBudgetObject, setDailyBudget, addNewCurrency, dailyBudget } = settingsStore;
 const { currencies } = storeToRefs(settingsStore);
+
+onBeforeMount(() => {
+  initMonthlyDailyBudgetObject();
+});
 
 const dailyBudgetInput = reactive({
   value: dailyBudget,
@@ -125,10 +129,14 @@ const submitDailyBudget = (budget: number) => {
     dailyBudgetInput.isError = false;
 
     setToast({ type: 'success', message: 'Daily budget updated', duration: 5 });
-  } catch (error) {
+  } catch (error: any) {
     dailyBudgetInput.isError = true;
 
-    setToast({ type: 'error', message: 'Enter an integer greater than 9', duration: 5 });
+    setToast({
+      type: 'error',
+      message: error.message || 'Enter an integer greater than 9',
+      duration: 5,
+    });
   }
 };
 

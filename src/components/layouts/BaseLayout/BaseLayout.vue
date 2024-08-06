@@ -20,6 +20,7 @@
 </template>
 
 <script setup lang="ts">
+import { onBeforeMount } from 'vue';
 import { storeToRefs } from 'pinia';
 import BaseHeader from '@/components/layouts/partials/BaseHeader/BaseHeader.vue';
 import BaseFooter from '@/components/layouts/partials/BaseFooter/BaseFooter.vue';
@@ -35,4 +36,8 @@ const { setToast } = commonStore;
 const clearToast = () => {
   setToast({ type: 'default', message: '', duration: 0 });
 };
+
+onBeforeMount(() => {
+  clearToast();
+});
 </script>

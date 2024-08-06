@@ -46,6 +46,7 @@ export interface IExpense {
 export interface ISettingsStore {
   currencies: RemovableRef<Array<ICurrency>>;
   dailyBudget: RemovableRef<number>;
+  monthlyDailyBudget: RemovableRef<Record<string, { dailyBudget: number; isCurrent: boolean }>>;
 }
 
 export interface ICurrency {

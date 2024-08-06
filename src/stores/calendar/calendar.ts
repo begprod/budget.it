@@ -6,7 +6,6 @@ export const useCalendarStore = defineStore('calendar', {
   state: (): ICalendarStore => ({
     months: [],
     days: [],
-    shouldGenerateNextMonth: false,
   }),
 
   getters: {

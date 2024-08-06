@@ -15,14 +15,20 @@
             <div class="flex">
               <div class="mr-2 font-bold">Monthly budget:</div>
               <div data-testid="monthly-budget">
-                {{ getAllDaysByMonthId(month.id).length * dailyBudget }}
+                {{
+                  getAllDaysByMonthId(month.id).length * getMonthlyDailyBudget[month.id].dailyBudget
+                }}
               </div>
             </div>
             <div class="font-bold" data-testid="monthly-percents">
-              {{ countProgressPercentage(month.id) }}%
+              {{ countProgressPercentage(month.id, getMonthlyDailyBudget[month.id].dailyBudget) }}%
             </div>
           </div>
-          <BaseProgressBar :percentage="countProgressPercentage(month.id)" />
+          <BaseProgressBar
+            :percentage="
+              countProgressPercentage(month.id, getMonthlyDailyBudget[month.id].dailyBudget)
+            "
+          />
         </div>
       </div>
     </template>
@@ -54,13 +60,15 @@
               <div
                 class="text-xs lg:text-sm"
                 :class="{
-                  'text-emerald-500': getDailyExpenses(day.id) <= dailyBudget,
-                  'text-rose-500': getDailyExpenses(day.id) > dailyBudget,
+                  'text-emerald-500':
+                    getDailyExpenses(day.id) <= getMonthlyDailyBudget[month.id].dailyBudget,
+                  'text-rose-500':
+                    getDailyExpenses(day.id) > getMonthlyDailyBudget[month.id].dailyBudget,
                   hidden: getDailyExpenses(day.id) === 0,
                 }"
                 data-testid="daily-expenses"
               >
-                {{ getDailyExpenses(day.id) }} / {{ dailyBudget }}
+                {{ getDailyExpenses(day.id) }} / {{ getMonthlyDailyBudget[month.id].dailyBudget }}
               </div>
             </div>
           </template>
@@ -134,7 +142,7 @@ const expensesStore = useExpensesStore();
 
 const { isAddExpenseInputVisible } = storeToRefs(commonStore);
 const { expenses } = storeToRefs(expensesStore);
-const { getActiveCurrency, dailyBudget } = storeToRefs(settingsStore);
+const { getMonthlyDailyBudget, getActiveCurrency } = storeToRefs(settingsStore);
 const { getCurrentMonths } = storeToRefs(calendarStore);
 const { hideAddExpenseInput } = commonStore;
 const { getAllDaysByMonthId, getDaysByMonthIdWidthOutFutureDays } = calendarStore;
@@ -144,7 +152,7 @@ const expense = ref('');
 const isExpenseFieldHasError = ref(false);
 const expenseSchema = number().integer().required().min(1);
 
-const countProgressPercentage = (monthId: IMonth['id'] | undefined) => {
+const countProgressPercentage = (monthId: IMonth['id'] | undefined, dailyBudget: number) => {
   if (monthId === undefined) {
     return 0;
   }
@@ -152,7 +160,7 @@ const countProgressPercentage = (monthId: IMonth['id'] | undefined) => {
   const monthExpensesCounter = getMonthlyExpenses(monthId);
 
   return Math.round(
-    (monthExpensesCounter / (getAllDaysByMonthId(monthId).length * dailyBudget.value)) * 100,
+    (monthExpensesCounter / (getAllDaysByMonthId(monthId).length * dailyBudget)) * 100,
   );
 };
 
