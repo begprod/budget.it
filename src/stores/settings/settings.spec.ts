@@ -8,8 +8,21 @@ describe('Settings store', () => {
   setActivePinia(pinia);
 
   const settingsStore = useSettingsStore();
-  const { currencies, dailyBudget, getActiveCurrency } = storeToRefs(settingsStore);
-  const { setActiveCurrency, setDailyBudget, addNewCurrency, deleteCurrency } = settingsStore;
+  const { currencies, dailyBudget, getMonthlyDailyBudget, getActiveCurrency } =
+    storeToRefs(settingsStore);
+  const {
+    initMonthlyDailyBudgetObject,
+    setActiveCurrency,
+    setDailyBudget,
+    addNewCurrency,
+    deleteCurrency,
+  } = settingsStore;
+
+  it('should initialize monthly daily budget object', () => {
+    initMonthlyDailyBudgetObject();
+
+    expect(Object.keys(getMonthlyDailyBudget.value).length).toEqual(7);
+  });
 
   it('should set active currency', () => {
     setActiveCurrency('€');
@@ -18,9 +31,18 @@ describe('Settings store', () => {
   });
 
   it('should set daily budget', () => {
+    const currentMonth = Object.keys(getMonthlyDailyBudget.value).find(
+      (key: string) => getMonthlyDailyBudget.value[key].isCurrent,
+    );
+
     setDailyBudget(1000);
 
+    const currentMonthDailyBudget = currentMonth
+      ? getMonthlyDailyBudget.value[currentMonth].dailyBudget
+      : NaN;
+
     expect(dailyBudget.value).toEqual(1000);
+    expect(currentMonthDailyBudget).toEqual(1000);
   });
 
   it('should add new currency', () => {
