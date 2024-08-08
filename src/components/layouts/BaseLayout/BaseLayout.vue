@@ -26,9 +26,12 @@ import BaseHeader from '@/components/layouts/partials/BaseHeader/BaseHeader.vue'
 import BaseFooter from '@/components/layouts/partials/BaseFooter/BaseFooter.vue';
 import BaseMenuBar from '@/components/layouts/partials/BaseMenuBar/BaseMenuBar.vue';
 import BaseToast from '@/components/ui/BaseToast/BaseToast.vue';
-import { useCommonStore } from '@/stores';
+import { useCommonStore, useSettingsStore } from '@/stores';
 
 const commonStore = useCommonStore();
+const settingsStore = useSettingsStore();
+
+const { initMonthlyDailyBudgetObject } = settingsStore;
 
 const { getToast } = storeToRefs(commonStore);
 const { setToast } = commonStore;
@@ -38,6 +41,7 @@ const clearToast = () => {
 };
 
 onBeforeMount(() => {
+  initMonthlyDailyBudgetObject();
   clearToast();
 });
 </script>

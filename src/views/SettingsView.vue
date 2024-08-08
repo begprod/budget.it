@@ -80,7 +80,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, watch, onBeforeMount } from 'vue';
+import { reactive, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { number, string } from 'yup';
 import { PlusIcon, CheckIcon } from '@heroicons/vue/24/outline';
@@ -96,12 +96,8 @@ const commonStore = useCommonStore();
 const settingsStore = useSettingsStore();
 
 const { setToast } = commonStore;
-const { initMonthlyDailyBudgetObject, setDailyBudget, addNewCurrency, dailyBudget } = settingsStore;
+const { setDailyBudget, addNewCurrency, dailyBudget } = settingsStore;
 const { currencies } = storeToRefs(settingsStore);
-
-onBeforeMount(() => {
-  initMonthlyDailyBudgetObject();
-});
 
 const dailyBudgetInput = reactive({
   value: dailyBudget,
