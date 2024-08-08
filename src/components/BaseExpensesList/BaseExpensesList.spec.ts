@@ -26,13 +26,20 @@ describe('BaseExpensesList', () => {
   const { isAddExpenseInputVisible } = storeToRefs(commonStore);
   const { months, days } = storeToRefs(calendarStore);
   const { expenses } = storeToRefs(expensesStore);
-  const { dailyBudget } = storeToRefs(settingsStore);
+  const { monthlyDailyBudget, dailyBudget } = storeToRefs(settingsStore);
 
   const CURRENCY = 'USD';
   const VALUE = '100';
   const CREATED_AT_TIME = '10:00';
 
   months.value = [
+    {
+      id: '032024',
+      name: 'March',
+      monthString: new Date('2024-03-01'),
+      isCurrent: false,
+      isFuture: false,
+    },
     {
       id: '042024',
       name: 'April',
@@ -43,6 +50,15 @@ describe('BaseExpensesList', () => {
   ];
 
   days.value = [
+    {
+      id: '01032024',
+      monthId: '032024',
+      number: '01',
+      name: 'Tuesday',
+      isCurrent: false,
+      isFuture: false,
+      isPast: true,
+    },
     {
       id: '01042024',
       monthId: '042024',
@@ -55,6 +71,18 @@ describe('BaseExpensesList', () => {
   ];
 
   expenses.value = {
+    '01032024': {
+      items: [
+        {
+          id: '1',
+          value: 10,
+          currency: CURRENCY,
+          createdAt: CREATED_AT_TIME,
+          monthId: '032024',
+          dayId: '01032024',
+        },
+      ],
+    },
     '01042024': {
       items: [
         {
@@ -69,24 +97,41 @@ describe('BaseExpensesList', () => {
     },
   };
 
-  it('should contain data from store', () => {
-    const monthTitle = wrapper.find('[data-testid="month-title"]');
-    const monthlyExpenses = wrapper.find('[data-testid="monthly-expenses"]');
-    const monthlyBudget = wrapper.find('[data-testid="monthly-budget"]');
-    const monthlyPercents = wrapper.find('[data-testid="monthly-percents"]');
+  monthlyDailyBudget.value = {
+    '032024': {
+      dailyBudget: dailyBudget.value,
+      isCurrent: false,
+    },
+    '042024': {
+      dailyBudget: 900,
+      isCurrent: true,
+    },
+  };
 
-    expect(monthTitle.html()).toContain('April');
-    expect(monthlyExpenses.html()).toContain(`${VALUE}`);
-    expect(monthlyBudget.html()).toContain(`${dailyBudget.value * days.value.length}`);
-    expect(monthlyPercents.html()).toContain('20%');
+  it('should contain data from store', () => {
+    const monthTitle = wrapper.findAll('[data-testid="month-title"]');
+    const monthlyExpenses = wrapper.findAll('[data-testid="monthly-expenses"]');
+    const monthlyBudget = wrapper.findAll('[data-testid="monthly-budget"]');
+    const monthlyPercents = wrapper.findAll('[data-testid="monthly-percents"]');
+
+    expect(monthTitle[0].html()).toContain('March');
+    expect(monthlyExpenses[0].html()).toContain(`${10}`);
+    expect(monthlyBudget[0].html()).toContain(500);
+    expect(monthlyPercents[0].html()).toContain('2%');
+    expect(monthTitle[1].html()).toContain('April');
+    expect(monthlyExpenses[1].html()).toContain(`${VALUE}`);
+    expect(monthlyBudget[1].html()).toContain(900);
+    expect(monthlyPercents[1].html()).toContain('11%');
   });
 
   it('should contain days data from store', () => {
-    const dayTitle = wrapper.find('[data-testid="day-title"]');
-    const dailyExpenses = wrapper.find('[data-testid="daily-expenses"]');
+    const dayTitle = wrapper.findAll('[data-testid="day-title"]');
+    const dailyExpenses = wrapper.findAll('[data-testid="daily-expenses"]');
 
-    expect(dayTitle.html()).toContain('01 Monday');
-    expect(dailyExpenses.html()).toContain(`${VALUE} / ${dailyBudget.value}`);
+    expect(dayTitle[0].html()).toContain('01 Tuesday');
+    expect(dailyExpenses[0].html()).toContain(`${10} / ${dailyBudget.value}`);
+    expect(dayTitle[1].html()).toContain('01 Monday');
+    expect(dailyExpenses[1].html()).toContain(`${VALUE} / ${900}`);
   });
 
   it('should show current day indicator if day is current', () => {
