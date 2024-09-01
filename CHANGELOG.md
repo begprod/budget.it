@@ -1,5 +1,51 @@
 # Changelog
+## 0.9.2
 
+### Bug Fixes
+
+- monthly budget update
+
+## 0.9.0
+
+### Features
+
+- add data import
+
+
+## 0.8.3
+
+### Other
+
+- update common store
+
+
+## 0.8.1
+
+### Other
+
+- add toast component
+
+
+## 0.8.0
+
+### Features
+
+- exportDataFromLocalStorage, importDataToLocalStorage
+
+
+## 0.7.3
+
+### Other
+
+
+- add expense animations
+
+## 0.7.2
+
+### Bug Fixes
+
+- input z-index
+  
 ## 0.7.1
 
 ### Bug Fixes
