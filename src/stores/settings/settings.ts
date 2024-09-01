@@ -48,10 +48,6 @@ export const useSettingsStore = defineStore('settings', {
 
   actions: {
     initMonthlyDailyBudgetObject() {
-      if (Object.keys(this.monthlyDailyBudget).length !== 0) {
-        return;
-      }
-
       const monthsList = generateMonths(5);
       const nextMonth = generateMonths(0, 1);
       const allMonths = [...nextMonth, ...monthsList];
