@@ -31,18 +31,12 @@ describe('Settings store', () => {
   });
 
   it('should set daily budget', () => {
-    const currentMonth = Object.keys(getMonthlyDailyBudget.value).find(
-      (key: string) => getMonthlyDailyBudget.value[key].isCurrent,
-    );
+    const currentMonth = new Date().toLocaleDateString().substring(3, 10).replace('.', '');
 
     setDailyBudget(1000);
 
-    const currentMonthDailyBudget = currentMonth
-      ? getMonthlyDailyBudget.value[currentMonth].dailyBudget
-      : NaN;
-
     expect(dailyBudget.value).toEqual(1000);
-    expect(currentMonthDailyBudget).toEqual(1000);
+    expect(getMonthlyDailyBudget.value[currentMonth].dailyBudget).toEqual(1000);
   });
 
   it('should add new currency', () => {

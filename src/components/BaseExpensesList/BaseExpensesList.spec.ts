@@ -100,11 +100,9 @@ describe('BaseExpensesList', () => {
   monthlyDailyBudget.value = {
     '032024': {
       dailyBudget: dailyBudget.value,
-      isCurrent: false,
     },
     '042024': {
       dailyBudget: 900,
-      isCurrent: true,
     },
   };
 

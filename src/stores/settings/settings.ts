@@ -38,7 +38,7 @@ export const useSettingsStore = defineStore('settings', {
   }),
 
   getters: {
-    getMonthlyDailyBudget(state): Record<string, { dailyBudget: number; isCurrent: boolean }> {
+    getMonthlyDailyBudget(state): Record<string, { dailyBudget: number }> {
       return state.monthlyDailyBudget;
     },
     getActiveCurrency(state): ICurrency {
@@ -48,6 +48,10 @@ export const useSettingsStore = defineStore('settings', {
 
   actions: {
     initMonthlyDailyBudgetObject() {
+      if (Object.keys(this.monthlyDailyBudget).length !== 0) {
+        return;
+      }
+
       const monthsList = generateMonths(5);
       const nextMonth = generateMonths(0, 1);
       const allMonths = [...nextMonth, ...monthsList];
@@ -55,7 +59,6 @@ export const useSettingsStore = defineStore('settings', {
       allMonths.forEach((month: IMonth) => {
         this.monthlyDailyBudget[month.id] = {
           dailyBudget: this.dailyBudget,
-          isCurrent: month.isCurrent,
         };
       });
     },
@@ -67,11 +70,9 @@ export const useSettingsStore = defineStore('settings', {
       });
     },
     setDailyBudget(value: number) {
-      const currentMonth = Object.keys(this.monthlyDailyBudget).find(
-        (key: string) => this.monthlyDailyBudget[key].isCurrent,
-      );
+      const currentMonth = new Date().toLocaleDateString().substring(3, 10).replace('.', '');
 
-      if (!currentMonth) {
+      if (!this.monthlyDailyBudget[currentMonth]) {
         throw new Error('Current month not found');
       }
 
