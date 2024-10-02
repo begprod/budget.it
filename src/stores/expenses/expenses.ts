@@ -59,21 +59,7 @@ export const useExpensesStore = defineStore('expenses', {
 
   actions: {
     initExpensesObject() {
-      const { getCurrentDay } = storeToRefs(useCalendarStore());
-
-      if (!this.expenses || Object.keys(this.expenses).length === 0) {
-        this.createExpensesByDayObject();
-      }
-
-      if (
-        getCurrentDay.value !== undefined &&
-        this.expenses[getCurrentDay.value.id] === undefined
-      ) {
-        this.expenses[getCurrentDay.value.id] = {
-          items: [],
-        };
-      }
-
+      this.createExpensesByDayObject();
       this.checkAndCleanupExpensesByDayObject();
     },
     createExpensesByDayObject() {

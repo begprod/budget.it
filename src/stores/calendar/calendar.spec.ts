@@ -9,7 +9,7 @@ describe('Calendar store', () => {
 
   const calendarStore = useCalendarStore();
   const { months, days, getCurrentMonths, getCurrentDay } = storeToRefs(calendarStore);
-  const { initCalendar, getDaysByMonthIdWidthOutFutureDays, getAllDaysByMonthId } = calendarStore;
+  const { initCalendar, getAllDaysByMonthId } = calendarStore;
 
   it('should generate months and days', () => {
     initCalendar();
@@ -28,13 +28,6 @@ describe('Calendar store', () => {
     const daysByMonthId = getAllDaysByMonthId(monthId);
 
     expect(daysByMonthId.length).greaterThanOrEqual(30);
-  });
-
-  it('should not get days by month id for future months', () => {
-    const monthId = months.value[1].id;
-    const daysByMonthId = getDaysByMonthIdWidthOutFutureDays(monthId);
-
-    expect(daysByMonthId.length).greaterThanOrEqual(1);
   });
 
   it('should get current day', () => {

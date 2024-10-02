@@ -12,11 +12,6 @@ export const useCalendarStore = defineStore('calendar', {
     getCurrentMonths: (state) => {
       return state.months.filter((month) => !month.isFuture);
     },
-    getDaysByMonthIdWidthOutFutureDays:
-      (state) =>
-      (monthId: string): Array<IDay> => {
-        return state.days.filter((day) => day.monthId === monthId && !day.isFuture);
-      },
     getAllDaysByMonthId:
       (state) =>
       (monthId: string): Array<IDay> => {
