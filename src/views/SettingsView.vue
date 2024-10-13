@@ -1,10 +1,10 @@
 <template>
   <BaseLayout>
     <div class="px-5">
-      <div class="mb-7 pt-4 text-2xl text-slate-700 font-bold select-none">Settings</div>
+      <h1 class="mb-7 pt-4 text-4xl text-slate-700 font-bold select-none">Settings</h1>
 
       <div class="mb-10">
-        <div class="mb-3 text-slate-500 select-none">Current month daily budget</div>
+        <h3 class="mb-3 text-slate-600 select-none">Current month daily budget</h3>
 
         <BaseFormBar @submit="submitDailyBudget(dailyBudgetInput.value)">
           <template #input>
@@ -29,7 +29,7 @@
       </div>
 
       <div class="mb-10">
-        <div class="mb-3 text-slate-500 select-none">Default currency</div>
+        <h3 class="mb-3 text-slate-600 select-none">Default currency</h3>
 
         <div class="flex flex-wrap gap-1 mb-3">
           <BaseCurrencyGroupItem
@@ -66,9 +66,12 @@
       </div>
 
       <div class="mb-10">
-        <div class="mb-3 text-slate-500 select-none">Import/Export expenses data</div>
+        <h3 class="mb-1 text-slate-600 select-none">Import/Export expenses data</h3>
+        <h4 v-if="lastBackupDate" class="mb-3 text-xs text-slate-500 select-none">
+          Last backup: {{ lastBackupDate }}
+        </h4>
 
-        <BaseButton class="w-full" @click="exportDataFromLocalStorage('budget.it:expenses')">
+        <BaseButton class="w-full" @click="exportDataHandler()">
           <template #text> Export to file </template>
         </BaseButton>
         <BaseButton class="w-full mt-2" @click="importDataHandler">
@@ -85,7 +88,7 @@ import { storeToRefs } from 'pinia';
 import { number, string } from 'yup';
 import { PlusIcon, CheckIcon } from '@heroicons/vue/24/outline';
 import { useCommonStore, useSettingsStore } from '@/stores';
-import { exportDataFromLocalStorage, importDataToLocalStorage } from '@/helpers';
+import { exportDataFromLocalStorage, importDataToLocalStorage, getDateWithTime } from '@/helpers';
 import BaseLayout from '@/components/layouts/BaseLayout/BaseLayout.vue';
 import BaseInput from '@/components/ui/controls/BaseInput/BaseInput.vue';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
@@ -95,8 +98,9 @@ import BaseCurrencyGroupItem from '@/components//BaseCurrencyGroupItem/BaseCurre
 const commonStore = useCommonStore();
 const settingsStore = useSettingsStore();
 
-const { setToast } = commonStore;
+const { setToast, setLastBackupDate } = commonStore;
 const { setDailyBudget, addNewCurrency, dailyBudget } = settingsStore;
+const { lastBackupDate } = storeToRefs(commonStore);
 const { currencies } = storeToRefs(settingsStore);
 
 const dailyBudgetInput = reactive({
@@ -160,6 +164,11 @@ const submitNewCurrency = (currency: string) => {
   }
 };
 
+const exportDataHandler = () => {
+  exportDataFromLocalStorage('budget.it:expenses');
+  setLastBackupDate(getDateWithTime());
+};
+
 const importDataHandler = async () => {
   await importDataToLocalStorage('budget.it:expenses')
     .then(() => {
@@ -169,6 +178,8 @@ const importDataHandler = async () => {
         duration: 5,
         callback: () => location.reload(),
       });
+
+      setLastBackupDate(getDateWithTime());
     })
     .catch(() => {
       setToast({

@@ -3,6 +3,7 @@ import { mount } from '@vue/test-utils';
 
 export interface ICommonStore {
   lastCalendarUpdateDate: RemovableRef<string>;
+  lastBackupDate: RemovableRef<string | null>;
   isAddExpenseInputVisible: boolean;
   toast: IToast;
 }

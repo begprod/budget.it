@@ -8,13 +8,26 @@ describe('Common store', () => {
   setActivePinia(pinia);
 
   const commonStore = useCommonStore();
-  const { lastCalendarUpdateDate, isAddExpenseInputVisible, getToast } = storeToRefs(commonStore);
-  const { setLastUpdateDate, showAddExpenseInput, hideAddExpenseInput, setToast } = commonStore;
+  const {
+    setLastUpdateDate,
+    setLastBackupDate,
+    showAddExpenseInput,
+    hideAddExpenseInput,
+    setToast,
+  } = commonStore;
+  const { lastCalendarUpdateDate, lastBackupDate, isAddExpenseInputVisible, getToast } =
+    storeToRefs(commonStore);
 
   it('should set last update date', () => {
     setLastUpdateDate('2021-08-01');
 
     expect(lastCalendarUpdateDate.value).toEqual('2021-08-01');
+  });
+
+  it('should set last backup date', () => {
+    setLastBackupDate('1 April 24 at 10:33');
+
+    expect(lastBackupDate.value).toEqual('1 April 24 at 10:33');
   });
 
   it('should show add expense input', () => {

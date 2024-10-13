@@ -5,6 +5,7 @@ import { useLocalStorage } from '@vueuse/core';
 export const useCommonStore = defineStore('common', {
   state: (): ICommonStore => ({
     lastCalendarUpdateDate: useLocalStorage('budget.it:lastUpdateDate', ''),
+    lastBackupDate: useLocalStorage('budget.it:lastBackupDate', null),
     isAddExpenseInputVisible: false,
     toast: {
       type: 'default',
@@ -20,6 +21,9 @@ export const useCommonStore = defineStore('common', {
   actions: {
     setLastUpdateDate(date: string) {
       this.lastCalendarUpdateDate = date;
+    },
+    setLastBackupDate(date: string) {
+      this.lastBackupDate = date;
     },
     showAddExpenseInput() {
       this.isAddExpenseInputVisible = true;
