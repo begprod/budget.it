@@ -1,4 +1,16 @@
 # Changelog
+## 0.10.0
+
+### Features
+
+- last backup date
+
+## 0.9.4
+
+### Bug Fixes
+
+- init expenses object
+
 ## 0.9.3
 
 ### Bug Fixes
