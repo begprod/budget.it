@@ -1,8 +1,8 @@
 import type { IMonth } from '@/types';
 import type { ISettingsStore, ICurrency } from '@/types';
-import { defineStore } from 'pinia';
+import { defineStore, storeToRefs } from 'pinia';
 import { useLocalStorage } from '@vueuse/core';
-import { generateMonths } from '@/helpers';
+import { useCalendarStore } from '@/stores';
 
 export const useSettingsStore = defineStore('settings', {
   state: (): ISettingsStore => ({
@@ -48,18 +48,15 @@ export const useSettingsStore = defineStore('settings', {
 
   actions: {
     initMonthlyDailyBudgetObject() {
-      if (Object.keys(this.monthlyDailyBudget).length !== 0) {
-        return;
-      }
+      const calendarStore = useCalendarStore();
+      const { months } = storeToRefs(calendarStore);
 
-      const monthsList = generateMonths(5);
-      const nextMonth = generateMonths(0, 1);
-      const allMonths = [...nextMonth, ...monthsList];
-
-      allMonths.forEach((month: IMonth) => {
-        this.monthlyDailyBudget[month.id] = {
-          dailyBudget: this.dailyBudget,
-        };
+      months.value.forEach((item: IMonth) => {
+        if (!this.monthlyDailyBudget[item.id]) {
+          this.monthlyDailyBudget[item.id] = {
+            dailyBudget: this.dailyBudget,
+          };
+        }
       });
     },
     setActiveCurrency(name: ICurrency['name']) {

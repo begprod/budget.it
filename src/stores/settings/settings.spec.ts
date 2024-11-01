@@ -1,5 +1,6 @@
 import { createPinia, setActivePinia, storeToRefs } from 'pinia';
 import { describe, it, expect } from 'vitest';
+import { useCalendarStore } from '@/stores/calendar/calendar';
 import { useSettingsStore } from '@/stores/settings/settings';
 
 describe('Settings store', () => {
@@ -7,9 +8,11 @@ describe('Settings store', () => {
 
   setActivePinia(pinia);
 
+  const calendarStore = useCalendarStore();
   const settingsStore = useSettingsStore();
   const { currencies, dailyBudget, getMonthlyDailyBudget, getActiveCurrency } =
     storeToRefs(settingsStore);
+  const { initCalendar } = calendarStore;
   const {
     initMonthlyDailyBudgetObject,
     setActiveCurrency,
@@ -19,6 +22,7 @@ describe('Settings store', () => {
   } = settingsStore;
 
   it('should initialize monthly daily budget object', () => {
+    initCalendar();
     initMonthlyDailyBudgetObject();
 
     expect(Object.keys(getMonthlyDailyBudget.value).length).toEqual(7);
