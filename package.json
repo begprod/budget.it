@@ -1,6 +1,6 @@
 {
   "name": "budget.it",
-  "version": "0.10.3",
+  "version": "0.11.0",
   "description": "Another budget app, but this one is handy",
   "repository": "https://github.com/begprod/budget.it",
   "homepage": "https://begprod.github.io/budget.it/",
@@ -23,9 +23,9 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "@heroicons/vue": "^2.1.1",
     "@vueuse/core": "^10.7.1",
     "date-fns": "^3.0.6",
+    "lucide-vue-next": "^0.469.0",
     "pinia": "^2.1.7",
     "uuid": "^9.0.1",
     "vue": "^3.3.11",

@@ -6,14 +6,14 @@
   >
     <template #text> Add expense </template>
     <template #rightIcon>
-      <BanknotesIcon class="w-5 h-5 ml-2" />
+      <Banknote class="w-5 h-5 ml-2" />
     </template>
   </BaseButton>
 </template>
 
 <script setup lang="ts">
 import { nextTick } from 'vue';
-import { BanknotesIcon } from '@heroicons/vue/24/outline';
+import { Banknote } from 'lucide-vue-next';
 import { useCommonStore } from '@/stores';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 

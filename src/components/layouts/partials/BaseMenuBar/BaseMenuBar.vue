@@ -7,13 +7,13 @@
     <div class="px-6 py-5 bg-white border-t border-slate-200">
       <div class="max-w-96 flex justify-around mx-auto">
         <RouterLink to="/">
-          <HomeIcon class="w-6 h-6 text-slate-400" />
+          <Wallet class="w-6 h-6 text-slate-400" />
         </RouterLink>
         <!-- <RouterLink to="/dashboard">
-        <ChartBarIcon class="w-6 h-6 text-slate-400" />
+        <ChartLine class="w-6 h-6 text-slate-400" />
       </RouterLink> -->
         <RouterLink to="/settings">
-          <Cog6ToothIcon class="w-6 h-6 text-slate-400" />
+          <Settings class="w-6 h-6 text-slate-400" />
         </RouterLink>
       </div>
     </div>
@@ -22,7 +22,7 @@
 
 <script setup lang="ts">
 import { useRoute, RouterLink } from 'vue-router';
-import { HomeIcon, Cog6ToothIcon } from '@heroicons/vue/24/outline';
+import { Wallet, Settings } from 'lucide-vue-next';
 import BaseAddExpenseButton from '@/components/BaseAddExpenseButton/BaseAddExpenseButton.vue';
 
 const route = useRoute();

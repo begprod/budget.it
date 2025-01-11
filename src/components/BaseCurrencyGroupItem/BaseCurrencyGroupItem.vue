@@ -24,8 +24,8 @@
       :is-disabled="isSelected"
     >
       <template #text>
-        <XMarkIcon v-if="!isSelected" class="w-4 h-4" />
-        <LockClosedIcon v-if="isSelected" class="w-4 h-4 text-slate-950" />
+        <X v-if="!isSelected" class="w-4 h-4" />
+        <Lock v-if="isSelected" class="w-4 h-4 text-slate-950" />
       </template>
     </BaseButton>
   </div>
@@ -33,7 +33,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { XMarkIcon, LockClosedIcon } from '@heroicons/vue/24/outline';
+import { X, Lock } from 'lucide-vue-next';
 import { useSettingsStore } from '@/stores';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 import BaseRadioButton from '@/components/ui/controls/BaseRadioButton/BaseRadioButton.vue';

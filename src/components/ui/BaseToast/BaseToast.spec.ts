@@ -1,7 +1,7 @@
 import type { ComponentWrapperType } from '@/types';
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { mount } from '@vue/test-utils';
-import { HandThumbUpIcon, ExclamationTriangleIcon } from '@heroicons/vue/24/solid';
+import { ThumbsUp, TriangleAlert } from 'lucide-vue-next';
 import BaseToast from '@/components/ui/BaseToast/BaseToast.vue';
 
 describe('BaseToast', () => {
@@ -17,8 +17,8 @@ describe('BaseToast', () => {
       },
       global: {
         components: {
-          HandThumbUpIcon,
-          ExclamationTriangleIcon,
+          ThumbsUp,
+          TriangleAlert,
         },
       },
     });

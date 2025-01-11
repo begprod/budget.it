@@ -21,7 +21,7 @@
           <template #button>
             <BaseButton type="submit">
               <template #text>
-                <CheckIcon class="w-5 h-5" />
+                <Check class="w-5 h-5" />
               </template>
             </BaseButton>
           </template>
@@ -58,7 +58,7 @@
           <template #button>
             <BaseButton type="submit">
               <template #text>
-                <PlusIcon class="w-5 h-5" />
+                <Plus class="w-5 h-5" />
               </template>
             </BaseButton>
           </template>
@@ -86,7 +86,7 @@
 import { reactive, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { number, string } from 'yup';
-import { PlusIcon, CheckIcon } from '@heroicons/vue/24/outline';
+import { Check, Plus } from 'lucide-vue-next';
 import { useCommonStore, useSettingsStore } from '@/stores';
 import { exportDataFromLocalStorage, importDataToLocalStorage, getDateWithTime } from '@/helpers';
 import BaseLayout from '@/components/layouts/BaseLayout/BaseLayout.vue';

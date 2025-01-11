@@ -24,7 +24,7 @@
           @click="clickHandler"
         >
           <template #text>
-            <XMarkIcon class="w-4 h-4 text-white" />
+            <X class="w-4 h-4 text-white" />
           </template>
         </BaseButton>
       </Transition>
@@ -34,7 +34,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from 'vue';
-import { XMarkIcon } from '@heroicons/vue/24/outline';
+import { X } from 'lucide-vue-next';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 
 interface IProps {
