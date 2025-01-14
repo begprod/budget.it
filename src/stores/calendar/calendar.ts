@@ -4,13 +4,20 @@ import { generateMonths, generateDays } from '@/helpers';
 
 export const useCalendarStore = defineStore('calendar', {
   state: (): ICalendarStore => ({
+    currentMonthIndex: 1,
     months: [],
     days: [],
   }),
 
   getters: {
-    getCurrentMonths: (state) => {
-      return state.months.filter((month) => !month.isFuture);
+    getMonthByIndex: (state) => {
+      return state.months[state.currentMonthIndex];
+    },
+    getNextMonthsFromCurrent: (state) => {
+      return state.months[state.currentMonthIndex - 1];
+    },
+    getPreviousMonthsFromCurrent: (state) => {
+      return state.months[state.currentMonthIndex + 1];
     },
     getAllDaysByMonthId:
       (state) =>
@@ -23,6 +30,12 @@ export const useCalendarStore = defineStore('calendar', {
   },
 
   actions: {
+    increaseCurrentMonthIndex() {
+      this.currentMonthIndex += 1;
+    },
+    decreaseCurrentMonthIndex() {
+      this.currentMonthIndex -= 1;
+    },
     initCalendar() {
       const monthsList = generateMonths(5);
       const daysList = generateDays(monthsList);

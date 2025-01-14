@@ -1,6 +1,6 @@
 <template>
   <BaseLayout>
-    <BaseExpensesList />
+    <BaseExpensesList v-if="getMonthByIndex" :month="getMonthByIndex" />
   </BaseLayout>
 </template>
 
@@ -15,6 +15,7 @@ const commonStore = useCommonStore();
 const calendarStore = useCalendarStore();
 const expensesStore = useExpensesStore();
 const { lastCalendarUpdateDate } = storeToRefs(commonStore);
+const { getMonthByIndex } = storeToRefs(calendarStore);
 const { setLastUpdateDate } = commonStore;
 const { initCalendar } = calendarStore;
 const { initExpensesObject } = expensesStore;

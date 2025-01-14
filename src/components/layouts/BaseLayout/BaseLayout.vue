@@ -1,7 +1,7 @@
 <template>
   <BaseHeader />
 
-  <main class="relative container flex flex-col mx-auto pb-16 z-10">
+  <main class="relative container flex flex-col mx-auto pb-32 z-10">
     <div class="grow">
       <slot />
     </div>

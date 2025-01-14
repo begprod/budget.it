@@ -9,6 +9,7 @@ export interface ICommonStore {
 }
 
 export interface ICalendarStore {
+  currentMonthIndex: number;
   months: Array<IMonth>;
   days: Array<IDay>;
 }

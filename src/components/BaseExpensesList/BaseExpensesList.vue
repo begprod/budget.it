@@ -1,122 +1,108 @@
 <template>
-  <BaseDateWrapper v-for="month in getCurrentMonths" :key="month.id">
-    <template #title>
-      <div
-        class="sticky top-[52px] flex flex-col py-5 px-5 gradient lg:!bg-none lg:bg-white text-white lg:text-slate-700 rounded-tl-3xl rounded-tr-3xl z-40"
-      >
-        <div class="mb-2">
-          <div class="mb-2 text-xl" data-testid="month-title">{{ month.name }}</div>
-          <div class="text-4xl font-bold" data-testid="monthly-expenses">
-            {{ getMonthlyExpenses(month.id) }}
+  <div
+    class="sticky top-[52px] flex flex-col py-5 px-5 gradient lg:!bg-none lg:bg-white text-white lg:text-slate-700 rounded-tl-3xl rounded-tr-3xl z-40"
+  >
+    <div class="mb-2">
+      <div class="mb-2 text-xl" data-testid="month-title">{{ month.name }}</div>
+      <div class="text-4xl font-bold" data-testid="monthly-expenses">
+        {{ getMonthlyExpenses(month.id) }}
+      </div>
+    </div>
+    <div class="w-full">
+      <div class="flex justify-between text-xs">
+        <div class="flex">
+          <div class="mr-2 font-bold">Monthly budget:</div>
+          <div data-testid="monthly-budget">
+            {{ getAllDaysByMonthId(month.id).length * getMonthlyDailyBudget[month.id].dailyBudget }}
           </div>
         </div>
-        <div class="w-full">
-          <div class="flex justify-between text-xs">
-            <div class="flex">
-              <div class="mr-2 font-bold">Monthly budget:</div>
-              <div data-testid="monthly-budget">
-                {{
-                  getAllDaysByMonthId(month.id).length * getMonthlyDailyBudget[month.id].dailyBudget
-                }}
-              </div>
-            </div>
-            <div class="font-bold" data-testid="monthly-percents">
-              {{ countProgressPercentage(month.id, getMonthlyDailyBudget[month.id].dailyBudget) }}%
-            </div>
-          </div>
-          <BaseProgressBar
-            :percentage="
-              countProgressPercentage(month.id, getMonthlyDailyBudget[month.id].dailyBudget)
-            "
-          />
+        <div class="font-bold" data-testid="monthly-percents">
+          {{ countProgressPercentage(month.id, getMonthlyDailyBudget[month.id].dailyBudget) }}%
         </div>
       </div>
-    </template>
+      <BaseProgressBar
+        :percentage="countProgressPercentage(month.id, getMonthlyDailyBudget[month.id].dailyBudget)"
+      />
+    </div>
+  </div>
 
-    <template #content>
-      <div class="relative grid gap-3 p-5 z-0 last:pb-14">
-        <template v-for="day in getAllDaysByMonthId(month.id)" :key="day.id">
-          <BaseDateWrapper v-if="!day.isFuture" class="relative">
-            <template #title>
-              <div
-                class="sticky top-[200px] flex flex-col items-start py-1 bg-white font-bold select-none z-40"
-              >
-                <div class="flex">
-                  <div class="flex flex-col">
-                    <div class="flex items-center text-sm lg:text-base" data-testid="day-title">
-                      {{ day.number }} {{ day.name }}
-                      <div
-                        v-if="day.isCurrent"
-                        data-testid="current-day-indicator"
-                        class="shrink-0 w-2 h-2 ml-2 rounded-full bg-green-500 select-none animate-pulse"
-                      />
-                    </div>
-                  </div>
-                </div>
-
+  <div class="relative grid gap-3 p-5 z-0">
+    <template v-for="day in getAllDaysByMonthId(month.id)" :key="day.id">
+      <div v-if="!day.isFuture" class="relative">
+        <div
+          class="sticky top-[200px] flex flex-col items-start py-3 bg-white font-bold select-none z-40"
+        >
+          <div class="flex">
+            <div class="flex flex-col">
+              <div class="flex items-center text-sm lg:text-base" data-testid="day-title">
+                {{ day.number }} {{ day.name }}
                 <div
-                  class="text-xs lg:text-sm"
-                  :class="{
-                    'text-emerald-500':
-                      getDailyExpenses(day.id) <= getMonthlyDailyBudget[month.id].dailyBudget,
-                    'text-rose-500':
-                      getDailyExpenses(day.id) > getMonthlyDailyBudget[month.id].dailyBudget,
-                    hidden: getDailyExpenses(day.id) === 0,
-                  }"
-                  data-testid="daily-expenses"
-                >
-                  {{ getDailyExpenses(day.id) }} / {{ getMonthlyDailyBudget[month.id].dailyBudget }}
-                </div>
+                  v-if="day.isCurrent"
+                  data-testid="current-day-indicator"
+                  class="shrink-0 w-2 h-2 ml-2 rounded-full bg-green-500 select-none animate-pulse"
+                />
               </div>
-            </template>
+            </div>
+          </div>
 
-            <template #content>
-              <div
-                v-for="(expenseItem, index) in expenses[day.id]"
-                :key="index"
-                class="flex flex-wrap gap-2"
-              >
-                <TransitionGroup name="list">
-                  <template v-for="expense in expenseItem" :key="expense.id">
-                    <BaseExpense
-                      :createdAt="expense.createdAt"
-                      :value="expense.value"
-                      :currency="expense.currency"
-                      :class="{ 'opacity-30': !day.isCurrent }"
-                      @click="removeExpense(expense.id, day.id)"
-                    />
-                  </template>
-                </TransitionGroup>
-                <div v-if="!expenses[day.id].items.length" class="flex items-center w-full">
-                  <BaseEmptyListMessage message="No expenses for this day" />
-                </div>
+          <div
+            class="text-xs lg:text-sm"
+            :class="{
+              'text-emerald-500':
+                getDailyExpenses(day.id) <= getMonthlyDailyBudget[month.id].dailyBudget,
+              'text-rose-500':
+                getDailyExpenses(day.id) > getMonthlyDailyBudget[month.id].dailyBudget,
+              hidden: getDailyExpenses(day.id) === 0,
+            }"
+            data-testid="daily-expenses"
+          >
+            {{ getDailyExpenses(day.id) }} / {{ getMonthlyDailyBudget[month.id].dailyBudget }}
+          </div>
+        </div>
 
-                <Transition>
-                  <BaseFormBar
-                    v-if="day.isCurrent && isAddExpenseInputVisible"
-                    @submit="submitExpense(expense)"
-                    class="!absolute top-[calc(100%+10px)] w-full rounded-xl shadow-md mb-6 z-50"
-                  >
-                    <template #input>
-                      <BaseInput
-                        id="expense-input"
-                        v-model="expense"
-                        type="number"
-                        inputmode="numeric"
-                        :placeholder="`Enter expense (${getActiveCurrency.name})`"
-                        :has-error="isExpenseFieldHasError"
-                        @on-blur="hideAddExpenseInput"
-                      />
-                    </template>
-                  </BaseFormBar>
-                </Transition>
-              </div>
+        <div
+          v-for="(expenseItem, index) in expenses[day.id]"
+          :key="index"
+          class="flex flex-wrap gap-2"
+        >
+          <TransitionGroup name="list">
+            <template v-for="expense in expenseItem" :key="expense.id">
+              <BaseExpense
+                :createdAt="expense.createdAt"
+                :value="expense.value"
+                :currency="expense.currency"
+                :class="{ 'opacity-30': !day.isCurrent }"
+                @click="removeExpense(expense.id, day.id)"
+              />
             </template>
-          </BaseDateWrapper>
-        </template>
+          </TransitionGroup>
+          <div v-if="!expenses[day.id].items.length" class="flex items-center w-full">
+            <BaseEmptyListMessage message="No expenses for this day" />
+          </div>
+
+          <Transition>
+            <BaseFormBar
+              v-if="day.isCurrent && isAddExpenseInputVisible"
+              @submit="submitExpense(expense)"
+              class="!absolute top-[calc(100%+10px)] w-full rounded-xl shadow-md mb-6 z-50"
+            >
+              <template #input>
+                <BaseInput
+                  id="expense-input"
+                  v-model="expense"
+                  type="number"
+                  inputmode="numeric"
+                  :placeholder="`Enter expense (${getActiveCurrency.name})`"
+                  :has-error="isExpenseFieldHasError"
+                  @on-blur="hideAddExpenseInput"
+                />
+              </template>
+            </BaseFormBar>
+          </Transition>
+        </div>
       </div>
     </template>
-  </BaseDateWrapper>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -125,12 +111,17 @@ import { ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { number } from 'yup';
 import { useCommonStore, useSettingsStore, useCalendarStore, useExpensesStore } from '@/stores';
-import BaseDateWrapper from '@/components/ui/BaseDateWrapper/BaseDateWrapper.vue';
 import BaseEmptyListMessage from '@/components/ui/BaseEmptyListMessage/BaseEmptyListMessage.vue';
 import BaseExpense from '@/components/BaseExpense/BaseExpense.vue';
 import BaseFormBar from '@/components//BaseFormBar/BaseFormBar.vue';
 import BaseInput from '@/components/ui/controls/BaseInput/BaseInput.vue';
 import BaseProgressBar from '@/components/ui/BaseProgressBar/BaseProgressBar.vue';
+
+interface IProps {
+  month: IMonth;
+}
+
+defineProps<IProps>();
 
 const commonStore = useCommonStore();
 const settingsStore = useSettingsStore();
@@ -140,7 +131,6 @@ const expensesStore = useExpensesStore();
 const { isAddExpenseInputVisible } = storeToRefs(commonStore);
 const { expenses } = storeToRefs(expensesStore);
 const { getMonthlyDailyBudget, getActiveCurrency } = storeToRefs(settingsStore);
-const { getCurrentMonths } = storeToRefs(calendarStore);
 const { hideAddExpenseInput } = commonStore;
 const { getAllDaysByMonthId } = calendarStore;
 const { getMonthlyExpenses, getDailyExpenses, addExpense, removeExpense } = expensesStore;
