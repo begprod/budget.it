@@ -24,13 +24,15 @@ describe('BaseExpensesList', () => {
   const settingsStore = useSettingsStore();
 
   const { isAddExpenseInputVisible } = storeToRefs(commonStore);
-  const { months, days } = storeToRefs(calendarStore);
+  const { currentMonthIndex, months, days } = storeToRefs(calendarStore);
   const { expenses } = storeToRefs(expensesStore);
   const { monthlyDailyBudget, dailyBudget } = storeToRefs(settingsStore);
 
   const CURRENCY = 'USD';
   const VALUE = '100';
   const CREATED_AT_TIME = '10:00';
+
+  currentMonthIndex.value = 0;
 
   months.value = [
     {
@@ -55,7 +57,7 @@ describe('BaseExpensesList', () => {
       monthId: '032024',
       number: '01',
       name: 'Tuesday',
-      isCurrent: false,
+      isCurrent: true,
       isFuture: false,
       isPast: true,
     },
@@ -106,7 +108,7 @@ describe('BaseExpensesList', () => {
     },
   };
 
-  it('should contain data from store', () => {
+  it('should contain data from store', async () => {
     const monthTitle = wrapper.findAll('[data-testid="month-title"]');
     const monthlyExpenses = wrapper.findAll('[data-testid="monthly-expenses"]');
     const monthlyBudget = wrapper.findAll('[data-testid="monthly-budget"]');
@@ -116,10 +118,10 @@ describe('BaseExpensesList', () => {
     expect(monthlyExpenses[0].html()).toContain(`${10}`);
     expect(monthlyBudget[0].html()).toContain(500);
     expect(monthlyPercents[0].html()).toContain('2%');
-    expect(monthTitle[1].html()).toContain('April');
-    expect(monthlyExpenses[1].html()).toContain(`${VALUE}`);
-    expect(monthlyBudget[1].html()).toContain(900);
-    expect(monthlyPercents[1].html()).toContain('11%');
+    expect(monthTitle[1]).toEqual(undefined);
+    expect(monthlyExpenses[1]).toEqual(undefined);
+    expect(monthlyBudget[1]).toEqual(undefined);
+    expect(monthlyPercents[1]).toEqual(undefined);
   });
 
   it('should contain days data from store', () => {
@@ -128,8 +130,8 @@ describe('BaseExpensesList', () => {
 
     expect(dayTitle[0].html()).toContain('01 Tuesday');
     expect(dailyExpenses[0].html()).toContain(`${10} / ${dailyBudget.value}`);
-    expect(dayTitle[1].html()).toContain('01 Monday');
-    expect(dailyExpenses[1].html()).toContain(`${VALUE} / ${900}`);
+    expect(dayTitle[1]).toEqual(undefined);
+    expect(dailyExpenses[1]).toEqual(undefined);
   });
 
   it('should show current day indicator if day is current', () => {
@@ -141,13 +143,13 @@ describe('BaseExpensesList', () => {
   it('should not contain current day icon if day is not current', async () => {
     days.value = [
       {
-        id: '01042024',
-        monthId: '042024',
+        id: '01032024',
+        monthId: '032024',
         number: '01',
-        name: 'Monday',
+        name: 'Tuesday',
         isCurrent: false,
-        isPast: false,
         isFuture: false,
+        isPast: true,
       },
     ];
 
@@ -161,13 +163,13 @@ describe('BaseExpensesList', () => {
   it('should show form if isAddExpenseInputVisible is true and day is current', async () => {
     days.value = [
       {
-        id: '01042024',
-        monthId: '042024',
+        id: '01032024',
+        monthId: '032024',
         number: '01',
-        name: 'Monday',
+        name: 'Tuesday',
         isCurrent: true,
-        isPast: false,
         isFuture: false,
+        isPast: true,
       },
     ];
     isAddExpenseInputVisible.value = true;
@@ -180,7 +182,7 @@ describe('BaseExpensesList', () => {
 
   it('should show empty message if expense items array is empty', async () => {
     expenses.value = {
-      '01042024': {
+      '01032024': {
         items: [],
       },
     };

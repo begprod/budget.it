@@ -8,8 +8,21 @@ describe('Calendar store', () => {
   setActivePinia(pinia);
 
   const calendarStore = useCalendarStore();
-  const { months, days, getCurrentMonths, getCurrentDay } = storeToRefs(calendarStore);
-  const { initCalendar, getAllDaysByMonthId } = calendarStore;
+  const {
+    currentMonthIndex,
+    months,
+    days,
+    getCurrentDay,
+    getMonthByIndex,
+    getNextMonthsFromCurrent,
+    getPreviousMonthsFromCurrent,
+  } = storeToRefs(calendarStore);
+  const {
+    initCalendar,
+    getAllDaysByMonthId,
+    increaseCurrentMonthIndex,
+    decreaseCurrentMonthIndex,
+  } = calendarStore;
 
   it('should generate months and days', () => {
     initCalendar();
@@ -17,10 +30,6 @@ describe('Calendar store', () => {
     expect(months.value.length).toEqual(7);
     expect(months.value[0].isFuture).toBe(true);
     expect(days.value.length).greaterThan(200);
-  });
-
-  it('should get current months without future month', () => {
-    expect(getCurrentMonths.value.length).greaterThanOrEqual(5);
   });
 
   it('should get all days by month id for current months', () => {
@@ -34,5 +43,35 @@ describe('Calendar store', () => {
     const currentDay = days.value.find((day) => day.isCurrent);
 
     expect(getCurrentDay.value).toEqual(currentDay);
+  });
+
+  it('should get months from month array by index', () => {
+    const currentMonth = months.value[currentMonthIndex.value];
+
+    expect(getMonthByIndex.value).toEqual(currentMonth);
+  });
+
+  it('should get next month from current', () => {
+    const nextMonth = months.value[currentMonthIndex.value - 1];
+
+    expect(getNextMonthsFromCurrent.value).toEqual(nextMonth);
+  });
+
+  it('should get previous month from current', () => {
+    const previousMonth = months.value[currentMonthIndex.value + 1];
+
+    expect(getPreviousMonthsFromCurrent.value).toEqual(previousMonth);
+  });
+
+  it('should increase current month index', () => {
+    increaseCurrentMonthIndex();
+
+    expect(currentMonthIndex.value).toEqual(2);
+  });
+
+  it('should decrease current month index', () => {
+    decreaseCurrentMonthIndex();
+
+    expect(currentMonthIndex.value).toEqual(1);
   });
 });

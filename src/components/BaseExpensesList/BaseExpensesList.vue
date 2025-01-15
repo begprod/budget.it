@@ -1,11 +1,12 @@
 <template>
   <div
+    v-if="getMonthByIndex"
     class="sticky top-[52px] flex flex-col py-5 px-5 gradient lg:!bg-none lg:bg-white text-white lg:text-slate-700 rounded-tl-3xl rounded-tr-3xl z-40"
   >
     <div class="mb-2">
-      <div class="mb-2 text-xl" data-testid="month-title">{{ month.name }}</div>
+      <div class="mb-2 text-xl" data-testid="month-title">{{ getMonthByIndex.name }}</div>
       <div class="text-4xl font-bold" data-testid="monthly-expenses">
-        {{ getMonthlyExpenses(month.id) }}
+        {{ getMonthlyExpenses(getMonthByIndex.id) }}
       </div>
     </div>
     <div class="w-full">
@@ -13,21 +14,34 @@
         <div class="flex">
           <div class="mr-2 font-bold">Monthly budget:</div>
           <div data-testid="monthly-budget">
-            {{ getAllDaysByMonthId(month.id).length * getMonthlyDailyBudget[month.id].dailyBudget }}
+            {{
+              getAllDaysByMonthId(getMonthByIndex.id).length *
+              getMonthlyDailyBudget[getMonthByIndex.id].dailyBudget
+            }}
           </div>
         </div>
         <div class="font-bold" data-testid="monthly-percents">
-          {{ countProgressPercentage(month.id, getMonthlyDailyBudget[month.id].dailyBudget) }}%
+          {{
+            countProgressPercentage(
+              getMonthByIndex.id,
+              getMonthlyDailyBudget[getMonthByIndex.id].dailyBudget,
+            )
+          }}%
         </div>
       </div>
       <BaseProgressBar
-        :percentage="countProgressPercentage(month.id, getMonthlyDailyBudget[month.id].dailyBudget)"
+        :percentage="
+          countProgressPercentage(
+            getMonthByIndex.id,
+            getMonthlyDailyBudget[getMonthByIndex.id].dailyBudget,
+          )
+        "
       />
     </div>
   </div>
 
-  <div class="relative grid gap-3 p-5 z-0">
-    <template v-for="day in getAllDaysByMonthId(month.id)" :key="day.id">
+  <div v-if="getMonthByIndex" class="relative grid gap-3 p-5 z-0">
+    <template v-for="day in getAllDaysByMonthId(getMonthByIndex.id)" :key="day.id">
       <div v-if="!day.isFuture" class="relative">
         <div
           class="sticky top-[200px] flex flex-col items-start py-3 bg-white font-bold select-none z-40"
@@ -49,14 +63,15 @@
             class="text-xs lg:text-sm"
             :class="{
               'text-emerald-500':
-                getDailyExpenses(day.id) <= getMonthlyDailyBudget[month.id].dailyBudget,
+                getDailyExpenses(day.id) <= getMonthlyDailyBudget[getMonthByIndex.id].dailyBudget,
               'text-rose-500':
-                getDailyExpenses(day.id) > getMonthlyDailyBudget[month.id].dailyBudget,
+                getDailyExpenses(day.id) > getMonthlyDailyBudget[getMonthByIndex.id].dailyBudget,
               hidden: getDailyExpenses(day.id) === 0,
             }"
             data-testid="daily-expenses"
           >
-            {{ getDailyExpenses(day.id) }} / {{ getMonthlyDailyBudget[month.id].dailyBudget }}
+            {{ getDailyExpenses(day.id) }} /
+            {{ getMonthlyDailyBudget[getMonthByIndex.id].dailyBudget }}
           </div>
         </div>
 
@@ -117,12 +132,6 @@ import BaseFormBar from '@/components//BaseFormBar/BaseFormBar.vue';
 import BaseInput from '@/components/ui/controls/BaseInput/BaseInput.vue';
 import BaseProgressBar from '@/components/ui/BaseProgressBar/BaseProgressBar.vue';
 
-interface IProps {
-  month: IMonth;
-}
-
-defineProps<IProps>();
-
 const commonStore = useCommonStore();
 const settingsStore = useSettingsStore();
 const calendarStore = useCalendarStore();
@@ -131,6 +140,7 @@ const expensesStore = useExpensesStore();
 const { isAddExpenseInputVisible } = storeToRefs(commonStore);
 const { expenses } = storeToRefs(expensesStore);
 const { getMonthlyDailyBudget, getActiveCurrency } = storeToRefs(settingsStore);
+const { getMonthByIndex } = storeToRefs(calendarStore);
 const { hideAddExpenseInput } = commonStore;
 const { getAllDaysByMonthId } = calendarStore;
 const { getMonthlyExpenses, getDailyExpenses, addExpense, removeExpense } = expensesStore;
