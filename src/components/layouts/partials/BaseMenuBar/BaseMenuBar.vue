@@ -4,42 +4,48 @@
       v-if="route.name === 'home' && getMonthByIndex"
       class="container flex flex-col gap-2 mx-auto mb-2 px-5"
     >
-      <BaseButton
-        v-if="getMonthByIndex.isCurrent"
-        @click="showExpenseInputHandler()"
-        data-test-id="add-expense-button"
-      >
-        <template #text> Add expense </template>
-        <template #rightIcon>
-          <Banknote class="w-5 h-5 ml-2" />
-        </template>
-      </BaseButton>
+      <Transition name="slide-up">
+        <BaseButton
+          v-if="getMonthByIndex.isCurrent"
+          @click="showExpenseInputHandler()"
+          data-test-id="add-expense-button"
+        >
+          <template #text> Add expense </template>
+          <template #rightIcon>
+            <Banknote class="w-5 h-5 ml-2" />
+          </template>
+        </BaseButton>
+      </Transition>
 
       <div class="flex gap-2">
-        <BaseButton
-          v-if="getNextMonthsFromCurrent && !getNextMonthsFromCurrent.isFuture"
-          @click="decreaseCurrentMonthIndex"
-          data-test-id="next-month-button"
-        >
-          <template #leftIcon>
-            <ChevronLeft class="w-5 h-5 mr-1" />
-          </template>
-          <template #text>
-            {{ getNextMonthsFromCurrent.name }}
-          </template>
-        </BaseButton>
-        <BaseButton
-          v-if="getPreviousMonthsFromCurrent"
-          @click="increaseCurrentMonthIndex"
-          data-test-id="previous-month-button"
-        >
-          <template #rightIcon>
-            <ChevronRight class="w-5 h-5 ml-2" />
-          </template>
-          <template #text>
-            {{ getPreviousMonthsFromCurrent.name }}
-          </template>
-        </BaseButton>
+        <Transition>
+          <BaseButton
+            v-if="getNextMonthsFromCurrent && !getNextMonthsFromCurrent.isFuture"
+            @click="decreaseCurrentMonthIndex"
+            data-test-id="next-month-button"
+          >
+            <template #leftIcon>
+              <ChevronLeft class="w-5 h-5 mr-1" />
+            </template>
+            <template #text>
+              {{ getNextMonthsFromCurrent.name }}
+            </template>
+          </BaseButton>
+        </Transition>
+        <Transition>
+          <BaseButton
+            v-if="getPreviousMonthsFromCurrent"
+            @click="increaseCurrentMonthIndex"
+            data-test-id="previous-month-button"
+          >
+            <template #rightIcon>
+              <ChevronRight class="w-5 h-5 ml-2" />
+            </template>
+            <template #text>
+              {{ getPreviousMonthsFromCurrent.name }}
+            </template>
+          </BaseButton>
+        </Transition>
       </div>
     </div>
 
@@ -96,5 +102,31 @@ defineExpose({
   svg {
     @apply text-slate-900;
   }
+}
+
+.v-enter-active,
+.v-leave-active {
+  width: 100%;
+  transform: translateY(0);
+  transition: all 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  width: 0;
+  transform: translateY(100%);
+  opacity: 0;
+}
+
+.slide-up-enter-active,
+.slide-up-leave-active {
+  transform: translateY(0);
+  transition: all 0.5s ease;
+}
+
+.slide-up-enter-from,
+.slide-up-leave-to {
+  transform: translateY(-100%);
+  opacity: 0;
 }
 </style>
