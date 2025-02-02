@@ -18,34 +18,31 @@
       </Transition>
 
       <div class="flex gap-2">
-        <Transition>
-          <BaseButton
-            v-if="getNextMonthsFromCurrent && !getNextMonthsFromCurrent.isFuture"
-            @click="decreaseCurrentMonthIndex"
-            data-test-id="next-month-button"
-          >
-            <template #leftIcon>
-              <ChevronLeft class="w-5 h-5 mr-1" />
-            </template>
-            <template #text>
-              {{ getNextMonthsFromCurrent.name }}
-            </template>
-          </BaseButton>
-        </Transition>
-        <Transition>
-          <BaseButton
-            v-if="getPreviousMonthsFromCurrent"
-            @click="increaseCurrentMonthIndex"
-            data-test-id="previous-month-button"
-          >
-            <template #rightIcon>
-              <ChevronRight class="w-5 h-5 ml-2" />
-            </template>
-            <template #text>
-              {{ getPreviousMonthsFromCurrent.name }}
-            </template>
-          </BaseButton>
-        </Transition>
+        <BaseButton
+          class="transition-all duration-300"
+          :is-disabled="getNextMonthsFromCurrent.isFuture"
+          @click="decreaseCurrentMonthIndex"
+          data-test-id="next-month-button"
+        >
+          <template #leftIcon>
+            <ChevronLeft class="w-5 h-5 mr-1" />
+          </template>
+          <template #text>
+            {{ getNextMonthsFromCurrent.name }}
+          </template>
+        </BaseButton>
+        <BaseButton
+          :is-disabled="!getPreviousMonthsFromCurrent"
+          @click="increaseCurrentMonthIndex"
+          data-test-id="previous-month-button"
+        >
+          <template #rightIcon>
+            <ChevronRight class="w-5 h-5 ml-2" />
+          </template>
+          <template #text>
+            {{ getPreviousMonthsFromCurrent?.name }}
+          </template>
+        </BaseButton>
       </div>
     </div>
 
@@ -104,24 +101,11 @@ defineExpose({
   }
 }
 
-.v-enter-active,
-.v-leave-active {
-  width: 100%;
-  transform: translateY(0);
-  transition: all 0.5s ease;
-}
-
-.v-enter-from,
-.v-leave-to {
-  width: 0;
-  transform: translateY(100%);
-  opacity: 0;
-}
-
 .slide-up-enter-active,
 .slide-up-leave-active {
   transform: translateY(0);
-  transition: all 0.5s ease;
+  transition: 0.5s ease;
+  transition-property: transform, opacity;
 }
 
 .slide-up-enter-from,

@@ -36,7 +36,7 @@ describe('Calendar store', () => {
     const monthId = months.value[1].id;
     const daysByMonthId = getAllDaysByMonthId(monthId);
 
-    expect(daysByMonthId.length).greaterThanOrEqual(30);
+    expect(daysByMonthId.length).greaterThanOrEqual(28);
   });
 
   it('should get current day', () => {
