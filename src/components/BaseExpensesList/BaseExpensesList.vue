@@ -1,58 +1,43 @@
 <template>
   <div
-    v-if="getMonthByIndex"
+    v-if="month"
     class="sticky top-[52px] flex flex-col py-5 px-5 gradient lg:!bg-none lg:bg-white text-white lg:text-slate-700 rounded-tl-3xl rounded-tr-3xl z-40"
   >
     <div class="mb-2">
-      <div class="mb-2 text-xl" data-testid="month-title">{{ getMonthByIndex.name }}</div>
-      <div class="text-4xl font-bold" data-testid="monthly-expenses">
-        {{ getMonthlyExpenses(getMonthByIndex.id) }}
+      <div class="mb-2 text-xl" data-test-id="month-title">{{ month.name }}</div>
+      <div class="text-4xl font-bold" data-test-id="monthly-expenses">
+        {{ monthExpenses }}
       </div>
     </div>
     <div class="w-full">
       <div class="flex justify-between text-xs">
         <div class="flex">
           <div class="mr-2 font-bold">Monthly budget:</div>
-          <div data-testid="monthly-budget">
-            {{
-              getAllDaysByMonthId(getMonthByIndex.id).length *
-              getMonthlyDailyBudget[getMonthByIndex.id].dailyBudget
-            }}
+          <div data-test-id="monthly-budget">
+            {{ monthDays.length * dailyBudget }}
           </div>
         </div>
-        <div class="font-bold" data-testid="monthly-percents">
-          {{
-            countProgressPercentage(
-              getMonthByIndex.id,
-              getMonthlyDailyBudget[getMonthByIndex.id].dailyBudget,
-            )
-          }}%
+        <div class="font-bold" data-test-id="monthly-percents">
+          {{ countProgressPercentage(month.id, dailyBudget) }}%
         </div>
       </div>
-      <BaseProgressBar
-        :percentage="
-          countProgressPercentage(
-            getMonthByIndex.id,
-            getMonthlyDailyBudget[getMonthByIndex.id].dailyBudget,
-          )
-        "
-      />
+      <BaseProgressBar :percentage="countProgressPercentage(month.id, dailyBudget)" />
     </div>
   </div>
 
-  <div v-if="getMonthByIndex" class="relative grid gap-3 p-5 z-0">
-    <template v-for="day in getAllDaysByMonthId(getMonthByIndex.id)" :key="day.id">
+  <div v-if="month" class="relative grid gap-3 p-5 z-0">
+    <template v-for="day in monthDays" :key="day.id">
       <div v-if="!day.isFuture" class="relative">
         <div
           class="sticky top-[200px] flex flex-col items-start py-3 bg-white font-bold select-none z-40"
         >
           <div class="flex">
             <div class="flex flex-col">
-              <div class="flex items-center text-sm lg:text-base" data-testid="day-title">
+              <div class="flex items-center text-sm lg:text-base" data-test-id="day-title">
                 {{ day.number }} {{ day.name }}
                 <div
                   v-if="day.isCurrent"
-                  data-testid="current-day-indicator"
+                  data-test-id="current-day-indicator"
                   class="shrink-0 w-2 h-2 ml-2 rounded-full bg-green-500 select-none animate-pulse"
                 />
               </div>
@@ -62,16 +47,14 @@
           <div
             class="text-xs lg:text-sm"
             :class="{
-              'text-emerald-500':
-                getDailyExpenses(day.id) <= getMonthlyDailyBudget[getMonthByIndex.id].dailyBudget,
-              'text-rose-500':
-                getDailyExpenses(day.id) > getMonthlyDailyBudget[getMonthByIndex.id].dailyBudget,
+              'text-emerald-500': getDailyExpenses(day.id) <= dailyBudget,
+              'text-rose-500': getDailyExpenses(day.id) > dailyBudget,
               hidden: getDailyExpenses(day.id) === 0,
             }"
-            data-testid="daily-expenses"
+            data-test-id="daily-expenses"
           >
             {{ getDailyExpenses(day.id) }} /
-            {{ getMonthlyDailyBudget[getMonthByIndex.id].dailyBudget }}
+            {{ dailyBudget }}
           </div>
         </div>
 
@@ -87,33 +70,20 @@
                 :value="expense.value"
                 :currency="expense.currency"
                 :class="{ 'opacity-30': !day.isCurrent }"
-                @click="removeExpense(expense.id, day.id)"
+                @click="removeItem(expense.id, day.id)"
               />
             </template>
           </TransitionGroup>
+
           <div v-if="!expenses[day.id].items.length" class="flex items-center w-full">
             <BaseEmptyListMessage message="No expenses for this day" />
           </div>
 
-          <Transition>
-            <BaseFormBar
-              v-if="day.isCurrent && isAddExpenseInputVisible"
-              @submit="submitExpense(expense)"
-              class="!absolute top-[calc(100%+10px)] w-full rounded-xl shadow-md mb-6 z-50"
-            >
-              <template #input>
-                <BaseInput
-                  id="expense-input"
-                  v-model="expense"
-                  type="number"
-                  inputmode="numeric"
-                  :placeholder="`Enter expense (${getActiveCurrency.name})`"
-                  :has-error="isExpenseFieldHasError"
-                  @on-blur="hideAddExpenseInput"
-                />
-              </template>
-            </BaseFormBar>
-          </Transition>
+          <div v-if="day.isCurrent" class="absolute bottom-0 w-full" data-test-id="input-slot">
+            <Transition>
+              <slot name="input" />
+            </Transition>
+          </div>
         </div>
       </div>
     </template>
@@ -121,56 +91,54 @@
 </template>
 
 <script setup lang="ts">
-import type { IMonth } from '@/types';
-import { ref } from 'vue';
-import { storeToRefs } from 'pinia';
-import { number } from 'yup';
-import { useCommonStore, useSettingsStore, useCalendarStore, useExpensesStore } from '@/stores';
+import type { IDay, IExpense, IMonth } from '@/types';
 import BaseEmptyListMessage from '@/components/ui/BaseEmptyListMessage/BaseEmptyListMessage.vue';
 import BaseExpense from '@/components/BaseExpense/BaseExpense.vue';
-import BaseFormBar from '@/components//BaseFormBar/BaseFormBar.vue';
-import BaseInput from '@/components/ui/controls/BaseInput/BaseInput.vue';
 import BaseProgressBar from '@/components/ui/BaseProgressBar/BaseProgressBar.vue';
 
-const commonStore = useCommonStore();
-const settingsStore = useSettingsStore();
-const calendarStore = useCalendarStore();
-const expensesStore = useExpensesStore();
+interface IProps {
+  month: IMonth;
+  monthDays: Array<IDay>;
+  monthExpenses: number;
+  dailyBudget: number;
+  expenses: Record<string, Record<'items', Array<IExpense>>>;
+}
 
-const { isAddExpenseInputVisible } = storeToRefs(commonStore);
-const { expenses } = storeToRefs(expensesStore);
-const { getMonthlyDailyBudget, getActiveCurrency } = storeToRefs(settingsStore);
-const { getMonthByIndex } = storeToRefs(calendarStore);
-const { hideAddExpenseInput } = commonStore;
-const { getAllDaysByMonthId } = calendarStore;
-const { getMonthlyExpenses, getDailyExpenses, addExpense, removeExpense } = expensesStore;
+const emit = defineEmits(['remove-item']);
 
-const expense = ref('');
-const isExpenseFieldHasError = ref(false);
-const expenseSchema = number().integer().required().min(1);
+const props = defineProps<IProps>();
 
 const countProgressPercentage = (monthId: IMonth['id'] | undefined, dailyBudget: number) => {
   if (monthId === undefined) {
     return 0;
   }
 
-  const monthExpensesCounter = getMonthlyExpenses(monthId);
-
-  return Math.round(
-    (monthExpensesCounter / (getAllDaysByMonthId(monthId).length * dailyBudget)) * 100,
-  );
+  return Math.round((props.monthExpenses / (props.monthDays.length * dailyBudget)) * 100);
 };
 
-const submitExpense = (expenseValue: string) => {
-  try {
-    expenseSchema.validateSync(expenseValue);
-    addExpense(expenseValue);
+const getDailyExpenses = (dayId: IDay['id']) => {
+  const expenseItems: Array<IExpense> = [];
 
-    expense.value = '';
-    isExpenseFieldHasError.value = false;
-  } catch (error) {
-    isExpenseFieldHasError.value = true;
-  }
+  Object.keys(props.expenses).forEach((expense: IExpense['value']) => {
+    if (!props.expenses[expense].items.length) {
+      return;
+    }
+
+    const items = props.expenses[expense].items.filter((item: IExpense) => item.dayId === dayId);
+
+    return expenseItems.push(...items);
+  });
+
+  const dayExpensesCounter = expenseItems.reduce(
+    (acc: number, item: IExpense) => acc + Number(item.value),
+    0,
+  );
+
+  return dayExpensesCounter;
+};
+
+const removeItem = (id: string, dayId: string) => {
+  emit('remove-item', id, dayId);
 };
 </script>
 

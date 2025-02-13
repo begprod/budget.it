@@ -33,28 +33,6 @@ export const useExpensesStore = defineStore('expenses', {
 
       return monthExpensesCounter;
     },
-    getDailyExpenses: (state) => (dayId: IDay['id']) => {
-      const expenseItems: Array<IExpense> = [];
-
-      Object.keys(state.expenses).forEach((expense: IExpense['value']) => {
-        if (!state.expenses[expense].items.length) {
-          return;
-        }
-
-        const items = state.expenses[expense].items.filter(
-          (item: IExpense) => item.dayId === dayId,
-        );
-
-        return expenseItems.push(...items);
-      });
-
-      const dayExpensesCounter = expenseItems.reduce(
-        (acc: number, item: IExpense) => acc + Number(item.value),
-        0,
-      );
-
-      return dayExpensesCounter;
-    },
   },
 
   actions: {
