@@ -2,5 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('./_fonts.scss');
-@import url('./_global.scss');
+@import url('_fonts.scss');
+@import url('_colors.css');
+@import url('_typo.css');
+@import url('_global.scss');
