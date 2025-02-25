@@ -2,7 +2,7 @@
   <div class="fixed right-0 bottom-0 left-0 w-full z-[100]">
     <div
       v-if="route.name === 'home' && getMonthByIndex"
-      class="container flex flex-col gap-2 mx-auto mb-2 px-5"
+      class="wrapper flex flex-col gap-2 mx-auto mb-2 px-5"
     >
       <Transition name="slide-up">
         <BaseButton
