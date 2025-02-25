@@ -31,6 +31,12 @@ input[type='number'] {
   appearance: textfield;
 }
 
+.wrapper {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
 .icon {
   flex-shrink: 0;
 }
@@ -61,4 +67,10 @@ input[type='number'] {
 
 .link {
   color: var(--blue-600);
+}
+
+@media screen and (max-width: 1024px) {
+  .wrapper {
+    width: 100%;
+  }
 }
