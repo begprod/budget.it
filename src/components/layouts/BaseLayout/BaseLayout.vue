@@ -1,8 +1,8 @@
 <template>
   <BaseHeader />
 
-  <main class="wrapper relative flex flex-col mx-auto pb-32 z-10">
-    <div class="grow">
+  <main class="layout wrapper">
+    <div class="layout__inner">
       <slot />
     </div>
 
@@ -45,3 +45,19 @@ onBeforeMount(() => {
   clearToast();
 });
 </script>
+
+<style scoped>
+.layout {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  padding-bottom: 8rem;
+  min-height: calc(100dvh + 200px);
+  z-index: 10;
+}
+
+.layout__inner {
+  flex-grow: 1;
+}
+</style>
