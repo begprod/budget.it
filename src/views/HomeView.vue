@@ -48,6 +48,7 @@ const expensesStore = useExpensesStore();
 const { lastCalendarUpdateDate, isAddExpenseInputVisible } = storeToRefs(commonStore);
 const { setLastUpdateDate, hideAddExpenseInput } = commonStore;
 const { getMonthlyDailyBudget, getActiveCurrency } = storeToRefs(settingsStore);
+const { initMonthlyDailyBudgetObject } = settingsStore;
 const { getMonthByIndex } = storeToRefs(calendarStore);
 const { initCalendar, getAllDaysByMonthId } = calendarStore;
 const { expenses } = storeToRefs(expensesStore);
@@ -61,8 +62,8 @@ onBeforeMount(() => {
   const updateDate = new Date().toLocaleDateString();
 
   setLastUpdateDate(updateDate);
-
   initCalendar();
+  initMonthlyDailyBudgetObject();
   initExpensesObject();
 
   window.addEventListener('focus', tabFocusHandler);

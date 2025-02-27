@@ -39,6 +39,9 @@ describe('Settings store', () => {
 
     setDailyBudget(1000);
 
+    expect(
+      getMonthlyDailyBudget.value[Object.keys(getMonthlyDailyBudget.value)[0]].dailyBudget,
+    ).toEqual(500);
     expect(dailyBudget.value).toEqual(1000);
     expect(getMonthlyDailyBudget.value[currentMonth].dailyBudget).toEqual(1000);
   });
