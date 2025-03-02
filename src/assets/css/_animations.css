@@ -1,3 +1,16 @@
+.slide-up-enter-active,
+.slide-up-leave-active {
+  transform: translateY(0);
+  transition: 0.5s ease;
+  transition-property: transform, opacity;
+}
+
+.slide-up-enter-from,
+.slide-up-leave-to {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
 @keyframes gradient {
   0% {
     background-position: 0% 50%;
