@@ -76,7 +76,12 @@
           </TransitionGroup>
 
           <div v-if="!expenses[day.id].items.length" class="flex items-center w-full">
-            <BaseEmptyListMessage message="No expenses for this day" />
+            <BaseEmptyListMessage>
+              <template #icon>
+                <Coins class="icon icon_sm" />
+              </template>
+              <template #message> No expenses for this day </template>
+            </BaseEmptyListMessage>
           </div>
 
           <div v-if="day.isCurrent" class="absolute bottom-0 w-full" data-test-id="input-slot">
@@ -95,6 +100,7 @@ import type { IDay, IExpense, IMonth } from '@/types';
 import BaseEmptyListMessage from '@/components/ui/BaseEmptyListMessage/BaseEmptyListMessage.vue';
 import BaseExpense from '@/components/BaseExpense/BaseExpense.vue';
 import BaseProgressBar from '@/components/ui/BaseProgressBar/BaseProgressBar.vue';
+import { Coins } from 'lucide-vue-next';
 
 interface IProps {
   month: IMonth;
