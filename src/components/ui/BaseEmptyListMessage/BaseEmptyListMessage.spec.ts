@@ -8,8 +8,9 @@ describe('BaseEmptyListMessage', () => {
 
   const createComponent = () => {
     wrapper = mount(BaseEmptyListMessage, {
-      props: {
-        message: 'test message',
+      slots: {
+        icon: 'Icon slot',
+        message: 'Message slot',
       },
     });
   };
@@ -22,7 +23,7 @@ describe('BaseEmptyListMessage', () => {
     wrapper.unmount();
   });
 
-  it('should contain the correct props', () => {
-    expect(wrapper.props().message).toBe('test message');
+  it('should contain slot content', () => {
+    expect(wrapper.text()).toContain('Icon slotMessage slot');
   });
 });

@@ -1,18 +1,19 @@
 <template>
-  <div
-    class="flex items-center justify-center h-16 text-xs lg:text-base text-slate-500 select-none"
-  >
-    <Coins class="mr-2 w-6 h-6" />
-    <span>{{ message }}</span>
+  <div class="empty-message">
+    <slot name="icon" />
+    <slot name="message" />
   </div>
 </template>
 
-<script setup lang="ts">
-import { Coins } from 'lucide-vue-next';
-
-interface IProps {
-  message: string;
+<style scoped>
+.empty-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  height: 4rem;
+  color: var(--slate-500);
+  font-size: clamp(var(--typo-size-xs), 1.56vw, var(--typo-size-base));
+  user-select: none;
 }
-
-defineProps<IProps>();
-</script>
+</style>
