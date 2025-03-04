@@ -1,61 +1,22 @@
 <template>
-  <div class="fixed right-0 bottom-0 left-0 w-full z-[100]">
-    <div
-      v-if="route.name === 'home' && getMonthByIndex"
-      class="wrapper flex flex-col gap-2 mx-auto mb-2 px-5"
-    >
-      <Transition name="slide-up">
-        <BaseButton
-          v-if="getMonthByIndex.isCurrent"
-          @click="showExpenseInputHandler()"
-          data-test-id="add-expense-button"
-        >
-          <template #text> Add expense </template>
-          <template #rightIcon>
-            <Banknote class="w-5 h-5 ml-2" />
-          </template>
-        </BaseButton>
-      </Transition>
+  <div class="menu-bar">
+    <template v-if="route.name === 'home' && getMonthByIndex">
+      <BaseExpensesListControls />
+    </template>
 
-      <div class="flex gap-2">
-        <BaseButton
-          class="transition-all duration-300"
-          :is-disabled="getNextMonthsFromCurrent.isFuture"
-          @click="decreaseCurrentMonthIndex"
-          data-test-id="next-month-button"
-        >
-          <template #leftIcon>
-            <ChevronLeft class="w-5 h-5 mr-1" />
-          </template>
-          <template #text>
-            {{ getNextMonthsFromCurrent.name }}
-          </template>
-        </BaseButton>
-        <BaseButton
-          :is-disabled="!getPreviousMonthsFromCurrent"
-          @click="increaseCurrentMonthIndex"
-          data-test-id="previous-month-button"
-        >
-          <template #rightIcon>
-            <ChevronRight class="w-5 h-5 ml-2" />
-          </template>
-          <template #text>
-            {{ getPreviousMonthsFromCurrent?.name }}
-          </template>
-        </BaseButton>
-      </div>
-    </div>
-
-    <div class="px-6 py-5 bg-white border-t border-slate-200">
-      <div class="max-w-96 flex justify-around mx-auto">
-        <RouterLink :to="{ name: 'home' }">
-          <Wallet class="w-6 h-6 text-slate-400" />
+    <div class="menu">
+      <div class="menu__inner">
+        <RouterLink :to="{ name: 'shopping-list' }" class="menu__item">
+          <ShoppingBasket class="icon icon_lg" />
         </RouterLink>
-        <!-- <RouterLink to="/dashboard">
-        <ChartLine class="w-6 h-6 text-slate-400" />
+        <RouterLink :to="{ name: 'home' }" class="menu__item">
+          <Wallet class="icon icon_lg" />
+        </RouterLink>
+        <!-- <RouterLink to="/dashboard" class="menu__item">
+        <ChartLine class="icon icon_lg" />
       </RouterLink> -->
-        <RouterLink :to="{ name: 'settings' }" name>
-          <Settings class="w-6 h-6 text-slate-400" />
+        <RouterLink :to="{ name: 'settings' }" class="menu__item">
+          <Settings class="icon icon_lg" />
         </RouterLink>
       </div>
     </div>
@@ -64,53 +25,49 @@
 
 <script setup lang="ts">
 import { useRoute, RouterLink } from 'vue-router';
-import { nextTick } from 'vue';
 import { storeToRefs } from 'pinia';
-import { Wallet, Settings, ChevronLeft, ChevronRight } from 'lucide-vue-next';
-import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
-import { Banknote } from 'lucide-vue-next';
-import { useCommonStore, useCalendarStore } from '@/stores';
+import { Wallet, Settings, ShoppingBasket } from 'lucide-vue-next';
+import { useCalendarStore } from '@/stores';
+import BaseExpensesListControls from '@/components/BaseExpensesListControls/BaseExpensesListControls.vue';
 
 const route = useRoute();
 
-const commonStore = useCommonStore();
 const calendarStore = useCalendarStore();
-const { showAddExpenseInput } = commonStore;
-const { getMonthByIndex, getPreviousMonthsFromCurrent, getNextMonthsFromCurrent } =
-  storeToRefs(calendarStore);
-const { increaseCurrentMonthIndex, decreaseCurrentMonthIndex } = calendarStore;
-
-const showExpenseInputHandler = () => {
-  showAddExpenseInput();
-
-  nextTick(() => {
-    const input = document.getElementById('expense-input');
-    input?.focus();
-  });
-};
-
-defineExpose({
-  showExpenseInputHandler,
-});
+const { getMonthByIndex } = storeToRefs(calendarStore);
 </script>
 
-<style scoped lang="scss">
-.router-link-exact-active {
+<style scoped>
+.menu-bar {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+}
+
+.menu {
+  padding: 1.25rem;
+  border-top: 1px solid var(--slate-200);
+  background-color: var(--white);
+}
+
+.menu__inner {
+  display: flex;
+  justify-content: space-around;
+  margin: 0 auto;
+  max-width: 24rem;
+}
+
+.menu__item {
   svg {
-    @apply text-slate-900;
+    color: var(--slate-300);
   }
 }
 
-.slide-up-enter-active,
-.slide-up-leave-active {
-  transform: translateY(0);
-  transition: 0.5s ease;
-  transition-property: transform, opacity;
-}
-
-.slide-up-enter-from,
-.slide-up-leave-to {
-  transform: translateY(-100%);
-  opacity: 0;
+.router-link-exact-active {
+  svg {
+    color: var(--slate-900);
+  }
 }
 </style>
