@@ -10,7 +10,9 @@ describe('BaseLayout', () => {
   const createComponent = () => {
     wrapper = shallowMount(BaseLayout, {
       slots: {
-        default: 'test content',
+        title: 'title',
+        wrapper: 'wrapper',
+        default: 'default',
       },
       plugins: [
         createTestingPinia({
@@ -28,7 +30,9 @@ describe('BaseLayout', () => {
     wrapper.unmount();
   });
 
-  it('should contain the correct slots', () => {
-    expect(wrapper.html()).toContain('test content');
+  it('should contain the correct slots content', () => {
+    expect(wrapper.html()).toContain('title');
+    expect(wrapper.html()).toContain('wrapper');
+    expect(wrapper.html()).toContain('default');
   });
 });
