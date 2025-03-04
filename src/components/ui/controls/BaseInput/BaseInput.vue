@@ -20,7 +20,7 @@ interface IProps {
   id: string;
   type: string;
   placeholder: string;
-  autocomplete?: string;
+  autocomplete?: 'on' | 'off';
   isError?: boolean;
 }
 

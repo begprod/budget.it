@@ -13,7 +13,7 @@ describe('BaseInput', () => {
         id: 'test id',
         type: 'text',
         placeholder: 'test placeholder',
-        autocomplete: 'true',
+        autocomplete: 'off',
         isError: false,
       },
     });
@@ -32,7 +32,7 @@ describe('BaseInput', () => {
     expect(wrapper.props().id).toBe('test id');
     expect(wrapper.props().type).toBe('text');
     expect(wrapper.props().placeholder).toBe('test placeholder');
-    expect(wrapper.props().autocomplete).toBe('true');
+    expect(wrapper.props().autocomplete).toBe('off');
     expect(wrapper.props().isError).toBe(false);
   });
 
