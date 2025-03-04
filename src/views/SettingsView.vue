@@ -1,8 +1,8 @@
 <template>
   <BaseLayout>
-    <div class="px-5">
-      <h1 class="mb-7 pt-4 text-4xl text-slate-700 font-bold select-none">Settings</h1>
+    <template #title> Settings </template>
 
+    <template #wrapper>
       <div class="mb-10">
         <h3 class="mb-3 text-slate-600 select-none">Current month daily budget</h3>
 
@@ -78,7 +78,7 @@
           <template #text> Import from file </template>
         </BaseButton>
       </div>
-    </div>
+    </template>
   </BaseLayout>
 </template>
 
