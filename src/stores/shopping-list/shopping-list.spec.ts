@@ -12,22 +12,22 @@ describe('useShoppingListStore', () => {
   const { addItem, markItemIsDone, removeItem } = shoppingStore;
 
   it('should add item', () => {
-    addItem({ id: '1', title: 'first', isDone: false });
-    addItem({ id: '2', title: 'second', isDone: true });
-    addItem({ id: '3', title: 'third', isDone: false });
+    addItem('first');
+    addItem('second');
+    addItem('third');
 
-    expect(shoppingItems.value[0].title).toEqual('first');
+    expect(shoppingItems.value[0].title).toEqual('third');
     expect(shoppingItems.value[0].isDone).toBeFalsy();
     expect(shoppingItems.value[1].title).equal('second');
-    expect(shoppingItems.value[1].isDone).toBeTruthy();
-    expect(shoppingItems.value[2].title).equal('third');
+    expect(shoppingItems.value[1].isDone).toBeFalsy();
+    expect(shoppingItems.value[2].title).equal('first');
     expect(shoppingItems.value[2].isDone).toBeFalsy();
   });
 
   it('should update item is done', () => {
-    markItemIsDone('1', true);
-    markItemIsDone('2', false);
-    markItemIsDone('3', true);
+    markItemIsDone(shoppingItems.value[0].id, true);
+    markItemIsDone(shoppingItems.value[1].id, false);
+    markItemIsDone(shoppingItems.value[2].id, true);
 
     expect(shoppingItems.value[0].isDone).toBeTruthy();
     expect(shoppingItems.value[1].isDone).toBeFalsy();
@@ -35,9 +35,9 @@ describe('useShoppingListStore', () => {
   });
 
   it('should remove item', () => {
-    removeItem('1');
-    removeItem('2');
-    removeItem('3');
+    removeItem(shoppingItems.value[0].id);
+    removeItem(shoppingItems.value[0].id);
+    removeItem(shoppingItems.value[0].id);
 
     expect(shoppingItems.value.length).toEqual(0);
   });
