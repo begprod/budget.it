@@ -1,5 +1,5 @@
 <template>
-  <div class="expense-list-controls wrapper">
+  <div class="expenses-list-controls wrapper">
     <Transition name="slide-up">
       <BaseButton
         v-if="getMonthByIndex.isCurrent"
@@ -72,7 +72,7 @@ defineExpose({
 </script>
 
 <style scoped>
-.expense-list-controls {
+.expenses-list-controls {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
