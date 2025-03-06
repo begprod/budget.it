@@ -57,6 +57,16 @@ export interface ICurrency {
   isDefault: boolean;
 }
 
+export interface IShoppingListStore {
+  shoppingItems: RemovableRef<Array<IShoppingItem>>;
+}
+
+export interface IShoppingItem {
+  id: string;
+  title: string;
+  isDone: boolean;
+}
+
 export interface IToast {
   type: 'success' | 'error' | 'default';
   message: string;
