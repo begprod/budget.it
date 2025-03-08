@@ -1,24 +1,27 @@
 # budget.it – Another budget app, but this one is handy
 
-A simple application for tracking the budget for each day
-
 ![Version](https://img.shields.io/github/package-json/v/begprod/budget.it)
 ![Last Commit](https://img.shields.io/github/last-commit/begprod/budget.it)
 ![Issues](https://img.shields.io/github/issues/begprod/budget.it)
 ![Top Language](https://img.shields.io/github/languages/top/begprod/budget.it)
 
-<img src="./public/screenshots/mobile.jpg" alt="budget.it – another budget app, but this one is handy" />
+A simple application for tracking the budget for each day
+
+![budget.it – another budget app, but this one is handy](./public/screenshots/mobile_1.jpg)
+![budget.it – another budget app, but this one is handy](./public/screenshots/mobile_2.jpg)
 
 ## Features
 
-- Automatic calendar generating
 - Daily budget tracking
 - Monthly budget tracking
+- Automatic calendar generating
 - Last 6 month history
 - Currencies setup
 - Daily budget setup
+- Shopping List
 - PWA available
 - Import/export data
+- Works offline
 
 ## How data is stored?
 
@@ -45,6 +48,10 @@ Push the button "Add to Home screen" in the browser menu:
 ## For developers
 
 ### Recommended IDE Setup
+
+[Zed](https://zed.dev/) – will automatically setup the project
+
+#### Alternative
 
 [VSCode](https://code.visualstudio.com/) + [Vue - Official](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
 
