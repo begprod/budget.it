@@ -78,7 +78,7 @@ export const useSettingsStore = defineStore('settings', {
       });
     },
     setDailyBudget(value: number) {
-      const currentMonth = new Date().toLocaleDateString().substring(3, 10).replace('.', '');
+      const currentMonth = new Date().toLocaleDateString('ru-RU').substring(3, 10).replace('.', '');
 
       if (!this.monthlyDailyBudget[currentMonth]) {
         throw new Error('Current month not found');

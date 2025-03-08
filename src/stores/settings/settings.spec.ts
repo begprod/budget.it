@@ -35,7 +35,7 @@ describe('Settings store', () => {
   });
 
   it('should set daily budget', () => {
-    const currentMonth = new Date().toLocaleDateString().substring(3, 10).replace('.', '');
+    const currentMonth = new Date().toLocaleDateString('ru-RU').substring(3, 10).replace('.', '');
 
     setDailyBudget(1000);
 
