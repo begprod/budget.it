@@ -1,9 +1,61 @@
 # Changelog
-## 0.10.0
+
+## 0.13.1
+
+### Bug Fixes
+
+- Locale date string
+
+## 0.13.0
+
+### Features
+
+- Shopping list
+
+## 0.12.5
+
+### Features
+
+- months switcher
+
+### Refactor
+
+- BaseExpensesList
+- BaseHeader
+- BaseFooter
+- BaseProgressBar
+- some scss file tailwind -> css
+
+### Bug Fixes
+
+- layout height
+
+### Other
+
+- added animations for expenses list controls
+
+## 0.11.0
+
+### Refactor
+
+- migrate icon library from heroicons to lucide icons
+
+## 0.10.3
 
 ### Features
 
 - last backup date
+
+### Bug Fixes
+
+- remove unnecessary meta tag
+- daily budget settings
+- months generator
+
+### Other
+
+- add missing packages
+- update browser list
 
 ## 0.9.4
 
@@ -23,13 +75,11 @@
 
 - add data import
 
-
 ## 0.8.3
 
 ### Other
 
 - update common store
-
 
 ## 0.8.1
 
@@ -37,18 +87,15 @@
 
 - add toast component
 
-
 ## 0.8.0
 
 ### Features
 
 - exportDataFromLocalStorage, importDataToLocalStorage
 
-
 ## 0.7.3
 
 ### Other
-
 
 - add expense animations
 
