@@ -1,39 +1,35 @@
 <template>
-  <div class="fixed bottom-20 left-1/2 -translate-x-1/2 w-[272px] z-[1000]">
+  <div class="toast">
     <Transition name="slide-up">
       <div
         v-if="isVisible"
-        class="flex w-full sm:w-full max-w-xs p-4 text-gray-500 bg-white rounded-lg shadow-sm shadow-gray-200 duration-300 hover:shadow-lg"
+        class="toast__inner"
+        data-test-id="toast"
         :class="classObject"
         @click="closeToast"
-        data-test-id="toast"
       >
-        <div
-          v-if="props.type === 'success'"
-          class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 bg-green-200 rounded-lg"
-          data-test-id="toast-success-icon"
-        >
-          <ThumbsUp class="w-5 h-5" />
-        </div>
-        <div
-          v-if="props.type === 'error'"
-          class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 bg-red-200 rounded-lg"
-          data-test-id="toast-error-icon"
-        >
-          <TriangleAlert class="w-5 h-5" />
+        <div v-if="props.type === 'default'" class="toast__icon" data-test-id="toast-default-icon">
+          <MessageCircleMore class="icon icon_24" />
         </div>
 
-        <div class="flex flex-col items-start ml-3">
-          <div class="text-sm font-normal" data-test-id="toast-message">{{ message }}</div>
+        <div v-if="props.type === 'success'" class="toast__icon" data-test-id="toast-success-icon">
+          <MessageCircleHeart class="icon icon_24" />
         </div>
+        <div v-if="props.type === 'error'" class="toast__icon" data-test-id="toast-error-icon">
+          <MessageCircleX class="icon icon_24" />
+        </div>
+
+        <div class="toast__content" data-test-id="toast-message">{{ message }}</div>
+
+        <div ref="timerLineRef" class="toast__timer-line"></div>
       </div>
     </Transition>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, onBeforeUnmount } from 'vue';
-import { ThumbsUp, TriangleAlert } from 'lucide-vue-next';
+import { MessageCircleHeart, MessageCircleMore, MessageCircleX } from 'lucide-vue-next';
+import { onBeforeUnmount, ref, computed, watch } from 'vue';
 
 interface IProps {
   type: 'success' | 'error' | 'default';
@@ -46,7 +42,9 @@ const props = defineProps<IProps>();
 const emit = defineEmits(['timesup']);
 
 const isVisible = ref<boolean>(false);
-const currentToastTimerId = ref<number>(0);
+const timerId = ref<number>(0);
+const timerLineRef = ref<HTMLDivElement | null>(null);
+const timeLeft = ref(props.duration);
 
 watch(
   () => props.message,
@@ -61,51 +59,125 @@ watch(
   },
 );
 
-onBeforeUnmount(() => {
-  clearTimeout(currentToastTimerId.value);
+const classObject = computed(() => {
+  switch (props.type) {
+    case 'success':
+      return 'toast__inner_type_success';
+    case 'error':
+      return 'toast__inner_type_error';
+    default:
+      return 'toast__inner_type_default';
+  }
 });
 
-const updateTimer = (timeLeft = props.duration) => {
-  clearTimeout(currentToastTimerId.value);
+onBeforeUnmount(() => {
+  clearInterval(timerId.value);
+});
 
-  currentToastTimerId.value = window.setInterval(() => {
-    timeLeft -= 1;
+const updateTimer = () => {
+  clearInterval(timerId.value);
 
-    if (timeLeft <= 0) {
+  timeLeft.value = props.duration;
+
+  timerId.value = window.setInterval(() => {
+    timeLeft.value -= 50 / 1000;
+
+    if (timerLineRef.value) {
+      timerLineRef.value.style.transform = `scaleX(${timeLeft.value / props.duration})`;
+    }
+
+    if (timeLeft.value <= 0) {
       isVisible.value = false;
 
-      clearTimeout(currentToastTimerId.value);
+      clearInterval(timerId.value);
 
       emit('timesup');
 
       props.callback?.();
     }
-  }, 1000);
+  }, 50);
 };
 
 const closeToast = () => {
   isVisible.value = false;
 
-  clearTimeout(currentToastTimerId.value);
+  clearInterval(timerId.value);
 
   emit('timesup');
 
   props.callback?.();
 };
-
-const classObject = computed(() => {
-  switch (props.type) {
-    case 'success':
-      return 'text-green-500';
-    case 'error':
-      return 'text-red-500';
-    default:
-      return 'text-gray-500';
-  }
-});
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+.toast {
+  position: fixed;
+  bottom: 1rem;
+  left: 50%;
+  z-index: 10000;
+  width: 16rem;
+  font-size: 0.875rem;
+  border-radius: 0.5rem;
+  transform: translateX(-50%);
+  overflow: hidden;
+}
+
+.toast__inner {
+  display: flex;
+  width: 100%;
+  padding: 1rem;
+  background-color: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: 0.5rem;
+  transition: box-shadow 0.3s ease-in-out;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.toast__inner_type_success {
+  color: var(--green-500);
+}
+
+.toast__inner_type_error {
+  color: var(--red-500);
+}
+
+.toast__inner_type_default {
+  color: var(--gray-500);
+}
+
+.toast__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 2rem;
+  height: 2rem;
+  margin-right: 1rem;
+  border-radius: 0.5rem;
+  color: inherit;
+  border: 1px solid currentColor;
+}
+
+.toast__content {
+  color: inherit;
+}
+
+.toast__timer-line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-image: linear-gradient(0deg, #cbd5e1 100%, #cbd5e1);
+  background-repeat: no-repeat;
+  transform-origin: left;
+  transition: 0.3s ease-out;
+  transition-property: transform;
+}
+
 .slide-up-enter-active,
 .slide-up-leave-active {
   transition: all 0.3s ease-out;
