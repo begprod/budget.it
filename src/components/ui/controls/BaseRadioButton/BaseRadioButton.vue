@@ -1,19 +1,15 @@
 <template>
-  <div>
+  <div class="radio">
     <input
       :id="id"
       :name="name"
       :value="value"
       :checked="checked"
       type="radio"
-      class="hidden peer/radio"
+      class="visually-hidden"
       @change="changeHandler"
     />
-    <label
-      :for="id"
-      :class="additionalClasses"
-      class="block px-3 py-1 text-sm text-slate-400 border border-slate-300 rounded-2xl peer-checked/radio:text-white peer-checked/radio:bg-sky-400 select-none cursor-pointer hover:border-slate-400 hover:text-slate-500 transition-all"
-    >
+    <label :for="id" class="radio__label" :title="label">
       {{ label }}
     </label>
   </div>
@@ -26,7 +22,6 @@ interface IProps {
   label: string;
   value: string;
   checked: boolean;
-  additionalClasses?: string | Object;
 }
 
 defineProps<IProps>();
@@ -37,3 +32,37 @@ const changeHandler = (event: Event) => {
   emit('change', (event.target as HTMLInputElement).value);
 };
 </script>
+
+<style scoped>
+.radio {
+  input {
+    &:checked {
+      ~ label {
+        color: var(--white);
+        background-color: var(--blue-400);
+      }
+    }
+  }
+}
+
+.radio__label {
+  display: block;
+  padding: 0.25rem 0.75rem;
+  color: var(--slate-400);
+  font-size: var(--typo-size-sm);
+  border: 1px solid var(--slate-300);
+  border-radius: 1rem;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: 0.3s ease-in-out;
+  transition-property: color, border-color, background-color;
+
+  &:hover {
+    color: var(--slate-500);
+    border-color: var(--slate-400);
+  }
+}
+</style>
