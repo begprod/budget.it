@@ -1,31 +1,24 @@
 <template>
-  <div class="flex items-center">
+  <div class="currency-item" :class="classes">
     <BaseRadioButton
       :id="id"
       :name="name"
       :label="label"
       :value="value"
       :checked="isSelected"
-      :additional-classes="[
-        classes,
-        'max-w-30',
-        'rounded-r-none',
-        'overflow-hidden',
-        'whitespace-nowrap',
-        'text-ellipsis',
-      ]"
+      class="currency-item__title"
       @change="setActiveCurrency(id)"
     />
     <BaseButton
       v-if="!isDefault"
-      class="grow-0 !py-0 h-full rounded-l-none"
+      class="currency-item__button"
       title="delete currency"
       @click="deleteCurrency(id)"
       :is-disabled="isSelected"
     >
       <template #text>
-        <X v-if="!isSelected" class="w-4 h-4" />
-        <Lock v-if="isSelected" class="w-4 h-4 text-slate-950" />
+        <X v-if="!isSelected" class="icon icon_sm" />
+        <Lock v-if="isSelected" class="icon icon_sm" />
       </template>
     </BaseButton>
   </div>
@@ -54,8 +47,33 @@ const { setActiveCurrency, deleteCurrency } = settingsStore;
 
 const classes = computed(() => {
   return {
-    '!rounded-r-2xl': props.isDefault,
-    'border-r-0': !props.isDefault,
+    'currency-item_custom': !props.isDefault,
   };
 });
 </script>
+
+<style>
+.currency-item {
+  display: flex;
+  align-items: center;
+}
+
+.currency-item_custom {
+  .currency-item__title {
+    label {
+      max-width: 8rem;
+      border-right: none;
+      border-top-right-radius: 0px;
+      border-bottom-right-radius: 0px;
+    }
+  }
+}
+
+.currency-item__button {
+  padding-top: 0;
+  padding-bottom: 0;
+  height: 100%;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+</style>

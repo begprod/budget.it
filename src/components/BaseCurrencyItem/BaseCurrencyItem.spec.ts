@@ -1,15 +1,15 @@
 import type { ComponentWrapperType } from '@/types';
 import { createTestingPinia } from '@pinia/testing';
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { shallowMount } from '@vue/test-utils';
+import { mount } from '@vue/test-utils';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
-import BaseCurrencyGroupItem from '@/components/BaseCurrencyGroupItem/BaseCurrencyGroupItem.vue';
+import BaseCurrencyItem from '@/components/BaseCurrencyItem/BaseCurrencyItem.vue';
 
 describe('BaseCurrencyGroupItem', () => {
-  let wrapper: ComponentWrapperType<typeof BaseCurrencyGroupItem>;
+  let wrapper: ComponentWrapperType<typeof BaseCurrencyItem>;
 
   const createComponent = () => {
-    wrapper = shallowMount(BaseCurrencyGroupItem, {
+    wrapper = mount(BaseCurrencyItem, {
       global: {
         plugins: [
           createTestingPinia({
@@ -53,5 +53,25 @@ describe('BaseCurrencyGroupItem', () => {
     await wrapper.setProps({ isDefault: false });
 
     expect(wrapper.findComponent(BaseButton).exists()).toBe(true);
+  });
+
+  it('should show X icon if custom currency not selected', async () => {
+    await wrapper.setProps({ isDefault: false, isSelected: true });
+
+    const lockIcon = wrapper.find('.lucide-lock-icon');
+    const xIcon = wrapper.find('.lucide-xicon');
+
+    expect(lockIcon.exists()).toBe(true);
+    expect(xIcon.exists()).toBe(false);
+  });
+
+  it('should show Lock icon if custom currency is selected', async () => {
+    await wrapper.setProps({ isDefault: false, isSelected: false });
+
+    const lockIcon = wrapper.find('.lucide-lock-icon');
+    const xIcon = wrapper.find('.lucide-xicon');
+
+    expect(lockIcon.exists()).toBe(false);
+    expect(xIcon.exists()).toBe(true);
   });
 });

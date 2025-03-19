@@ -32,7 +32,7 @@
         <h3 class="mb-3 text-slate-600 select-none">Default currency</h3>
 
         <div class="flex flex-wrap gap-1 mb-3">
-          <BaseCurrencyGroupItem
+          <BaseCurrencyItem
             v-for="currency in currencies"
             :key="currency.name"
             :id="currency.name"
@@ -93,7 +93,7 @@ import BaseLayout from '@/components/layouts/BaseLayout/BaseLayout.vue';
 import BaseInput from '@/components/ui/controls/BaseInput/BaseInput.vue';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 import BaseFormBar from '@/components//BaseFormBar/BaseFormBar.vue';
-import BaseCurrencyGroupItem from '@/components//BaseCurrencyGroupItem/BaseCurrencyGroupItem.vue';
+import BaseCurrencyItem from '@/components/BaseCurrencyItem/BaseCurrencyItem.vue';
 
 const commonStore = useCommonStore();
 const settingsStore = useSettingsStore();
@@ -114,7 +114,7 @@ const newCurrencyInput = reactive({
 });
 
 const dailyBudgetSchema = number().integer().required().min(10);
-const newCurrencySchema = string().required().min(1).max(10);
+const newCurrencySchema = string().required().min(1).max(15);
 
 watch(newCurrencyInput, () => {
   newCurrencyInput.value.length === 0 && (newCurrencyInput.isError = false);
@@ -160,7 +160,7 @@ const submitNewCurrency = (currency: string) => {
   } catch (error) {
     newCurrencyInput.isError = true;
 
-    setToast({ type: 'error', message: 'Enter a valid currency', duration: 5 });
+    setToast({ type: 'error', message: 'The name of the currency is too long', duration: 5 });
   }
 };
 
