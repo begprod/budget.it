@@ -49,6 +49,8 @@ import { ExternalLink } from 'lucide-vue-next';
 }
 
 .footer__heart {
+  font-size: 1.5rem;
+  line-height: 1;
   color: var(--red-500);
 }
 </style>
