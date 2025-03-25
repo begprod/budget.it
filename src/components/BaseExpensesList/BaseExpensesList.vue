@@ -70,7 +70,7 @@
                 :value="expense.value"
                 :currency="expense.currency"
                 :class="{ 'opacity-30': !day.isCurrent }"
-                @click="removeItem(expense.id, day.id)"
+                @delete-item="removeItem(expense.id, day.id)"
               />
             </template>
           </TransitionGroup>

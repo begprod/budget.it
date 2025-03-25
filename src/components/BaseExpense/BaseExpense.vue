@@ -1,30 +1,22 @@
 <template>
   <div
-    class="relative flex flex-col items-center"
+    class="expense"
     :class="{
-      'z-[50]': isControlsVisible,
+      expense_active: isControlsVisible,
     }"
   >
-    <div class="text-xs text-slate-500 select-none">{{ createdAt }}</div>
+    <div class="expense__time">{{ createdAt }}</div>
 
-    <div class="relative flex items-center select-none cursor-pointer">
-      <div
-        ref="expense"
-        class="relative flex items-center py-1 px-3 text-sm lg:text-base bg-white border border-sky-400 rounded-2xl hover:shadow-md transition-shadow duration-300 z-[39]"
-        @click="showControls"
-      >
+    <div class="expense__body">
+      <div ref="expenseRef" class="expense__item" @click="showControls(true)">
         <div>{{ value }}</div>
         <div class="ml-1">{{ currency }}</div>
       </div>
 
       <Transition>
-        <BaseButton
-          v-if="isControlsVisible"
-          class="absolute top-5 h-[110%] !items-end !p-0 !pb-1 !rounded-2xl !rounded-t-none !bg-red-500 hover:!bg-red-600"
-          @click="clickHandler"
-        >
+        <BaseButton v-if="isControlsVisible" class="expense__button" @click="deleteItemHandler">
           <template #text>
-            <X class="w-4 h-4 text-white" />
+            <X class="icon icon_sm expense__icon" />
           </template>
         </BaseButton>
       </Transition>
@@ -45,51 +37,56 @@ interface IProps {
 
 defineProps<IProps>();
 
-const emit = defineEmits(['click', 'delete']);
+const emit = defineEmits(['delete-item']);
 
-const expense = ref<HTMLElement | null>(null);
+const expenseRef = ref<HTMLElement | null>(null);
 const isControlsVisible = ref(false);
 
 onMounted(() => {
-  document.addEventListener('click', (event) => {
-    if (!expense.value || expense.value.contains(event.target as Node)) {
-      return;
-    }
+  document.addEventListener('click', handleClickOutside);
 
-    isControlsVisible.value = false;
-  });
+  document.addEventListener('keydown', handleKeydown);
 
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') {
-      isControlsVisible.value = false;
-    }
-  });
-
-  document.addEventListener('scroll', () => {
-    isControlsVisible.value = false;
-  });
+  document.addEventListener('scroll', handleScroll);
 });
 
 onBeforeUnmount(() => {
-  document.removeEventListener('click', () => {
-    isControlsVisible.value = false;
-  });
+  document.removeEventListener('click', handleClickOutside);
 
-  document.removeEventListener('keydown', () => {
-    isControlsVisible.value = false;
-  });
+  document.removeEventListener('keydown', handleKeydown);
 
-  document.removeEventListener('scroll', () => {
-    isControlsVisible.value = false;
-  });
+  document.removeEventListener('scroll', handleScroll);
 });
 
-const showControls = () => {
-  isControlsVisible.value = !isControlsVisible.value;
+const showControls = (isVisible: boolean, event?: Event) => {
+  if (
+    event instanceof MouseEvent &&
+    (!expenseRef.value || expenseRef.value.contains(event.target as Node))
+  ) {
+    return;
+  }
+
+  if (event instanceof KeyboardEvent && event.key === 'Escape') {
+    isControlsVisible.value = false;
+
+    return;
+  }
+
+  if (event instanceof WheelEvent) {
+    isControlsVisible.value = false;
+
+    return;
+  }
+
+  isControlsVisible.value = isVisible;
 };
 
-const clickHandler = () => {
-  emit('click');
+const handleClickOutside = (event: MouseEvent) => showControls(false, event);
+const handleKeydown = (event: KeyboardEvent) => showControls(false, event);
+const handleScroll = (event: Event) => showControls(false, event);
+
+const deleteItemHandler = () => {
+  emit('delete-item');
 };
 
 defineExpose({
@@ -97,7 +94,71 @@ defineExpose({
 });
 </script>
 
-<style scoped lang="scss">
+<style scoped>
+.expense {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.expense_active {
+  z-index: 50;
+}
+
+.expense__time {
+  font-size: var(--typo-size-xs);
+  color: var(--slate-500);
+  user-select: none;
+}
+
+.expense__body {
+  position: relative;
+  display: flex;
+  align-items: center;
+  user-select: none;
+  cursor: pointer;
+}
+
+.expense__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  line-height: 1;
+  font-size: clamp(var(--typo-size-xs), 1.56vw, var(--typo-size-base));
+  background-color: var(--white);
+  border: 1px solid var(--blue-400);
+  border-radius: 1rem;
+  transition: 0.3s ease-in-out;
+  transition-property: box-shadow;
+  z-index: 39;
+
+  &:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.expense__button {
+  position: absolute;
+  top: 1.25rem;
+  height: 110%;
+  align-items: flex-end;
+  padding-bottom: 0.25rem;
+  background-color: var(--red-500);
+  border-radius: 1rem;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+
+  &:hover {
+    background-color: var(--red-600);
+  }
+}
+
+.expense__icon {
+  color: var(--white);
+}
+
 .v-enter-active,
 .v-leave-active {
   transition: opacity 0.5s ease;

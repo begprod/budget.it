@@ -168,10 +168,10 @@ describe('BaseExpensesList', () => {
     expect(dailyExpenses[0].html()).toContain('#input slot content');
   });
 
-  it('should call remove item emit', async () => {
-    const test = wrapper.findAll('base-expense-stub');
+  it('should emit remove-item', async () => {
+    const expenseItem = wrapper.findAll('base-expense-stub');
 
-    await test[0].trigger('click');
+    await expenseItem[0].trigger('delete-item');
 
     expect(wrapper.emitted()['remove-item']).toStrictEqual([['1', '01032024']]);
   });
