@@ -3,8 +3,8 @@
     <template #title> Settings </template>
 
     <template #wrapper>
-      <div class="mb-10">
-        <h3 class="mb-3 text-slate-600 select-none">Current month daily budget</h3>
+      <div class="island">
+        <h3 class="island__title">Current month daily budget</h3>
 
         <BaseFormBar @submit="submitDailyBudget(dailyBudgetInput.value)">
           <template #input>
@@ -21,17 +21,17 @@
           <template #button>
             <BaseButton type="submit">
               <template #text>
-                <Check class="w-5 h-5" />
+                <Check class="icon icon_md" />
               </template>
             </BaseButton>
           </template>
         </BaseFormBar>
       </div>
 
-      <div class="mb-10">
-        <h3 class="mb-3 text-slate-600 select-none">Default currency</h3>
+      <div class="island">
+        <h3 class="island__title">Default currency</h3>
 
-        <div class="flex flex-wrap gap-1 mb-3">
+        <div class="currencies">
           <BaseCurrencyItem
             v-for="currency in currencies"
             :key="currency.name"
@@ -58,25 +58,25 @@
           <template #button>
             <BaseButton type="submit">
               <template #text>
-                <Plus class="w-5 h-5" />
+                <Plus class="icon icon_md" />
               </template>
             </BaseButton>
           </template>
         </BaseFormBar>
       </div>
 
-      <div class="mb-10">
-        <h3 class="mb-1 text-slate-600 select-none">Import/Export expenses data</h3>
-        <h4 v-if="lastBackupDate" class="mb-3 text-xs text-slate-500 select-none">
-          Last backup: {{ lastBackupDate }}
-        </h4>
+      <div class="island">
+        <h3 class="island__title">Import/Export expenses data</h3>
+        <h4 v-if="lastBackupDate" class="island__description">Last backup: {{ lastBackupDate }}</h4>
 
-        <BaseButton class="w-full" @click="exportDataHandler()">
-          <template #text> Export to file </template>
-        </BaseButton>
-        <BaseButton class="w-full mt-2" @click="importDataHandler">
-          <template #text> Import from file </template>
-        </BaseButton>
+        <div class="exports">
+          <BaseButton @click="exportDataHandler()">
+            <template #text> Export to file </template>
+          </BaseButton>
+          <BaseButton @click="importDataHandler">
+            <template #text> Import from file </template>
+          </BaseButton>
+        </div>
       </div>
     </template>
   </BaseLayout>
@@ -190,3 +190,39 @@ const importDataHandler = async () => {
     });
 };
 </script>
+
+<style scoped>
+.island {
+  margin-bottom: 2rem;
+  padding: clamp(1rem, 2.34vw, 1.5rem);
+  border: 1px solid var(--slate-200);
+  border-radius: 0.75rem;
+}
+
+.island__title {
+  margin-bottom: 1rem;
+  line-height: 1;
+  color: var(--slate-600);
+  user-select: none;
+}
+
+.island__description {
+  margin-bottom: 1rem;
+  font-size: var(--typo-size-xs);
+  color: var(--slate-500);
+  user-select: none;
+}
+
+.currencies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.exports {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+</style>
