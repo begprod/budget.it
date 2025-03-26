@@ -1,8 +1,8 @@
 <template>
-  <form class="relative" @submit.prevent="submitHandler">
+  <form class="form-bar" @submit.prevent="submitHandler">
     <slot name="input" />
 
-    <div class="absolute top-0 right-0">
+    <div class="form-bar__button">
       <slot name="button" />
     </div>
   </form>
@@ -15,3 +15,15 @@ const submitHandler = () => {
   emit('submit');
 };
 </script>
+
+<style scoped>
+.form-bar {
+  position: relative;
+}
+
+.form-bar__button {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+</style>
