@@ -12,7 +12,7 @@
         <BaseFormBar
           v-if="isAddExpenseInputVisible"
           @submit="submitExpense(expense)"
-          class="!absolute top-[calc(100%+10px)] w-full rounded-xl shadow-md mb-6 z-50"
+          class="form-bar-add-expense"
         >
           <template #input>
             <BaseInput
@@ -96,3 +96,14 @@ const submitExpense = (expenseValue: string) => {
   }
 };
 </script>
+
+<style scoped>
+.form-bar-add-expense {
+  position: absolute;
+  top: calc(100% + 10px);
+  width: 100%;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+  z-index: 50;
+}
+</style>
