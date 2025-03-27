@@ -72,9 +72,15 @@
         <div class="exports">
           <BaseButton @click="exportDataHandler()">
             <template #text> Export to file </template>
+            <template #rightIcon>
+              <FileUp class="icon icon_lg" />
+            </template>
           </BaseButton>
           <BaseButton @click="importDataHandler">
             <template #text> Import from file </template>
+            <template #rightIcon>
+              <FileDown class="icon icon_lg" />
+            </template>
           </BaseButton>
         </div>
       </div>
@@ -86,7 +92,7 @@
 import { reactive, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { number, string } from 'yup';
-import { Check, Plus } from 'lucide-vue-next';
+import { Check, Plus, FileDown, FileUp } from 'lucide-vue-next';
 import { useCommonStore, useSettingsStore } from '@/stores';
 import { exportDataFromLocalStorage, importDataToLocalStorage, getDateWithTime } from '@/helpers';
 import BaseLayout from '@/components/layouts/BaseLayout/BaseLayout.vue';
@@ -134,7 +140,7 @@ const submitDailyBudget = (budget: number) => {
 
     setToast({
       type: 'error',
-      message: error.message || 'Enter an integer greater than 9',
+      message: 'Enter an integer greater than 9',
       duration: 5,
     });
   }
