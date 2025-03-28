@@ -56,6 +56,14 @@ const classes = computed(() => {
 .currency-item {
   display: flex;
   align-items: center;
+
+  .currency-item__button {
+    padding-top: 0;
+    padding-bottom: 0;
+    height: 100%;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+  }
 }
 
 .currency-item_custom {
@@ -67,13 +75,5 @@ const classes = computed(() => {
       border-bottom-right-radius: 0px;
     }
   }
-}
-
-.currency-item__button {
-  padding-top: 0;
-  padding-bottom: 0;
-  height: 100%;
-  border-top-left-radius: 0px;
-  border-bottom-left-radius: 0px;
 }
 </style>
