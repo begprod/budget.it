@@ -6,10 +6,10 @@
       :placeholder="placeholder"
       :value="modelValue"
       :autocomplete="autocomplete"
-      :class="isError ? '!border-red-500 !focus:border-red-500' : ''"
+      :class="isError ? 'input_error' : ''"
       @input="inputHandler"
       @blur="blurHandler"
-      class="w-full px-3 py-2 pr-14 text-sm border border-slate-300 rounded-xl hover:border-slate-400 focus:outline-none focus:border-slate-400 transition-[border-color] select-none"
+      class="input"
     />
   </div>
 </template>
@@ -36,3 +36,32 @@ const blurHandler = () => {
   emit('onBlur');
 };
 </script>
+
+<style scoped>
+.input {
+  width: 100%;
+  padding: 0.5rem 3.5rem 0.5rem 0.75rem;
+  font-size: var(--typo-size-sm);
+  line-height: 1.4;
+  border: 1px solid var(--slate-300);
+  border-radius: 0.75rem;
+  transition: 0.3s ease-in-out;
+  transition-property: border-color;
+
+  &:hover,
+  &:focus {
+    outline: none;
+    border-color: var(--slate-400);
+  }
+}
+
+.input.input_error {
+  color: var(--red-500);
+  border: 1px solid var(--red-300);
+
+  &:hover,
+  &:focus {
+    border-color: var(--red-300);
+  }
+}
+</style>

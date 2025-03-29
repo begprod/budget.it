@@ -8,7 +8,7 @@
       >
         <template #text> Add expense </template>
         <template #rightIcon>
-          <Banknote class="icon icon_lg ml-2" />
+          <Banknote class="icon icon_lg" />
         </template>
       </BaseButton>
     </Transition>
@@ -20,7 +20,7 @@
         data-test-id="next-month-button"
       >
         <template #leftIcon>
-          <ChevronLeft class="icon icon_lg mr-1" />
+          <ChevronLeft class="icon icon_lg" />
         </template>
         <template #text>
           {{ getNextMonthsFromCurrent.name }}
@@ -32,7 +32,7 @@
         data-test-id="previous-month-button"
       >
         <template #rightIcon>
-          <ChevronRight class="icon icon_lg ml-2" />
+          <ChevronRight class="icon icon_lg" />
         </template>
         <template #text>
           {{ getPreviousMonthsFromCurrent?.name }}

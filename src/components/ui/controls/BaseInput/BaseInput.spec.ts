@@ -39,7 +39,7 @@ describe('BaseInput', () => {
   it('should contain correct css class if isError is true', async () => {
     await wrapper.setProps({ isError: true });
 
-    expect(wrapper.html()).toContain('!border-red-500 !focus:border-red-500');
+    expect(wrapper.html()).toContain('input_error');
   });
 
   it('should update model value', async () => {
