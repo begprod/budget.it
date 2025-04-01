@@ -31,6 +31,14 @@ input[type='number'] {
   appearance: textfield;
 }
 
+a {
+  text-decoration: none;
+}
+
+.font-body {
+    font-family: JetBrains Mono, sans-serif;
+}
+
 .wrapper {
   width: 100%;
   max-width: 1280px;

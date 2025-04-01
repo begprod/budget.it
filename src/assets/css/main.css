@@ -1,7 +1,3 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 @import url('_normalize.css');
 @import url('_fonts.css');
 @import url('_colors.css');
