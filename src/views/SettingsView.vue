@@ -206,8 +206,9 @@ const importDataHandler = async () => {
 }
 
 .island__title {
-  margin-bottom: 1rem;
+  margin: 0 0 1rem 0;
   line-height: 1;
+  font-size: var(--typo-size-md);
   color: var(--slate-600);
   user-select: none;
 }
