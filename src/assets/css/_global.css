@@ -36,7 +36,9 @@ a {
 }
 
 .font-body {
-    font-family: JetBrains Mono, sans-serif;
+  font-family:
+    JetBrains Mono,
+    sans-serif;
 }
 
 .wrapper {
