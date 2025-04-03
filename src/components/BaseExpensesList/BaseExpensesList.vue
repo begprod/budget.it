@@ -33,16 +33,19 @@
             />
           </div>
 
-          <div
-            class="expense-list__limit"
-            :class="{
-              'expense-list__limit_exceeded': getDailyExpenses(day.id) > dailyBudget,
-              'visually-hidden': getDailyExpenses(day.id) === 0,
-            }"
-            data-test-id="daily-expenses"
-          >
-            {{ getDailyExpenses(day.id) }} / {{ dailyBudget }}
-          </div>
+          <Transition name="slide-up">
+            <div
+              v-if="getDailyExpenses(day.id) !== 0"
+              class="expense-list__limit"
+              :class="{
+                'expense-list__limit_exceeded': getDailyExpenses(day.id) > dailyBudget,
+                'visually-hidden': getDailyExpenses(day.id) === 0,
+              }"
+              data-test-id="daily-expenses"
+            >
+              {{ getDailyExpenses(day.id) }} / {{ dailyBudget }}
+            </div>
+          </Transition>
         </div>
 
         <div

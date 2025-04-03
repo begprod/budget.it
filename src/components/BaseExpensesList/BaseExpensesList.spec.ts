@@ -157,8 +157,7 @@ describe('BaseExpensesList', () => {
 
     const dailyExpenses = wrapper.findAll('[data-test-id="daily-expenses"]');
 
-    expect(dailyExpenses[0].html()).toContain(`0 / ${DAILY_BUDGET}`);
-    expect(dailyExpenses[1].html()).toContain(`0 / ${DAILY_BUDGET}`);
+    expect(dailyExpenses.length).toBe(0);
     expect(wrapper.findComponent(BaseEmptyListMessage).exists()).toBe(true);
   });
 
