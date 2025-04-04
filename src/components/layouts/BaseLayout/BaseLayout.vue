@@ -7,7 +7,7 @@
         <slot name="title" />
       </h1>
 
-      <div v-if="$slots.wrapper" class="px-5">
+      <div v-if="$slots.wrapper" class="layout__wrapper">
         <slot name="wrapper" />
       </div>
 

@@ -13,7 +13,7 @@
       </BaseButton>
     </Transition>
 
-    <div class="flex gap-2">
+    <div class="expenses-list-controls__inner">
       <BaseButton
         :is-disabled="getNextMonthsFromCurrent.isFuture"
         @click="decreaseCurrentMonthIndex"
@@ -78,5 +78,10 @@ defineExpose({
   gap: 0.5rem;
   margin-bottom: 0.5rem;
   padding: 0 1.25rem;
+}
+
+.expenses-list-controls__inner {
+  display: flex;
+  gap: 0.5rem;
 }
 </style>
