@@ -1,16 +1,22 @@
 # Changelog
 
+## 0.14.0
+
+### Other
+
+- migrate from tailwind to pure css
+
 ## 0.13.1
 
 ### Bug Fixes
 
-- Locale date string
+- locale date string
 
 ## 0.13.0
 
 ### Features
 
-- Shopping list
+- shopping list
 
 ## 0.12.5
 
