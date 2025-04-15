@@ -7,7 +7,9 @@ html {
   font-size: 16px;
 }
 
-body * {
+body {
+  color: var(--color-typo-primary);
+
   &::-webkit-scrollbar {
     width: 5px;
   }
@@ -84,7 +86,21 @@ a {
 }
 
 .link {
-  color: var(--blue-600);
+  color: var(--color-typo-link);
+  transition: color 0.3s ease-in-out;
+
+  &:hover {
+    color: var(--color-typo-link-hover);
+
+    * {
+      color: var(--color-typo-link-hover);
+    }
+  }
+
+  * {
+    color: var(--color-typo-link);
+    transition: color 0.3s ease-in-out;
+  }
 }
 
 .visually-hidden {
