@@ -2,16 +2,23 @@
   <header class="header">
     <div class="wrapper header__inner">
       <a href="/budget.it/" class="logo">
-        <span class="logo-gradient gradient-animation logo__title">budget.it</span>
-        <span class="logo-sub-gradient gradient-animation logo__subtitle"> v{{ version }} </span>
+        <span class="logo-gradient gradient-animation logo__title" data-test-id="name">
+          {{ name }}
+        </span>
+        <span class="logo__subtitle" data-test-id="version"> v{{ version }} </span>
       </a>
 
-      <a class="header__github" href="https://github.com/begprod/budget.it" target="_blank">
+      <a
+        class="header__github"
+        href="https://github.com/begprod/budget.it"
+        target="_blank"
+        data-test-id="github-link"
+      >
         <img
           src="@/assets/images/github-mark.svg"
-          class="icon icon_xl"
-          width="40"
-          height="40"
+          class="icon icon_lg"
+          width="35"
+          height="35"
           alt="budget.it github"
         />
       </a>
@@ -20,8 +27,7 @@
 </template>
 
 <script setup lang="ts">
-// @ts-ignore
-import { version } from '../../../../../package.json';
+import { name, version } from '../../../../../package.json';
 </script>
 
 <style scoped>
@@ -29,7 +35,9 @@ import { version } from '../../../../../package.json';
   position: sticky;
   top: 0;
   width: 100%;
-  background-color: var(--white);
+  background-color: var(--color-bg-surface-glass);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
   z-index: 100;
 }
 
@@ -53,12 +61,13 @@ import { version } from '../../../../../package.json';
 }
 
 .logo__subtitle {
-  font-size: 0.75rem;
+  font-size: var(--typo-size-xs);
+  color: var(--color-typo-brand);
 }
 
 .header__github {
-  user-select: none;
   opacity: 0.8;
+  user-select: none;
   transition: 0.3s ease-in-out;
   transition-property: opacity, transform;
 
@@ -69,20 +78,8 @@ import { version } from '../../../../../package.json';
 }
 
 .logo-gradient {
-  background-color: #0093e9;
-  background-image: linear-gradient(43deg, #85ffbd 0%, #0093e9 46%, #00dbde 100%);
-  background-size: 400%;
-  background-repeat: repeat;
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  -moz-background-clip: text;
-  -moz-text-fill-color: transparent;
-}
-
-.logo-sub-gradient {
-  background-color: #0093e9;
-  background-image: linear-gradient(43deg, #00dbde 0%, #0093e9 46%, #85ffbd 100%);
+  background-color: #54a582;
+  background-image: linear-gradient(45deg, #54a582 0%, #edf491 50%, #54a582 100%);
   background-size: 400%;
   background-repeat: repeat;
   background-clip: text;
@@ -93,6 +90,6 @@ import { version } from '../../../../../package.json';
 }
 
 .gradient-animation {
-  animation: gradient 15s ease-in-out infinite;
+  animation: gradient 20s ease-in-out infinite;
 }
 </style>
