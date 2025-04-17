@@ -82,7 +82,7 @@ a {
 }
 
 .icon_rounded {
-  border-radius: 100%;
+  border-radius: var(--rounded-full);
 }
 
 .link {
