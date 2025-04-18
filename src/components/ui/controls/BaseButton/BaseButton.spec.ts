@@ -9,7 +9,10 @@ describe('BaseButton', () => {
   const createComponent = () => {
     wrapper = mount(BaseButton, {
       props: {
+        type: 'reset',
         title: 'test title',
+        theme: 'brand',
+        size: 'sm',
         isDisabled: false,
       },
       slots: {
@@ -30,8 +33,26 @@ describe('BaseButton', () => {
 
   it('should contain the correct props', () => {
     expect(wrapper.props().title).toBe('test title');
-    expect(wrapper.props().type).toBe('button');
+    expect(wrapper.props().type).toBe('reset');
+    expect(wrapper.props().theme).toBe('brand');
+    expect(wrapper.props().size).toBe('sm');
     expect(wrapper.props().isDisabled).toBe(false);
+  });
+
+  it('should have correct theme classes', async () => {
+    expect(wrapper.classes()).toContain('button_theme_brand');
+
+    await wrapper.setProps({ theme: 'flat' });
+
+    expect(wrapper.classes()).toContain('button_theme_flat');
+  });
+
+  it('should have correct size classes', async () => {
+    expect(wrapper.classes()).toContain('button_size_sm');
+
+    await wrapper.setProps({ size: 'circle' });
+
+    expect(wrapper.classes()).toContain('button_size_circle');
   });
 
   it('should contain the correct slots', () => {
