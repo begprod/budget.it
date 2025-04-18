@@ -26,22 +26,22 @@ const classes = computed(() => ({
 <style scoped>
 .progress-bar {
   height: 0.7rem;
-  border-radius: 4px;
+  border-radius: var(--rounded-xs);
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
-  background-color: var(--white);
+  background-color: var(--color-typo-secondary);
   overflow: hidden;
 }
 
 .progress-bar_overfilled {
   .progress-bar__background {
-    background-image: linear-gradient(43deg, #ff9191 0%, #ff9191 46%, #ff0000 100%);
+    background-image: linear-gradient(45deg, #5db996 0%, #ff9191 50%, #ff0000 100%);
   }
 }
 
 .progress-bar__background {
   width: 100%;
   height: 100%;
-  background-image: linear-gradient(43deg, #85ffbd 0%, #00dbde 46%, #0093e9 100%);
+  background-image: linear-gradient(45deg, #5db996 0%, #edf491 50%, #db66d8 100%);
   background-repeat: no-repeat;
   transition: background-size 0.5s ease-in-out;
 }
