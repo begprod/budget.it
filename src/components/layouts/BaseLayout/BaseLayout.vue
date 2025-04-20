@@ -69,6 +69,9 @@ onBeforeMount(() => {
 }
 
 .layout__title {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
   margin-top: 1rem;
   margin-bottom: 1.75rem;
   padding: 0 1.25rem;
