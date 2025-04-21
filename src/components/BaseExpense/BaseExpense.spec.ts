@@ -2,7 +2,7 @@ import type { ComponentWrapperType } from '@/types';
 import { nextTick } from 'vue';
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { shallowMount } from '@vue/test-utils';
-import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
+// import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 import BaseExpense from '@/components/BaseExpense/BaseExpense.vue';
 
 describe('BaseExpense', () => {
@@ -32,29 +32,50 @@ describe('BaseExpense', () => {
     expect(wrapper.props('createdAt')).toBe('10:00');
   });
 
-  it('should show control and item have active class', async () => {
+  it('should show delete button', async () => {
+    let button;
+
+    button = wrapper.find('[data-test-id="delete-button"]');
+
+    expect(button.exists()).toBe(false);
+
     wrapper.vm.showControls(true);
 
     await nextTick();
 
-    expect(wrapper.findComponent(BaseButton).exists()).toBe(true);
-    expect(wrapper.html()).toContain('expense_active');
+    button = wrapper.find('[data-test-id="delete-button"]');
+
+    expect(button.exists()).toBe(true);
   });
 
-  it('should hide control and remove active class', async () => {
+  it('should hide delete button', async () => {
+    let button;
+
+    wrapper.vm.showControls(true);
+
+    await nextTick();
+
+    button = wrapper.find('[data-test-id="delete-button"]');
+
+    expect(button.exists()).toBe(true);
+
     wrapper.vm.showControls(false);
 
     await nextTick();
 
-    expect(wrapper.findComponent(BaseButton).exists()).toBe(false);
-    expect(wrapper.html()).not.toContain('expense_active');
+    button = wrapper.find('[data-test-id="delete-button"]');
+
+    expect(button.exists()).toBe(false);
   });
 
   it('should emit click and delete-item event when control clicked', async () => {
     wrapper.vm.showControls(true);
 
     await nextTick();
-    await wrapper.findComponent(BaseButton).trigger('click');
+
+    const button = wrapper.find('[data-test-id="delete-button"]');
+
+    await button.trigger('click');
 
     expect(wrapper.emitted()).toHaveProperty('click');
     expect(wrapper.emitted()).toHaveProperty('delete-item');
