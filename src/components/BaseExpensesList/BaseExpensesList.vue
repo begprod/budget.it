@@ -1,26 +1,6 @@
 <template>
-  <div v-if="month" class="stats-panel gradient">
-    <div class="stats-panel__inner">
-      <div class="stats-panel__header">
-        <div class="stats-panel__title" data-test-id="month-title">{{ month.name }}</div>
-        <div class="stats-panel__overall" data-test-id="monthly-expenses">
-          {{ monthExpenses }}
-        </div>
-      </div>
-      <div class="stats-panel__footer">
-        <div data-test-id="monthly-budget">Monthly budget: {{ overAllExpneses }}</div>
-
-        <div data-test-id="monthly-percents">
-          {{ countProgressPercentage(month.id, dailyBudget) }}%
-        </div>
-      </div>
-
-      <BaseProgressBar :percentage="countProgressPercentage(month.id, dailyBudget)" />
-    </div>
-  </div>
-
-  <div v-if="month" class="expense-list">
-    <template v-for="day in monthDays" :key="day.id">
+  <div class="expense-list">
+    <template v-for="day in days" :key="day.id">
       <div v-if="!day.isFuture" class="expense-list__inner">
         <div class="expense-list__header" data-test-id="day-title">
           <div class="expense-list__date">
@@ -33,7 +13,7 @@
             />
           </div>
 
-          <Transition name="slide-up">
+          <Transition name="slide-left">
             <div
               v-if="getDailyExpenses(day.id) !== 0"
               class="expense-list__limit"
@@ -55,24 +35,26 @@
           :class="{ 'expense-list__expenses_past': !day.isCurrent }"
         >
           <TransitionGroup name="list">
-            <template v-for="expense in expenseItem" :key="expense.id">
+            <div v-for="expense in expenseItem" :key="expense.id">
               <BaseExpense
                 :createdAt="expense.createdAt"
                 :value="expense.value"
                 :currency="expense.currency"
                 @delete-item="removeItem(expense.id, day.id)"
               />
-            </template>
+            </div>
           </TransitionGroup>
 
-          <div v-if="!expenses[day.id].items.length" class="expense-list__empty-message">
-            <BaseEmptyListMessage>
-              <template #icon>
-                <Coins class="icon icon_sm" />
-              </template>
-              <template #message> No expenses for this day </template>
-            </BaseEmptyListMessage>
-          </div>
+          <Transition>
+            <div v-if="!expenses[day.id].items.length" class="expense-list__empty-message">
+              <BaseEmptyListMessage>
+                <template #icon>
+                  <Coins class="icon icon_sm" />
+                </template>
+                <template #message> No expenses for this day </template>
+              </BaseEmptyListMessage>
+            </div>
+          </Transition>
 
           <div v-if="day.isCurrent" class="expense-list__input" data-test-id="input-slot">
             <Transition>
@@ -86,32 +68,19 @@
 </template>
 
 <script setup lang="ts">
-import type { IDay, IExpense, IMonth } from '@/types';
-import BaseEmptyListMessage from '@/components/ui/BaseEmptyListMessage/BaseEmptyListMessage.vue';
-import BaseExpense from '@/components/BaseExpense/BaseExpense.vue';
-import BaseProgressBar from '@/components/ui/BaseProgressBar/BaseProgressBar.vue';
+import type { IDay, IExpense } from '@/types';
 import { Coins } from 'lucide-vue-next';
-import { computed } from 'vue';
+import BaseExpense from '@/components/BaseExpense/BaseExpense.vue';
+import BaseEmptyListMessage from '@/components/ui/BaseEmptyListMessage/BaseEmptyListMessage.vue';
 
 interface IProps {
-  month: IMonth;
-  monthDays: Array<IDay>;
-  monthExpenses: number;
-  dailyBudget: number;
+  days: Array<IDay>;
   expenses: Record<string, Record<'items', Array<IExpense>>>;
+  dailyBudget: number;
 }
 
-const emit = defineEmits(['remove-item']);
-
 const props = defineProps<IProps>();
-
-const countProgressPercentage = (monthId: IMonth['id'] | undefined, dailyBudget: number) => {
-  if (monthId === undefined) {
-    return 0;
-  }
-
-  return Math.round((props.monthExpenses / (props.monthDays.length * dailyBudget)) * 100);
-};
+const emit = defineEmits(['remove-item']);
 
 const getDailyExpenses = (dayId: IDay['id']) => {
   const expenseItems: Array<IExpense> = [];
@@ -134,61 +103,18 @@ const getDailyExpenses = (dayId: IDay['id']) => {
   return dayExpensesCounter;
 };
 
-const overAllExpneses = computed(() => props.monthDays.length * props.dailyBudget);
-
 const removeItem = (id: string, dayId: string) => {
   emit('remove-item', id, dayId);
 };
 </script>
 
 <style scoped>
-.stats-panel {
-  position: sticky;
-  top: 52px;
-  display: flex;
-  flex-direction: column;
-  padding: 1.25rem;
-  color: var(--slate-700);
-  background-color: var(--white);
-  border-top-left-radius: 1.5rem;
-  border-top-right-radius: 1.5rem;
-  z-index: 40;
-}
-
-.stats-panel__inner {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.stats-panel__header,
-.stats-panel__footer {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-}
-
-.stats-panel__footer {
-  flex-direction: row;
-  justify-content: space-between;
-  font-size: var(--typo-size-xs);
-}
-
-.stats-panel__title {
-  font-size: var(--typo-size-xl);
-}
-
-.stats-panel__overall {
-  line-height: 1;
-  font-size: var(--typo-size-4xl);
-  font-weight: bold;
-}
-
 .expense-list {
   position: relative;
   display: grid;
-  gap: 0.75rem;
-  padding: 1rem 1.25rem;
+  gap: 1rem;
+  padding: 0.25rem;
+  overflow: hidden;
   z-index: 0;
 }
 
@@ -197,67 +123,65 @@ const removeItem = (id: string, dayId: string) => {
 }
 
 .expense-list__header {
-  position: sticky;
-  top: 200px;
   display: flex;
-  flex-direction: column;
-  padding: 0.5rem 0;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 1rem 0;
   font-weight: bold;
   font-size: clamp(var(--typo-size-sm), 1.56vw, var(--typo-size-base));
-  background-color: var(--white);
+  background-color: var(--color-bg-surface);
   user-select: none;
-  z-index: 40;
 }
 
 .expense-list__date {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  color: #434449;
 }
 
 .expense-list__indicator {
-  border-radius: 100%;
-  background-color: var(--green-500);
+  border-radius: var(--rounded-full);
+  background-color: var(--color-bg-success);
 }
 
 .expense-list__limit {
-  color: var(--green-500);
+  color: var(--color-bg-success);
   font-size: clamp(var(--typo-size-xs), 1.56vw, var(--typo-size-base));
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: clamp(7.5rem, 32.25vw, 20rem);
 }
 
 .expense-list__limit_exceeded {
-  color: var(--red-400);
+  color: var(--color-bg-alert);
 }
 
 .expense-list__expenses {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 0.5rem;
+  min-height: 2rem;
 }
 
 .expense-list__expenses_past {
-  opacity: 0.3;
+  opacity: 0.4;
 }
 
 .expense-list__input {
   position: absolute;
-  bottom: 0;
+  top: calc(100% + 10px);
   width: 100%;
+  z-index: 100;
 }
 
 .expense-list__empty-message {
+  position: absolute;
+  top: 60%;
+  left: 0;
   display: flex;
   align-items: center;
   width: 100%;
-}
-
-@media screen and (max-width: 1024px) {
-  .stats-panel {
-    color: var(--white);
-  }
-
-  .gradient {
-    background-image: linear-gradient(180deg, #19a4f8 0%, #006396 100%);
-  }
 }
 </style>

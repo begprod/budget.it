@@ -10,15 +10,7 @@ describe('BaseExpensesList', () => {
 
   const CURRENCY = 'USD';
   const CREATED_AT_TIME = '10:00';
-  const MONTHS_EXPENSES = 10000;
   const DAILY_BUDGET = 300;
-  const MONTH = {
-    id: '032024',
-    name: 'March',
-    monthString: new Date('2024-03-01'),
-    isCurrent: false,
-    isFuture: false,
-  };
   const DAYS = [
     {
       id: '01032024',
@@ -69,11 +61,9 @@ describe('BaseExpensesList', () => {
   const createComponent = () => {
     wrapper = shallowMount(BaseExpensesList, {
       props: {
-        month: MONTH,
-        monthDays: DAYS,
-        monthExpenses: MONTHS_EXPENSES,
-        dailyBudget: DAILY_BUDGET,
+        days: DAYS,
         expenses: EXPENSES,
+        dailyBudget: DAILY_BUDGET,
       },
       slots: {
         input: '#input slot content',
@@ -87,36 +77,6 @@ describe('BaseExpensesList', () => {
 
   afterEach(() => {
     wrapper.unmount();
-  });
-
-  it('should contain only current month title', () => {
-    const monthTitle = wrapper.findAll('[data-test-id="month-title"]');
-
-    expect(monthTitle[0].html()).toContain('March');
-    expect(monthTitle[1]).equal(undefined);
-  });
-
-  it('should contain current month expenses sum', () => {
-    const monthlyExpenses = wrapper.findAll('[data-test-id="monthly-expenses"]');
-
-    expect(monthlyExpenses[0].html()).toContain('10000');
-    expect(monthlyExpenses[1]).equal(undefined);
-  });
-
-  it('should contain current month budget', () => {
-    const monthlyBudget = DAYS.length * DAILY_BUDGET;
-    const monthlyExpenses = wrapper.findAll('[data-test-id="monthly-budget"]');
-
-    expect(monthlyExpenses[0].html()).toContain(monthlyBudget);
-    expect(monthlyExpenses[1]).equal(undefined);
-  });
-
-  it('should count current month percents', () => {
-    const percents = Math.round((MONTHS_EXPENSES / (DAYS.length * DAILY_BUDGET)) * 100);
-    const monthlyPercents = wrapper.findAll('[data-test-id="monthly-percents"]');
-
-    expect(monthlyPercents[0].html()).toContain(percents);
-    expect(monthlyPercents[1]).equal(undefined);
   });
 
   it('should contain day name and day number', () => {

@@ -2,7 +2,6 @@ import type { ComponentWrapperType } from '@/types';
 import { nextTick } from 'vue';
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { shallowMount } from '@vue/test-utils';
-// import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 import BaseExpense from '@/components/BaseExpense/BaseExpense.vue';
 
 describe('BaseExpense', () => {
