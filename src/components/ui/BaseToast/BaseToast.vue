@@ -112,11 +112,11 @@ const closeToast = () => {
 <style scoped>
 .toast {
   position: fixed;
-  bottom: 1rem;
+  bottom: 6rem;
   left: 50%;
   z-index: 10000;
   width: 16rem;
-  font-size: 0.875rem;
+  font-size: var(--typo-size-sm);
   border-radius: var(--rounded-md);
   transform: translateX(-50%);
   overflow: hidden;
@@ -154,7 +154,6 @@ const closeToast = () => {
   margin-right: 1rem;
   border-radius: var(--rounded-md);
   color: inherit;
-  border: 1px solid currentColor;
 }
 
 .toast__content {
