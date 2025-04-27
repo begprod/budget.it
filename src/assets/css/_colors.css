@@ -1,6 +1,9 @@
 :root {
   --color-bg-brand: #54a582cc;
   --color-bg-surface: #ffffff;
+  --color-bg-surface-secondary: #70809020;
+  --color-bg-surface-brand-glass: rgba(84, 165, 130, 0.8);
+  --color-bg-surface-glass: rgba(255, 255, 255, 0.8);
   --color-bg-success: #10b191;
   --color-bg-warning: #fb923c;
   --color-bg-alert: #ef4444;

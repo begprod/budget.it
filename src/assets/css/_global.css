@@ -35,6 +35,10 @@ input[type='number'] {
 
 a {
   text-decoration: none;
+
+  &:active {
+    color: var(--color-typo-primary);
+  }
 }
 
 .font-body {
