@@ -36,6 +36,32 @@
   opacity: 0;
 }
 
+.slide-left-enter-active,
+.slide-left-leave-active {
+  transform: translateX(0);
+  transition: 0.5s ease;
+  transition-property: transform, opacity;
+}
+
+.slide-left-enter-from,
+.slide-left-leave-to {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+.slide-right-enter-active,
+.slide-right-leave-active {
+  transform: translateX(0);
+  transition: 0.5s ease;
+  transition-property: transform, opacity;
+}
+
+.slide-right-enter-from,
+.slide-right-leave-to {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
 .list-enter-active,
 .list-leave-active {
   transition: all 0.5s ease;
@@ -43,26 +69,7 @@
 .list-enter-from,
 .list-leave-to {
   opacity: 0;
-  transform: translateY(100px);
-}
-
-.list-move,
-.list-enter-active,
-.list-leave-active {
-  transition: all 0.5s ease-in-out;
-  transform: translateY(0px);
-}
-
-.list-enter-from,
-.list-leave-to {
-  opacity: 0;
-  transform: translateY(-100px) scale(0.1);
-  transform-origin: center;
-  z-index: -1;
-}
-
-.list-leave-active {
-  position: absolute;
+  transform: translateX(-100px);
 }
 
 .animate-pulse {

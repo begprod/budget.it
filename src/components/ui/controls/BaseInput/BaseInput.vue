@@ -43,25 +43,25 @@ const blurHandler = () => {
   padding: 0.5rem 3.5rem 0.5rem 0.75rem;
   font-size: var(--typo-size-sm);
   line-height: 1.4;
-  border: 1px solid var(--slate-300);
-  border-radius: 0.75rem;
+  border: 1px solid var(--color-bg-border);
+  border-radius: var(--rounded-md);
   transition: 0.3s ease-in-out;
   transition-property: border-color;
 
   &:hover,
   &:focus {
     outline: none;
-    border-color: var(--slate-400);
+    border-color: var(--color-bg-border-hover);
   }
 }
 
 .input.input_error {
-  color: var(--red-500);
-  border: 1px solid var(--red-300);
+  color: var(--color-bg-alert);
+  border: 1px solid var(--color-bg-alert);
 
   &:hover,
   &:focus {
-    border-color: var(--red-300);
+    border-color: var(--color-bg-alert);
   }
 }
 </style>

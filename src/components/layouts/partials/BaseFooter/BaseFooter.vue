@@ -35,7 +35,6 @@ import { ExternalLink } from 'lucide-vue-next';
   padding-top: clamp(4rem, 6.25vw, 8rem);
   padding-bottom: clamp(4rem, 6.25vw, 8rem);
   font-size: var(--typo-size-sm);
-  color: var(--gray-600);
 
   p {
     margin: 0;
@@ -51,6 +50,6 @@ import { ExternalLink } from 'lucide-vue-next';
 .footer__heart {
   font-size: 1.5rem;
   line-height: 1;
-  color: var(--red-500);
+  color: var(--color-bg-alert);
 }
 </style>

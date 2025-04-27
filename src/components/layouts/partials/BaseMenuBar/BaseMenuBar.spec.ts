@@ -27,13 +27,17 @@ describe('BaseMenuBar', () => {
 
   const wrapper = shallowMount(BaseMenuBar);
 
-  it('should haave BaseExpensesListControls component, if router home', () => {
+  it('should have menu items', () => {
+    expect(wrapper.findAll('.menu__item').length).toBe(3);
+  });
+
+  it('should have BaseExpensesListControls component, if router home', () => {
     const controlsComponent = wrapper.findComponent(BaseExpensesListControls);
 
     expect(controlsComponent.exists()).toBe(true);
   });
 
-  it('should haave BaseExpensesListControls component, if router not home', async () => {
+  it('should have BaseExpensesListControls component, if router not home', async () => {
     currentRoute.value = { name: 'settings' };
 
     await nextTick();

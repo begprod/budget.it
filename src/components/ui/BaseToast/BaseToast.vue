@@ -112,12 +112,12 @@ const closeToast = () => {
 <style scoped>
 .toast {
   position: fixed;
-  bottom: 1rem;
+  bottom: 6rem;
   left: 50%;
   z-index: 10000;
   width: 16rem;
-  font-size: 0.875rem;
-  border-radius: 0.5rem;
+  font-size: var(--typo-size-sm);
+  border-radius: var(--rounded-md);
   transform: translateX(-50%);
   overflow: hidden;
 }
@@ -126,9 +126,9 @@ const closeToast = () => {
   display: flex;
   width: 100%;
   padding: 1rem;
-  background-color: var(--white);
-  border: 1px solid var(--gray-200);
-  border-radius: 0.5rem;
+  background-color: var(--color-bg-surface);
+  border: 1px solid var(--color-bg-border);
+  border-radius: var(--rounded-md);
   transition: box-shadow 0.3s ease-in-out;
 
   &:hover {
@@ -137,15 +137,11 @@ const closeToast = () => {
 }
 
 .toast__inner_type_success {
-  color: var(--green-500);
+  color: var(--color-bg-success);
 }
 
 .toast__inner_type_error {
-  color: var(--red-500);
-}
-
-.toast__inner_type_default {
-  color: var(--gray-500);
+  color: var(--color-bg-alert);
 }
 
 .toast__icon {
@@ -156,9 +152,8 @@ const closeToast = () => {
   width: 2rem;
   height: 2rem;
   margin-right: 1rem;
-  border-radius: 0.5rem;
+  border-radius: var(--rounded-md);
   color: inherit;
-  border: 1px solid currentColor;
 }
 
 .toast__content {

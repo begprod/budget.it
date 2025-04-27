@@ -1,44 +1,48 @@
 <template>
   <div class="expenses-list-controls wrapper">
-    <Transition name="slide-up">
+    <BaseButton
+      size="sm"
+      theme="flat"
+      :is-disabled="getNextMonthsFromCurrent.isFuture"
+      @click="decreaseCurrentMonthIndex"
+      data-test-id="next-month-button"
+    >
+      <template #leftIcon>
+        <ChevronLeft class="icon icon_md" />
+      </template>
+      <template #text>
+        {{ getNextMonthsFromCurrent.name }}
+      </template>
+    </BaseButton>
+
+    <div class="expenses-list-controls__button expenses-list-controls__button_add">
       <BaseButton
-        v-if="getMonthByIndex.isCurrent"
+        theme="brand"
+        size="circle"
+        :is-disabled="!getMonthByIndex.isCurrent"
         @click="showExpenseInputHandler()"
         data-test-id="add-expense-button"
       >
-        <template #text> Add expense </template>
         <template #rightIcon>
           <Banknote class="icon icon_lg" />
         </template>
       </BaseButton>
-    </Transition>
-
-    <div class="expenses-list-controls__inner">
-      <BaseButton
-        :is-disabled="getNextMonthsFromCurrent.isFuture"
-        @click="decreaseCurrentMonthIndex"
-        data-test-id="next-month-button"
-      >
-        <template #leftIcon>
-          <ChevronLeft class="icon icon_lg" />
-        </template>
-        <template #text>
-          {{ getNextMonthsFromCurrent.name }}
-        </template>
-      </BaseButton>
-      <BaseButton
-        :is-disabled="!getPreviousMonthsFromCurrent"
-        @click="increaseCurrentMonthIndex"
-        data-test-id="previous-month-button"
-      >
-        <template #rightIcon>
-          <ChevronRight class="icon icon_lg" />
-        </template>
-        <template #text>
-          {{ getPreviousMonthsFromCurrent?.name }}
-        </template>
-      </BaseButton>
     </div>
+
+    <BaseButton
+      size="sm"
+      theme="flat"
+      :is-disabled="!getPreviousMonthsFromCurrent"
+      @click="increaseCurrentMonthIndex"
+      data-test-id="previous-month-button"
+    >
+      <template #rightIcon>
+        <ChevronRight class="icon icon_md" />
+      </template>
+      <template #text>
+        {{ getPreviousMonthsFromCurrent?.name }}
+      </template>
+    </BaseButton>
   </div>
 </template>
 
@@ -73,15 +77,32 @@ defineExpose({
 
 <style scoped>
 .expenses-list-controls {
+  position: relative;
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-bottom: 0.5rem;
-  padding: 0 1.25rem;
+  justify-content: space-between;
+  gap: 50px;
+  margin-bottom: 1rem;
+  background: var(--color-bg-surface-glass);
+  box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.2);
+  border-radius: var(--rounded-xl);
+  backdrop-filter: blur(3px);
+  overlay: hidden;
 }
 
 .expenses-list-controls__inner {
   display: flex;
   gap: 0.5rem;
+}
+
+.expenses-list-controls__button_add {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+
+  button {
+    width: 48px;
+    height: 48px;
+  }
 }
 </style>

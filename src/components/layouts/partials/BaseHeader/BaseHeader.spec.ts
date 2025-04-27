@@ -1,5 +1,5 @@
 // @ts-ignore
-import { version } from '../../../../../package.json';
+import { name, version } from '../../../../../package.json';
 import type { ComponentWrapperType } from '@/types';
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { mount } from '@vue/test-utils';
@@ -20,7 +20,25 @@ describe('BaseHeader', () => {
     wrapper.unmount();
   });
 
+  it('should contain app name', () => {
+    const nameEl = wrapper.find('[data-test-id="name"]');
+
+    expect(nameEl.text()).toContain(name);
+  });
+
   it('should contain version from package.json', () => {
-    expect(wrapper.html()).toContain(`v${version}`);
+    const versionEl = wrapper.find('[data-test-id="version"]');
+
+    expect(versionEl.text()).toContain(`v${version}`);
+  });
+
+  it('should contain github link and icon', () => {
+    const linkEl = wrapper.find('[data-test-id="github-link"]');
+    const imageEl = linkEl.find('img');
+
+    expect(linkEl.exists()).toBe(true);
+    expect(linkEl.attributes().href).toContain('https://github.com/begprod/budget.it');
+    expect(imageEl.exists()).toBe(true);
+    expect(imageEl.attributes().src).toContain('src/assets/images/github-mark.svg');
   });
 });

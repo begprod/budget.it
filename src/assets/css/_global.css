@@ -7,7 +7,9 @@ html {
   font-size: 16px;
 }
 
-body * {
+body {
+  color: var(--color-typo-primary);
+
   &::-webkit-scrollbar {
     width: 5px;
   }
@@ -33,12 +35,14 @@ input[type='number'] {
 
 a {
   text-decoration: none;
+
+  &:active {
+    color: var(--color-typo-primary);
+  }
 }
 
 .font-body {
-  font-family:
-    JetBrains Mono,
-    sans-serif;
+  font-family: 'Geologica', sans-serif;
 }
 
 .wrapper {
@@ -82,11 +86,25 @@ a {
 }
 
 .icon_rounded {
-  border-radius: 100%;
+  border-radius: var(--rounded-full);
 }
 
 .link {
-  color: var(--blue-600);
+  color: var(--color-typo-link);
+  transition: color 0.3s ease-in-out;
+
+  &:hover {
+    color: var(--color-typo-link-hover);
+
+    * {
+      color: var(--color-typo-link-hover);
+    }
+  }
+
+  * {
+    color: var(--color-typo-link);
+    transition: color 0.3s ease-in-out;
+  }
 }
 
 .visually-hidden {

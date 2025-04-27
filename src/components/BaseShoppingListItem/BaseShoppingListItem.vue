@@ -19,7 +19,11 @@
     </div>
 
     <div class="shopping-item__controls">
-      <BaseButton @click="$emit('remove', item.id)" data-test-id="shopping-item-delete-button">
+      <BaseButton
+        theme="flat"
+        @click="$emit('remove', item.id)"
+        data-test-id="shopping-item-delete-button"
+      >
         <template #text>
           <Trash2 class="icon icon_sm" />
         </template>
@@ -63,16 +67,15 @@ const classes = computed(() => {
   justify-content: space-between;
   gap: clamp(0.875rem, 1.56vw, 1rem);
   width: 100%;
-  padding: clamp(0.4rem, 1.56vw, 1rem);
-  border: 1px solid var(--slate-200);
-  border-radius: 0.6rem;
-  box-shadow: 0 2px 2px 0px rgba(0, 0, 0, 0.1);
-  background-color: var(--white);
+  padding-left: clamp(0.4rem, 1.56vw, 1rem);
+  border-radius: var(--rounded-md);
+  background-color: var(--color-bg-surface);
   opacity: 1;
   transition: all 0.3s ease-in-out;
 }
 
 .shopping-item_checked {
+  text-decoration: line-through;
   opacity: 0.3;
   box-shadow: 0 0 0 0 rgba(0, 0, 0, 0) !important;
 }
@@ -108,7 +111,6 @@ const classes = computed(() => {
 
 .shopping-item__checkbox-icon {
   svg {
-    color: var(--slate-400);
     transition: 0.3s ease-in-out;
     transition-property: opacity;
   }

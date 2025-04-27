@@ -10,14 +10,13 @@
       <div v-if="$slots.wrapper" class="layout__wrapper">
         <slot name="wrapper" />
       </div>
-
-      <slot />
     </div>
 
     <BaseFooter />
   </main>
 
   <BaseMenuBar />
+
   <BaseToast
     :type="getToast.type"
     :message="getToast.message"
@@ -70,13 +69,15 @@ onBeforeMount(() => {
 }
 
 .layout__title {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
   margin-top: 1rem;
   margin-bottom: 1.75rem;
   padding: 0 1.25rem;
   font-size: clamp(var(--typo-size-2xl), 3.52vw, var(--typo-size-4xl));
   font-weight: bold;
   line-height: 1;
-  color: var(--slate-700);
   user-select: none;
 }
 </style>

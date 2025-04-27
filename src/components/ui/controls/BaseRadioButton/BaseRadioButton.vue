@@ -38,8 +38,8 @@ const changeHandler = (event: Event) => {
   input {
     &:checked {
       ~ label {
-        color: var(--white);
-        background-color: var(--blue-400);
+        color: var(--color-typo-secondary);
+        background-color: var(--color-bg-brand);
       }
     }
   }
@@ -48,10 +48,9 @@ const changeHandler = (event: Event) => {
 .radio__label {
   display: block;
   padding: 0.25rem 0.75rem;
-  color: var(--slate-400);
   font-size: var(--typo-size-sm);
-  border: 1px solid var(--slate-300);
-  border-radius: 1rem;
+  border: 1px solid var(--color-bg-border);
+  border-radius: var(--rounded-md);
   cursor: pointer;
   user-select: none;
   white-space: nowrap;
@@ -61,8 +60,8 @@ const changeHandler = (event: Event) => {
   transition-property: color, border-color, background-color;
 
   &:hover {
-    color: var(--slate-500);
-    border-color: var(--slate-400);
+    /* color: var(--slate-500); */
+    border-color: var(--color-bg-border-hover);
   }
 }
 </style>

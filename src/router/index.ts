@@ -2,6 +2,10 @@ import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 import DashboardView from '@/views/DashboardView.vue';
 import SettingsView from '@/views/SettingsView.vue';
+import SettingsMenuView from '@/views/SettingsMenuView.vue';
+import SettingsDailyBudgetView from '@/views/SettingsDailyBudgetView.vue';
+import SettingsCurrenciesView from '@/views/SettingsCurrenciesView.vue';
+import SettingsImportExportView from '@/views/SettingsImportExportView.vue';
 import ShoppingListView from '@/views/ShoppingListView.vue';
 
 export const router = createRouter({
@@ -25,8 +29,29 @@ export const router = createRouter({
     },
     {
       path: '/settings',
-      name: 'settings',
       component: SettingsView,
+      children: [
+        {
+          path: '',
+          name: 'settings',
+          component: SettingsMenuView,
+        },
+        {
+          path: 'daily-budget',
+          name: 'daily-budget',
+          component: SettingsDailyBudgetView,
+        },
+        {
+          path: 'currencies',
+          name: 'currencies',
+          component: SettingsCurrenciesView,
+        },
+        {
+          path: 'import-export',
+          name: 'import-export',
+          component: SettingsImportExportView,
+        },
+      ],
     },
   ],
 });

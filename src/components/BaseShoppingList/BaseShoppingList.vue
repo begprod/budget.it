@@ -65,6 +65,6 @@ const remove = (itemId: IShoppingItem['id']) => {
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: clamp(0.4rem, 1.56vw, 1rem);
+  gap: 1rem;
 }
 </style>
