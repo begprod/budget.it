@@ -33,16 +33,36 @@ input[type='number'] {
   appearance: textfield;
 }
 
+.font-body {
+  font-family: 'Geologica', sans-serif;
+}
+
 a {
+  color: var(--color-typo-primary);
   text-decoration: none;
 
-  &:active {
+  &:active,
+  &:visited {
     color: var(--color-typo-primary);
   }
 }
 
-.font-body {
-  font-family: 'Geologica', sans-serif;
+.link {
+  color: var(--color-typo-link);
+  transition: color 0.3s ease-in-out;
+
+  &:hover {
+    color: var(--color-typo-link-hover);
+
+    * {
+      color: var(--color-typo-link-hover);
+    }
+  }
+
+  * {
+    color: var(--color-typo-link);
+    transition: color 0.3s ease-in-out;
+  }
 }
 
 .wrapper {
@@ -87,24 +107,6 @@ a {
 
 .icon_rounded {
   border-radius: var(--rounded-full);
-}
-
-.link {
-  color: var(--color-typo-link);
-  transition: color 0.3s ease-in-out;
-
-  &:hover {
-    color: var(--color-typo-link-hover);
-
-    * {
-      color: var(--color-typo-link-hover);
-    }
-  }
-
-  * {
-    color: var(--color-typo-link);
-    transition: color 0.3s ease-in-out;
-  }
 }
 
 .visually-hidden {
