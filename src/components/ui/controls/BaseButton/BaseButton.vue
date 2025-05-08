@@ -52,6 +52,7 @@ const classes = computed(() => {
   gap: clamp(0.25rem, 0.78vw, 0.5rem);
   width: 100%;
   padding: 0.5rem 0.75rem;
+  color: var(--color-typo-primary);
   font-size: clamp(var(--typo-size-sm), 1.56vw, var(--typo-size-base));
   line-height: 1.5;
   border: 1px solid var(--color-bg-border);
