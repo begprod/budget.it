@@ -60,6 +60,7 @@ const importDataHandler = async () => {
 <style scoped>
 .description {
   margin-bottom: 1rem;
+  color: var(--color-typo-ghost);
   font-size: var(--typo-size-xs);
   font-weight: 300;
   opacity: 0.7;

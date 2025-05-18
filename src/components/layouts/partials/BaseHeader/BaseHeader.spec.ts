@@ -34,11 +34,10 @@ describe('BaseHeader', () => {
 
   it('should contain github link and icon', () => {
     const linkEl = wrapper.find('[data-test-id="github-link"]');
-    const imageEl = linkEl.find('img');
+    const svgEl = linkEl.find('svg');
 
     expect(linkEl.exists()).toBe(true);
     expect(linkEl.attributes().href).toContain('https://github.com/begprod/budget.it');
-    expect(imageEl.exists()).toBe(true);
-    expect(imageEl.attributes().src).toContain('src/assets/images/github-mark.svg');
+    expect(svgEl.exists()).toBe(true);
   });
 });
