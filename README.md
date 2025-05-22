@@ -8,6 +8,7 @@
 A simple application for tracking the budget for each day
 
 ![budget.it – another budget app, but this one is handy](./public/screenshots/mobile_1.jpg)
+![budget.it – another budget app, but this one is handy](./public/screenshots/mobile_2.jpg)
 
 ## Features
 
@@ -18,6 +19,7 @@ A simple application for tracking the budget for each day
 - Currencies setup
 - Daily budget setup
 - Shopping List
+- Dark theme
 - PWA available
 - Import/export data
 - Works offline
