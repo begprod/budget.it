@@ -137,7 +137,7 @@ const removeItem = (id: string, dayId: string) => {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: #434449;
+  color: var();
 }
 
 .expense-list__indicator {

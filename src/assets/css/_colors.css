@@ -20,3 +20,19 @@
   --color-typo-warning: #fb923c;
   --color-typo-alert: #fca5a5;
 }
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg-brand: #54a582cc;
+    --color-bg-surface: #210f37;
+    --color-bg-surface-secondary: #fefeea20;
+    --color-bg-surface-glass: rgba(33, 15, 55, 0.8);
+    --color-bg-border: #fefeea50;
+    --color-bg-border-hover: #fefeea80;
+
+    --color-typo-primary: #fefeea;
+    --color-typo-secondary: #fefeea;
+    --color-typo-link: #407cff;
+    --color-typo-link-hover: #2563eb;
+  }
+}

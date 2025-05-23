@@ -9,6 +9,7 @@ html {
 
 body {
   color: var(--color-typo-primary);
+  background-color: var(--color-bg-surface);
 
   &::-webkit-scrollbar {
     width: 5px;

@@ -45,6 +45,8 @@ const blurHandler = () => {
   line-height: 1.4;
   border: 1px solid var(--color-bg-border);
   border-radius: var(--rounded-md);
+  color: var(--color-typo-primary);
+  background-color: var(--color-bg-surface);
   transition: 0.3s ease-in-out;
   transition-property: border-color;
 
