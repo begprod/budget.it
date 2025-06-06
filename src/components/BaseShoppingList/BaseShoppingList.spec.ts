@@ -1,6 +1,6 @@
 import type { ComponentWrapperType } from '@/types';
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { shallowMount } from '@vue/test-utils';
+import { mount } from '@vue/test-utils';
 import { nextTick } from 'vue';
 import { createPinia, setActivePinia } from 'pinia';
 import BaseShoppingList from '@/components/BaseShoppingList/BaseShoppingList.vue';
@@ -15,12 +15,12 @@ describe('BaseShoppingList', () => {
   setActivePinia(pinia);
 
   const shoppingListStore = useShoppingListStore();
-  const { addItem } = shoppingListStore;
+  const { shoppingItems, addItem } = shoppingListStore;
 
   let wrapper: ComponentWrapperType<typeof BaseShoppingList>;
 
   const createComponent = () => {
-    wrapper = shallowMount(BaseShoppingList);
+    wrapper = mount(BaseShoppingList);
   };
 
   beforeEach(() => {
@@ -47,5 +47,17 @@ describe('BaseShoppingList', () => {
 
     expect(wrapper.findComponent(BaseShoppingListItem).exists()).toBe(true);
     expect(wrapper.findComponent(BaseEmptyListMessage).exists()).toBe(false);
+  });
+
+  it('should sync local state list with store state list', () => {
+    const input = wrapper.find('#shopping-item-name-input');
+
+    input.setValue('new item');
+    input.trigger('submit');
+    input.setValue('new item 2');
+    input.trigger('submit');
+
+    expect(shoppingItems.length).toBe(3);
+    expect(wrapper.vm.listItems.length).toBe(3);
   });
 });

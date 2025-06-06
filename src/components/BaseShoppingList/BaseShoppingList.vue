@@ -1,7 +1,7 @@
 <template>
   <BaseShoppingListControls />
 
-  <div v-if="shoppingItems.length > 0" class="shopping-list">
+  <div v-if="shoppingItems.length > 0" class="shopping-list" ref="parentRef">
     <TransitionGroup name="list">
       <BaseShoppingListItem
         v-for="item in shoppingItems"
@@ -26,7 +26,9 @@
 
 <script setup lang="ts">
 import type { IShoppingItem } from '@/types';
+import { watch } from 'vue';
 import { storeToRefs } from 'pinia';
+import { useDragAndDrop, dragAndDrop } from '@formkit/drag-and-drop/vue';
 import { PackageSearch } from 'lucide-vue-next';
 import BaseShoppingListControls from '@/components/BaseShoppingListControls/BaseShoppingListControls.vue';
 import BaseShoppingListItem from '@/components/BaseShoppingListItem/BaseShoppingListItem.vue';
@@ -51,6 +53,21 @@ const colors = [
   '#c2a5d140',
 ];
 
+const [parentRef, listItems] = useDragAndDrop(shoppingItems.value);
+
+dragAndDrop({
+  parent: parentRef,
+  values: listItems,
+});
+
+watch(
+  listItems,
+  (newList) => {
+    shoppingItems.value = newList;
+  },
+  { deep: true },
+);
+
 const check = (itemId: IShoppingItem['id'], isChecked: boolean) => {
   markItemIsDone(itemId, isChecked);
 };
@@ -58,6 +75,10 @@ const check = (itemId: IShoppingItem['id'], isChecked: boolean) => {
 const remove = (itemId: IShoppingItem['id']) => {
   removeItem(itemId);
 };
+
+defineExpose({
+  listItems,
+});
 </script>
 
 <style scoped>
