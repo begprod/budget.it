@@ -71,7 +71,6 @@ const classes = computed(() => {
   border-radius: var(--rounded-md);
   background-color: var(--color-bg-surface);
   opacity: 1;
-  transition: all 0.3s ease-in-out;
 }
 
 .shopping-item_checked {
