@@ -38,7 +38,7 @@ import { useShoppingListStore } from '@/stores';
 const shoppingListStore = useShoppingListStore();
 
 const { shoppingItems } = storeToRefs(shoppingListStore);
-const { markItemIsDone, removeItem } = shoppingListStore;
+const { markItemIsDone } = shoppingListStore;
 
 const colors = [
   '#b8b8ff40',
@@ -73,7 +73,11 @@ const check = (itemId: IShoppingItem['id'], isChecked: boolean) => {
 };
 
 const remove = (itemId: IShoppingItem['id']) => {
-  removeItem(itemId);
+  const index = listItems.value.findIndex((item) => item.id === itemId);
+
+  if (index !== -1) {
+    listItems.value.splice(index, 1);
+  }
 };
 
 defineExpose({

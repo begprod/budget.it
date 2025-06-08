@@ -9,7 +9,7 @@ describe('useShoppingListStore', () => {
 
   const shoppingStore = useShoppingListStore();
   const { shoppingItems } = storeToRefs(shoppingStore);
-  const { addItem, markItemIsDone, removeItem } = shoppingStore;
+  const { addItem, markItemIsDone } = shoppingStore;
 
   it('should add item', () => {
     addItem('first');
@@ -32,13 +32,5 @@ describe('useShoppingListStore', () => {
     expect(shoppingItems.value[0].isDone).toBeTruthy();
     expect(shoppingItems.value[1].isDone).toBeFalsy();
     expect(shoppingItems.value[2].isDone).toBeTruthy();
-  });
-
-  it('should remove item', () => {
-    removeItem(shoppingItems.value[0].id);
-    removeItem(shoppingItems.value[0].id);
-    removeItem(shoppingItems.value[0].id);
-
-    expect(shoppingItems.value.length).toEqual(0);
   });
 });

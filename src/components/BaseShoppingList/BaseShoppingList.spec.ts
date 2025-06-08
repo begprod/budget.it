@@ -60,4 +60,14 @@ describe('BaseShoppingList', () => {
     expect(shoppingItems.length).toBe(3);
     expect(wrapper.vm.listItems.length).toBe(3);
   });
+
+  it('should remove item from list', async () => {
+    const removeButton = wrapper.find('[data-test-id="shopping-item-delete-button"]');
+
+    expect(shoppingItems.length).toBe(3);
+
+    await removeButton.trigger('click');
+
+    expect(shoppingItems.length).toBe(2);
+  });
 });

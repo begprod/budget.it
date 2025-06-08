@@ -27,8 +27,5 @@ export const useShoppingListStore = defineStore('shooping-list', {
 
       item.isDone = status;
     },
-    removeItem(id: IShoppingItem['id']) {
-      this.shoppingItems = this.shoppingItems.filter((item) => item.id !== id);
-    },
   },
 });
