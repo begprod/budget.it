@@ -7,6 +7,9 @@
     </Transition>
 
     <div class="menu">
+      <div class="glass-effect"></div>
+      <div class="glass-tint"></div>
+
       <div class="menu__inner">
         <RouterLink :to="{ name: 'shopping-list' }" class="menu__item">
           <ShoppingBasket v-if="route.name !== 'shopping-list'" class="icon icon_lg" />
@@ -82,12 +85,11 @@ onMounted(() => {
 }
 
 .menu {
+  position: relative;
   padding: 0.25rem;
   background: var(--color-bg-surface-glass);
-  box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--color-bg-border);
   border-radius: var(--rounded-lg);
-  backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
   overflow: hidden;
 }
 
@@ -96,6 +98,7 @@ onMounted(() => {
   display: flex;
   justify-content: space-between;
   margin: 0 auto;
+  z-index: 10;
 }
 
 .menu__item {

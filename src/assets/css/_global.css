@@ -128,3 +128,20 @@ a {
     width: 100%;
   }
 }
+
+.glass-effect {
+  position: absolute;
+  inset: 0;
+  isolation: isolate;
+  backdrop-filter: blur(3px);
+  filter: url(#glass-distortion);
+  overflow: hidden;
+  z-index: 0;
+}
+
+.glass-tint {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.25);
+  z-index: 1;
+}

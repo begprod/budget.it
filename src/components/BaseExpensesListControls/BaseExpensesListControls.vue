@@ -1,48 +1,55 @@
 <template>
   <div class="expenses-list-controls wrapper">
-    <BaseButton
-      size="sm"
-      theme="flat"
-      :is-disabled="getNextMonthsFromCurrent.isFuture"
-      @click="decreaseCurrentMonthIndex"
-      data-test-id="next-month-button"
-    >
-      <template #leftIcon>
-        <ChevronLeft class="icon icon_md" />
-      </template>
-      <template #text>
-        {{ getNextMonthsFromCurrent.name }}
-      </template>
-    </BaseButton>
+    <div class="expenses-list-controls__glass">
+      <div class="glass-effect"></div>
+      <div class="glass-tint"></div>
+    </div>
 
-    <div class="expenses-list-controls__button expenses-list-controls__button_add">
+    <div class="expenses-list-controls__inner">
       <BaseButton
-        theme="brand"
-        size="circle"
-        :is-disabled="!getMonthByIndex.isCurrent"
-        @click="showExpenseInputHandler()"
-        data-test-id="add-expense-button"
+        size="sm"
+        theme="flat"
+        :is-disabled="getNextMonthsFromCurrent.isFuture"
+        @click="decreaseCurrentMonthIndex"
+        data-test-id="next-month-button"
+      >
+        <template #leftIcon>
+          <ChevronLeft class="icon icon_md" />
+        </template>
+        <template #text>
+          {{ getNextMonthsFromCurrent.name }}
+        </template>
+      </BaseButton>
+
+      <div class="expenses-list-controls__button expenses-list-controls__button_add">
+        <BaseButton
+          theme="brand"
+          size="circle"
+          :is-disabled="!getMonthByIndex.isCurrent"
+          @click="showExpenseInputHandler()"
+          data-test-id="add-expense-button"
+        >
+          <template #rightIcon>
+            <Banknote class="icon icon_lg" />
+          </template>
+        </BaseButton>
+      </div>
+
+      <BaseButton
+        size="sm"
+        theme="flat"
+        :is-disabled="!getPreviousMonthsFromCurrent"
+        @click="increaseCurrentMonthIndex"
+        data-test-id="previous-month-button"
       >
         <template #rightIcon>
-          <Banknote class="icon icon_lg" />
+          <ChevronRight class="icon icon_md" />
+        </template>
+        <template #text>
+          {{ getPreviousMonthsFromCurrent?.name }}
         </template>
       </BaseButton>
     </div>
-
-    <BaseButton
-      size="sm"
-      theme="flat"
-      :is-disabled="!getPreviousMonthsFromCurrent"
-      @click="increaseCurrentMonthIndex"
-      data-test-id="previous-month-button"
-    >
-      <template #rightIcon>
-        <ChevronRight class="icon icon_md" />
-      </template>
-      <template #text>
-        {{ getPreviousMonthsFromCurrent?.name }}
-      </template>
-    </BaseButton>
   </div>
 </template>
 
@@ -83,15 +90,26 @@ defineExpose({
   gap: 50px;
   margin-bottom: 1rem;
   background: var(--color-bg-surface-glass);
-  box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.2);
-  border-radius: var(--rounded-xl);
-  backdrop-filter: blur(3px);
+  border-radius: var(--rounded-md);
+  border: 1px solid var(--color-bg-border);
   overlay: hidden;
 }
 
+.expenses-list-controls__glass {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--rounded-md);
+  overflow: hidden;
+}
+
 .expenses-list-controls__inner {
+  position: relative;
   display: flex;
-  gap: 0.5rem;
+  width: 100%;
+  z-index: 10;
 }
 
 .expenses-list-controls__button_add {

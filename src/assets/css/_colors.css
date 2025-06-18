@@ -3,11 +3,11 @@
   --color-bg-surface: #ffffff;
   --color-bg-surface-secondary: #70809020;
   --color-bg-surface-brand-glass: rgba(84, 165, 130, 0.8);
-  --color-bg-surface-glass: rgba(255, 255, 255, 0.8);
+  --color-bg-surface-glass: rgba(255, 255, 255, 0.5);
   --color-bg-success: #10b191;
   --color-bg-warning: #fb923c;
   --color-bg-alert: #ef4444;
-  --color-bg-border: #cbd5e1;
+  --color-bg-border: #d5dce5;
   --color-bg-border-hover: #94a3b8;
 
   --color-typo-brand: #54a582cc;

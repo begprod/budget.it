@@ -1,6 +1,9 @@
 <template>
-  <div class="stats-panel">
-    <div class="stats-panel__inner">
+  <div class="stats-panel liquidGlass-wrapper">
+    <div class="glass-effect"></div>
+    <div class="glass-tint"></div>
+
+    <div class="stats-panel__inner liquidGlass-text">
       <div class="stats-panel__header">
         <div class="stats-panel__title" data-test-id="month-title">{{ title }}</div>
         <div class="stats-panel__overall" :title="`${expenses}`" data-test-id="monthly-expenses">
@@ -36,29 +39,15 @@ defineProps<IProps>();
 <style scoped>
 .stats-panel {
   position: sticky;
-  top: 52px;
+  top: 48px;
   display: flex;
   flex-direction: column;
   padding: 1.25rem;
   color: var(--color-typo-secondary);
-  background: var(--color-bg-surface-brand-glass);
   border-radius: var(--rounded-lg);
-  backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
+  border: 1px solid var(--color-bg-border);
+  overflow: hidden;
   z-index: 100;
-
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: var(--rounded-lg);
-    opacity: 0.4;
-    box-shadow: 0px 15px 15px 0lh var(--color-bg-brand);
-    z-index: 1;
-  }
 }
 
 .stats-panel__inner {
@@ -86,17 +75,17 @@ defineProps<IProps>();
   justify-content: space-between;
 
   * {
-    color: var(--color-typo-secondary);
+    color: var(--color-typo-primary);
   }
 }
 
 .stats-panel__title {
-  color: var(--color-typo-secondary);
+  color: var(--color-typo-primary);
   font-size: var(--typo-size-xl);
 }
 
 .stats-panel__overall {
-  color: var(--color-typo-secondary);
+  color: var(--color-typo-primary);
   line-height: 1;
   font-size: var(--typo-size-4xl);
   font-weight: bold;
