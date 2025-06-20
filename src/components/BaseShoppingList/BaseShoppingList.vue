@@ -58,6 +58,7 @@ const [parentRef, listItems] = useDragAndDrop(shoppingItems.value);
 dragAndDrop({
   parent: parentRef,
   values: listItems,
+  dragHandle: '.shopping-item__grip',
 });
 
 watch(

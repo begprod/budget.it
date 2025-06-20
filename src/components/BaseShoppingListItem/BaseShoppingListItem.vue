@@ -1,5 +1,8 @@
 <template>
   <div class="shopping-item" :class="classes">
+    <div class="shopping-item__grip" data-test-id="shopping-item-grip">
+      <GripVertical class="icon icon_md" />
+    </div>
     <label :for="item.id" class="shopping-item__checkbox">
       <input
         :id="item.id"
@@ -35,7 +38,7 @@
 <script setup lang="ts">
 import type { IShoppingItem } from '@/types';
 import { computed } from 'vue';
-import { Trash2, SquareDashed, CheckCheck } from 'lucide-vue-next';
+import { Trash2, SquareDashed, CheckCheck, GripVertical } from 'lucide-vue-next';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 
 interface IProps {
@@ -77,6 +80,11 @@ const classes = computed(() => {
   text-decoration: line-through;
   opacity: 0.3;
   box-shadow: 0 0 0 0 rgba(0, 0, 0, 0) !important;
+}
+
+.shopping-item__grip {
+  opacity: 0.6;
+  cursor: grab;
 }
 
 .shopping-item__checkbox {

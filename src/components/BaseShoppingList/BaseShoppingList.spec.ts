@@ -70,4 +70,10 @@ describe('BaseShoppingList', () => {
 
     expect(shoppingItems.length).toBe(2);
   });
+
+  it('should have grip element for drag n drop', () => {
+    const el = wrapper.find('[data-test-id="shopping-item-grip"');
+
+    expect(el.exists()).toBe(true);
+  });
 });
