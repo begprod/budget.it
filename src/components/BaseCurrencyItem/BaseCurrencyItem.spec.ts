@@ -59,7 +59,7 @@ describe('BaseCurrencyGroupItem', () => {
     await wrapper.setProps({ isDefault: false, isSelected: true });
 
     const lockIcon = wrapper.find('.lucide-lock-icon');
-    const xIcon = wrapper.find('.lucide-xicon');
+    const xIcon = wrapper.find('.lucide-x-icon');
 
     expect(lockIcon.exists()).toBe(true);
     expect(xIcon.exists()).toBe(false);
@@ -69,7 +69,7 @@ describe('BaseCurrencyGroupItem', () => {
     await wrapper.setProps({ isDefault: false, isSelected: false });
 
     const lockIcon = wrapper.find('.lucide-lock-icon');
-    const xIcon = wrapper.find('.lucide-xicon');
+    const xIcon = wrapper.find('.lucide-x-icon');
 
     expect(lockIcon.exists()).toBe(false);
     expect(xIcon.exists()).toBe(true);
