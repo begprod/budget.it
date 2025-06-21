@@ -57,7 +57,7 @@ const classes = computed(() => {
   line-height: 1.5;
   border: 1px solid var(--color-bg-border);
   border-radius: var(--rounded-md);
-  background-color: var(--color-bg-surface);
+  background-color: transparent;
   transition: 0.3s ease-in-out;
   transition-property: border, background-color, opacity, box-shadow, transform;
   cursor: pointer;
@@ -74,7 +74,7 @@ const classes = computed(() => {
   &:disabled {
     box-shadow: none;
     cursor: not-allowed;
-    opacity: 0.5;
+    opacity: 0.3;
   }
 }
 

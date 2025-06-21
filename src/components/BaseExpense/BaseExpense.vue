@@ -124,5 +124,6 @@ defineExpose({
   right: 0;
   width: 50px;
   height: 100%;
+  background-color: var(--color-bg-surface);
 }
 </style>

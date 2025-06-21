@@ -1,5 +1,5 @@
 <template>
-  <div class="stats-panel liquidGlass-wrapper">
+  <div class="stats-panel">
     <div class="glass-effect"></div>
     <div class="glass-tint"></div>
 

@@ -1,27 +1,40 @@
 <template>
-  <div class="toast">
+  <div class="toast-holder">
     <Transition name="slide-up">
       <div
         v-if="isVisible"
-        class="toast__inner"
+        class="toast"
         data-test-id="toast"
         :class="classObject"
         @click="closeToast"
       >
-        <div v-if="props.type === 'default'" class="toast__icon" data-test-id="toast-default-icon">
-          <MessageCircleMore class="icon icon_24" />
-        </div>
+        <div class="glass-effect"></div>
+        <div class="glass-tint"></div>
 
-        <div v-if="props.type === 'success'" class="toast__icon" data-test-id="toast-success-icon">
-          <MessageCircleHeart class="icon icon_24" />
-        </div>
-        <div v-if="props.type === 'error'" class="toast__icon" data-test-id="toast-error-icon">
-          <MessageCircleX class="icon icon_24" />
-        </div>
+        <div class="toast__inner">
+          <div
+            v-if="props.type === 'default'"
+            class="toast__icon"
+            data-test-id="toast-default-icon"
+          >
+            <MessageCircleMore class="icon icon_24" />
+          </div>
 
-        <div class="toast__content" data-test-id="toast-message">{{ message }}</div>
+          <div
+            v-if="props.type === 'success'"
+            class="toast__icon"
+            data-test-id="toast-success-icon"
+          >
+            <MessageCircleHeart class="icon icon_24" />
+          </div>
+          <div v-if="props.type === 'error'" class="toast__icon" data-test-id="toast-error-icon">
+            <MessageCircleX class="icon icon_24" />
+          </div>
 
-        <div ref="timerLineRef" class="toast__timer-line"></div>
+          <div class="toast__content" data-test-id="toast-message">{{ message }}</div>
+
+          <div ref="timerLineRef" class="toast__timer-line"></div>
+        </div>
       </div>
     </Transition>
   </div>
@@ -62,11 +75,11 @@ watch(
 const classObject = computed(() => {
   switch (props.type) {
     case 'success':
-      return 'toast__inner_type_success';
+      return 'toast_type_success';
     case 'error':
-      return 'toast__inner_type_error';
+      return 'toast_type_error';
     default:
-      return 'toast__inner_type_default';
+      return 'toast_type_default';
   }
 });
 
@@ -110,7 +123,7 @@ const closeToast = () => {
 </script>
 
 <style scoped>
-.toast {
+.toast-holder {
   position: fixed;
   bottom: 6rem;
   left: 50%;
@@ -119,29 +132,36 @@ const closeToast = () => {
   font-size: var(--typo-size-sm);
   border-radius: var(--rounded-md);
   transform: translateX(-50%);
-  overflow: hidden;
 }
 
-.toast__inner {
-  display: flex;
-  width: 100%;
-  padding: 1rem;
-  background-color: var(--color-bg-surface);
+.toast {
+  position: relative;
   border: 1px solid var(--color-bg-border);
   border-radius: var(--rounded-md);
   transition: box-shadow 0.3s ease-in-out;
+  z-index: 10;
+  overflow: hidden;
 
   &:hover {
     cursor: pointer;
   }
 }
 
-.toast__inner_type_success {
+.toast_type_success {
   color: var(--color-bg-success);
 }
 
-.toast__inner_type_error {
+.toast_type_error {
   color: var(--color-bg-alert);
+}
+
+.toast__inner {
+  position: relative;
+  display: flex;
+  width: 100%;
+  width: 100%;
+  padding: 1rem;
+  z-index: 10;
 }
 
 .toast__icon {

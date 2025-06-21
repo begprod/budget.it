@@ -11,6 +11,9 @@ import ShoppingListView from '@/views/ShoppingListView.vue';
 export const router = createRouter({
   // @ts-ignore
   history: createWebHistory(import.meta.env.BASE_URL),
+  scrollBehavior() {
+    return { top: 0 };
+  },
   routes: [
     {
       path: '/',
