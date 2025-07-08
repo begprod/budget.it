@@ -2,18 +2,16 @@
   <BaseShoppingListControls />
 
   <div v-if="shoppingItems.length > 0" class="shopping-list" ref="parentRef">
-    <TransitionGroup name="list">
-      <BaseShoppingListItem
-        v-for="item in shoppingItems"
-        :key="item.id"
-        :item="item"
-        :style="{
-          boxShadow: `0 2px 2px 0px ${colors[Math.floor(Math.random() * colors.length)]}`,
-        }"
-        @check="check"
-        @remove="remove"
-      />
-    </TransitionGroup>
+    <BaseShoppingListItem
+      v-for="item in shoppingItems"
+      :key="item.id"
+      :item="item"
+      :style="{
+        boxShadow: `0 2px 2px 0px ${colors[Math.floor(Math.random() * colors.length)]}`,
+      }"
+      @check="check"
+      @remove="remove"
+    />
   </div>
 
   <BaseEmptyListMessage v-if="!shoppingItems.length">
@@ -41,16 +39,16 @@ const { shoppingItems } = storeToRefs(shoppingListStore);
 const { markItemIsDone } = shoppingListStore;
 
 const colors = [
-  '#b8b8ff40',
-  '#ffd8be40',
-  '#f7aef840',
-  '#8093f140',
-  '#efa7a740',
-  '#ff69eb40',
-  '#79addc40',
-  '#9ad7f540',
-  '#5aa9e640',
-  '#c2a5d140',
+  '#b8b8ff50',
+  '#ffd8be50',
+  '#f7aef850',
+  '#8093f150',
+  '#efa7a750',
+  '#ff69eb50',
+  '#79addc50',
+  '#9ad7f550',
+  '#5aa9e650',
+  '#c2a5d150',
 ];
 
 const [parentRef, listItems] = useDragAndDrop(shoppingItems.value);
@@ -92,5 +90,6 @@ defineExpose({
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  overflow: hidden;
 }
 </style>
