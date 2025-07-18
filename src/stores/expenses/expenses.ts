@@ -13,6 +13,7 @@ export const useExpensesStore = defineStore('expenses', {
   getters: {
     getMonthlyExpenses: (state) => (monthId: IMonth['id']) => {
       const expenseItems: Array<IExpense> = [];
+      const totals: Record<string, number> = {};
 
       Object.keys(state.expenses).forEach((expense: IExpense['value']) => {
         if (!state.expenses[expense].items.length) {
@@ -26,12 +27,30 @@ export const useExpensesStore = defineStore('expenses', {
         return expenseItems.push(...items);
       });
 
+      for (const item of expenseItems) {
+        const currency = item.currency;
+        const value = Number(item.value);
+
+        if (!totals[currency]) {
+          totals[currency] = 0;
+        }
+
+        totals[currency] += value;
+      }
+
       const monthExpensesCounter = expenseItems.reduce(
         (acc: number, item: IExpense) => acc + Number(item.value),
         0,
       );
 
-      return monthExpensesCounter;
+      const result = Object.entries(totals)
+        .map(([currency, value]) => ({ currency, value }))
+        .sort((a, b) => b.value - a.value);
+
+      return {
+        totalBudget: monthExpensesCounter,
+        totalsByCurrency: result,
+      };
     },
   },
 

@@ -2,7 +2,7 @@
   <BaseStatsPanel
     v-if="getMonthByIndex"
     :title="getMonthByIndex.name"
-    :expenses="getMonthlyExpenses(getMonthByIndex.id)"
+    :expenses="getMonthlyExpenses(getMonthByIndex.id).totalsByCurrency"
     :budget="monthBudget"
     :progress="
       countProgressPercentage(
@@ -81,7 +81,9 @@ const countProgressPercentage = (monthId: IMonth['id'] | undefined, dailyBudget:
     return 0;
   }
 
-  return Math.round((monthlyExpenses.value / (monthDays.value.length * dailyBudget)) * 100);
+  return Math.round(
+    (monthlyExpenses.value.totalBudget / (monthDays.value.length * dailyBudget)) * 100,
+  );
 };
 
 const submitExpense = (expenseValue: string) => {

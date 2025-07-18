@@ -57,6 +57,11 @@ export interface ICurrency {
   isDefault: boolean;
 }
 
+export interface ITotals {
+  currency: string;
+  value: number | string;
+}
+
 export interface IShoppingListStore {
   shoppingItems: RemovableRef<Array<IShoppingItem>>;
 }
