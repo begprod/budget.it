@@ -10,8 +10,8 @@ describe('Expenses store', () => {
   const expensesStore = useExpensesStore();
   const calendarStore = useCalendarStore();
   const { expenses } = storeToRefs(expensesStore);
-  const { initExpensesObject, addExpense, removeExpense } = expensesStore;
-  const { days, getCurrentDay } = storeToRefs(calendarStore);
+  const { initExpensesObject, addExpense, removeExpense, getMonthlyExpenses } = expensesStore;
+  const { days, getCurrentDay, currentMonthIndex, months } = storeToRefs(calendarStore);
   const { initCalendar } = calendarStore;
 
   initCalendar();
@@ -38,5 +38,17 @@ describe('Expenses store', () => {
 
     expect(expenses.value[getCurrentDay.value?.id ?? ''].items.length).toEqual(1);
     expect(expenses.value[getCurrentDay.value?.id ?? ''].items[0].value).toEqual(200);
+  });
+
+  it('should return total by curreny and total overall', () => {
+    addExpense(300);
+
+    expect(getMonthlyExpenses(months.value[currentMonthIndex.value].id).totalBudget).toBe(500);
+    expect(
+      getMonthlyExpenses(months.value[currentMonthIndex.value].id).totalsByCurrency[0].currency,
+    ).toBe('$');
+    expect(
+      getMonthlyExpenses(months.value[currentMonthIndex.value].id).totalsByCurrency[0].value,
+    ).toBe(500);
   });
 });

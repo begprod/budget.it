@@ -10,7 +10,16 @@ describe('BaseStatsPanel', () => {
     wrapper = shallowMount(BaseStatsPanel, {
       props: {
         title: 'April',
-        expenses: 123,
+        expenses: [
+          {
+            currency: '$',
+            value: 500,
+          },
+          {
+            currency: '฿',
+            value: 100,
+          },
+        ],
         budget: 321,
         progress: 10,
       },
@@ -32,15 +41,18 @@ describe('BaseStatsPanel', () => {
   });
 
   it('should contain total month expenses', () => {
-    const expenses = wrapper.find('[data-test-id="monthly-expenses"]');
+    const expenses = wrapper.findAll('[data-test-id*="monthly-expenses"]');
 
-    expect(expenses.text()).toContain('123');
+    expect(expenses[0].text()).toContain('$ 500');
+    expect(expenses[1].text()).toContain('฿ 100');
   });
+
   it('should contain monthly budget', () => {
     const budget = wrapper.find('[data-test-id="monthly-budget"]');
 
     expect(budget.text()).toContain('321');
   });
+
   it('should contain progress percents', () => {
     const percents = wrapper.find('[data-test-id="monthly-percents"]');
 
