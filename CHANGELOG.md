@@ -1,5 +1,30 @@
 # Changelog
 
+## 0.16.1
+
+### Bug Fixes
+
+- fix theme meta tag
+
+## 0.16.0
+
+### Features
+
+- dark theme
+
+## 0.15.2
+
+### Bug Fixes
+
+- link colors
+- icon color inside button component
+
+## 0.15.0
+
+### Features
+
+- design update
+
 ## 0.14.0
 
 ### Other
