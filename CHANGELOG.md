@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.19.1
+
+### Bug fixes
+
+- glass effect
+
+## 0.19.0
+
+### Features
+
+- glass effect
+
+## 0.18.0
+
+### Other
+
+- update packages for node >= 22
+
+## 0.17.0
+
+### Features
+
+- shopping list items drag and drop
+
 ## 0.16.1
 
 ### Bug Fixes
