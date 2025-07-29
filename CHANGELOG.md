@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.21.0
+
+### Features
+
+- separate calculation of budgets by currency
+
+## 0.20.0
+
+### Features
+
+- shopping list delete items by swipe
+
+
 ## 0.19.1
 
 ### Bug fixes
