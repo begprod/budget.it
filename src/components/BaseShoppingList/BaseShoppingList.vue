@@ -7,7 +7,7 @@
       :key="item.id"
       :item="item"
       :style="{
-        boxShadow: `0 2px 2px 0px ${colors[Math.floor(Math.random() * colors.length)]}`,
+        boxShadow: `0 2px 2px 0 ${colors[Math.floor(Math.random() * colors.length)]}`,
       }"
       @check="check"
       @remove="remove"
@@ -89,7 +89,6 @@ defineExpose({
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
   overflow: hidden;
 }
 </style>

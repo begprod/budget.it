@@ -106,6 +106,7 @@ const classes = computed(() => {
 <style scoped>
 .shopping-item {
   position: relative;
+  margin-bottom: 1rem;
 }
 
 .shopping-item_checked {
@@ -120,7 +121,7 @@ const classes = computed(() => {
   align-items: center;
   justify-content: space-between;
   gap: clamp(0.875rem, 1.56vw, 1rem);
-  padding: 0 0.5rem;
+  padding: 0.25rem 0.5rem;
   width: 100%;
   background-color: var(--color-bg-surface);
   border-radius: var(--rounded-xs);
@@ -131,6 +132,8 @@ const classes = computed(() => {
 }
 
 .shopping-item__grip {
+  display: flex;
+  align-items: center;
   opacity: 0.6;
   cursor: grab;
 }
@@ -165,6 +168,9 @@ const classes = computed(() => {
 }
 
 .shopping-item__checkbox-icon {
+  display: flex;
+  align-items: center;
+
   svg {
     transition: 0.3s ease-in-out;
     transition-property: opacity;
@@ -195,7 +201,6 @@ const classes = computed(() => {
 }
 
 .shopping-item__action-banner {
-  /* display: none !important; */
   position: absolute;
   top: 0;
   left: 0;
