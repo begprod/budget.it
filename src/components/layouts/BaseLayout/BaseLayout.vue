@@ -10,6 +10,20 @@
       <div v-if="$slots.wrapper" class="layout__wrapper">
         <slot name="wrapper" />
       </div>
+
+      <Transition name="slide-up">
+        <div v-if="needRefresh" class="layout__button">
+          <div class="glass-effect"></div>
+          <div class="glass-tint"></div>
+
+          <BaseButton title="update application" @click="updateServiceWorker(true)">
+            <template #leftIcon>
+              <Rocket />
+            </template>
+            <template #text>Update ready</template>
+          </BaseButton>
+        </div>
+      </Transition>
     </div>
 
     <BaseFooter />
@@ -29,11 +43,16 @@
 <script setup lang="ts">
 import { onBeforeMount } from 'vue';
 import { storeToRefs } from 'pinia';
+import { useRegisterSW } from 'virtual:pwa-register/vue';
+import { Rocket } from 'lucide-vue-next';
 import BaseHeader from '@/components/layouts/partials/BaseHeader/BaseHeader.vue';
 import BaseFooter from '@/components/layouts/partials/BaseFooter/BaseFooter.vue';
 import BaseMenuBar from '@/components/layouts/partials/BaseMenuBar/BaseMenuBar.vue';
 import BaseToast from '@/components/ui/BaseToast/BaseToast.vue';
+import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 import { useCommonStore } from '@/stores';
+
+const { needRefresh, updateServiceWorker } = useRegisterSW();
 
 const commonStore = useCommonStore();
 
@@ -79,5 +98,18 @@ onBeforeMount(() => {
   font-weight: bold;
   line-height: 1;
   user-select: none;
+}
+
+.layout__button {
+  position: fixed;
+  /*right: 2rem;*/
+  bottom: 16lvh;
+  width: 100%;
+  padding: 0 1.25rem;
+
+  button {
+    position: relative;
+    z-index: 10;
+  }
 }
 </style>
