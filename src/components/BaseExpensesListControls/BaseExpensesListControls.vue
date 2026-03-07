@@ -9,15 +9,15 @@
       <BaseButton
         size="sm"
         theme="flat"
-        :is-disabled="getNextMonthsFromCurrent.isFuture"
-        @click="decreaseCurrentMonthIndex"
-        data-test-id="next-month-button"
+        :is-disabled="!getPreviousMonthsFromCurrent"
+        @click="increaseCurrentMonthIndex"
+        data-test-id="previous-month-button"
       >
         <template #leftIcon>
           <ChevronLeft class="icon icon_md" />
         </template>
         <template #text>
-          {{ getNextMonthsFromCurrent.name }}
+          {{ getPreviousMonthsFromCurrent?.name }}
         </template>
       </BaseButton>
 
@@ -38,15 +38,15 @@
       <BaseButton
         size="sm"
         theme="flat"
-        :is-disabled="!getPreviousMonthsFromCurrent"
-        @click="increaseCurrentMonthIndex"
-        data-test-id="previous-month-button"
+        :is-disabled="getNextMonthsFromCurrent.isFuture"
+        @click="decreaseCurrentMonthIndex"
+        data-test-id="next-month-button"
       >
         <template #rightIcon>
           <ChevronRight class="icon icon_md" />
         </template>
         <template #text>
-          {{ getPreviousMonthsFromCurrent?.name }}
+          {{ getNextMonthsFromCurrent.name }}
         </template>
       </BaseButton>
     </div>
