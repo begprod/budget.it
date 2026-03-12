@@ -40,7 +40,7 @@ describe('Expenses store', () => {
     expect(expenses.value[getCurrentDay.value?.id ?? ''].items[0].value).toEqual(200);
   });
 
-  it('should return total by curreny and total overall', () => {
+  it('should return total by currency and total overall', () => {
     addExpense(300);
 
     expect(getMonthlyExpenses(months.value[currentMonthIndex.value].id).totalBudget).toBe(500);

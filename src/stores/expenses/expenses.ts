@@ -100,5 +100,14 @@ export const useExpensesStore = defineStore('expenses', {
         }
       }
     },
+    syncExpensesFromLocalStorage() {
+      const data = localStorage.getItem('budget.it:expenses');
+
+      if (data) {
+        this.expenses = JSON.parse(data);
+      } else {
+        this.expenses = {};
+      }
+    },
   },
 });

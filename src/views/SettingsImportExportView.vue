@@ -22,13 +22,15 @@
 import { storeToRefs } from 'pinia';
 import { FileDown, FileUp } from 'lucide-vue-next';
 import { exportDataFromLocalStorage, importDataToLocalStorage, getDateWithTime } from '@/helpers';
-import { useCommonStore } from '@/stores';
+import { useCommonStore, useExpensesStore } from '@/stores';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 
 const commonStore = useCommonStore();
+const expensesStore = useExpensesStore();
 
 const { setToast, setLastBackupDate } = commonStore;
 const { lastBackupDate } = storeToRefs(commonStore);
+const { syncExpensesFromLocalStorage } = expensesStore;
 
 const exportDataHandler = () => {
   exportDataFromLocalStorage('budget.it:expenses');
@@ -38,14 +40,13 @@ const exportDataHandler = () => {
 const importDataHandler = async () => {
   await importDataToLocalStorage('budget.it:expenses')
     .then(() => {
+      syncExpensesFromLocalStorage();
+
       setToast({
         type: 'success',
         message: 'Data imported successfully',
         duration: 5,
-        callback: () => location.reload(),
       });
-
-      setLastBackupDate(getDateWithTime());
     })
     .catch(() => {
       setToast({
