@@ -129,8 +129,8 @@ describe('ShoppingItem', () => {
       configurable: true,
     });
 
-    // Симулируем свайп влево на 60% ширины (больше порога в 50%)
-    distanceXRef.value = -60; // 120px из 200px = 60%
+    // Симулируем свайп влево меньше 50%
+    distanceXRef.value = -60;
 
     // Проверяем, что onSwipeEnd был захвачен
     expect(capturedOnSwipeEnd).toBeDefined();
