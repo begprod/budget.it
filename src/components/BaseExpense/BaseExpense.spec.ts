@@ -1,24 +1,34 @@
-import type { ComponentWrapperType } from '@/types';
-import { nextTick } from 'vue';
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { shallowMount } from '@vue/test-utils';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { shallowMount, mount } from '@vue/test-utils';
 import BaseExpense from '@/components/BaseExpense/BaseExpense.vue';
 
-describe('BaseExpense', () => {
-  let wrapper: ComponentWrapperType<typeof BaseExpense>;
+vi.mock('@vueuse/core', () => ({
+  usePointerSwipe: vi.fn(),
+}));
 
-  const createComponent = () => {
-    wrapper = shallowMount(BaseExpense, {
+describe('BaseExpense', () => {
+  let wrapper: any;
+  let mockUsePointerSwipe: ReturnType<typeof vi.fn>;
+
+  beforeEach(async () => {
+    const { usePointerSwipe } = await import('@vueuse/core');
+    mockUsePointerSwipe = usePointerSwipe as ReturnType<typeof vi.fn>;
+
+    const mockDistanceX = { value: 0 };
+
+    mockUsePointerSwipe.mockImplementation(() => {
+      return {
+        distanceX: mockDistanceX,
+      };
+    });
+
+    wrapper = mount(BaseExpense, {
       props: {
         value: '100',
         currency: 'USD',
         createdAt: '10:00',
       },
     });
-  };
-
-  beforeEach(() => {
-    createComponent();
   });
 
   afterEach(() => {
@@ -31,52 +41,142 @@ describe('BaseExpense', () => {
     expect(wrapper.props('createdAt')).toBe('10:00');
   });
 
-  it('should show delete button', async () => {
-    let button;
+  it('should emit delete-item when swipe threshold is passed', async () => {
+    const distanceXRef = { value: 0 };
+    let capturedOnSwipeEnd: (() => void) | null = null;
 
-    button = wrapper.find('[data-test-id="delete-button"]');
+    mockUsePointerSwipe.mockImplementation((_: any, options: any) => {
+      capturedOnSwipeEnd = options.onSwipeEnd;
 
-    expect(button.exists()).toBe(false);
+      return {
+        distanceX: distanceXRef,
+      };
+    });
 
-    wrapper.vm.showControls(true);
+    wrapper = mount(BaseExpense, {
+      props: {
+        value: '50',
+        currency: 'EUR',
+        createdAt: '12:00',
+      },
+    });
 
-    await nextTick();
+    const container = wrapper.find('.expense').element as HTMLElement;
+    Object.defineProperty(container, 'offsetWidth', {
+      value: 200,
+      configurable: true,
+    });
 
-    button = wrapper.find('[data-test-id="delete-button"]');
+    distanceXRef.value = -120;
 
-    expect(button.exists()).toBe(true);
+    expect(capturedOnSwipeEnd).toBeDefined();
+
+    capturedOnSwipeEnd!();
+
+    await new Promise((resolve) => setTimeout(resolve, 250));
+
+    expect(wrapper.emitted('delete-item')).toBeDefined();
+    expect(wrapper.emitted('delete-item')[0]).toEqual([]);
   });
 
-  it('should hide delete button', async () => {
-    let button;
+  it('should NOT emit delete-item when swipe is below threshold', async () => {
+    const distanceXRef = { value: 0 };
+    let capturedOnSwipeEnd: (() => void) | null = null;
 
-    wrapper.vm.showControls(true);
+    mockUsePointerSwipe.mockImplementation((_: any, options: any) => {
+      capturedOnSwipeEnd = options.onSwipeEnd;
 
-    await nextTick();
+      return {
+        distanceX: distanceXRef,
+      };
+    });
 
-    button = wrapper.find('[data-test-id="delete-button"]');
+    wrapper = shallowMount(BaseExpense, {
+      props: {
+        value: '50',
+        currency: 'EUR',
+        createdAt: '12:00',
+      },
+    });
 
-    expect(button.exists()).toBe(true);
+    const container = wrapper.find('.expense').element as HTMLElement;
+    Object.defineProperty(container, 'offsetWidth', {
+      value: 200,
+      configurable: true,
+    });
 
-    wrapper.vm.showControls(false);
+    distanceXRef.value = -60;
 
-    await nextTick();
+    expect(capturedOnSwipeEnd).toBeDefined();
 
-    button = wrapper.find('[data-test-id="delete-button"]');
+    capturedOnSwipeEnd!();
 
-    expect(button.exists()).toBe(false);
+    await new Promise((resolve) => setTimeout(resolve, 250));
+
+    expect(wrapper.emitted('delete-item')).toBeUndefined();
   });
 
-  it('should emit click and delete-item event when control clicked', async () => {
-    wrapper.vm.showControls(true);
+  it('should emit delete-item when swipe is exactly at threshold (50%)', async () => {
+    const distanceX = { value: 0 };
+    let onSwipeEnd: (() => void) | null = null;
 
-    await nextTick();
+    mockUsePointerSwipe.mockImplementation((_target: any, options: any) => {
+      onSwipeEnd = options.onSwipeEnd ?? null;
+      return { distanceX };
+    });
 
-    const button = wrapper.find('[data-test-id="delete-button"]');
+    wrapper = shallowMount(BaseExpense, {
+      props: {
+        value: '50',
+        currency: 'EUR',
+        createdAt: '12:00',
+      },
+    });
 
-    await button.trigger('click');
+    const container = wrapper.find('.expense').element as HTMLElement;
+    Object.defineProperty(container, 'offsetWidth', {
+      value: 200,
+      configurable: true,
+    });
 
-    expect(wrapper.emitted()).toHaveProperty('click');
-    expect(wrapper.emitted()).toHaveProperty('delete-item');
+    // Свайп ровно на 50% — порог пройден (>= 0.5)
+    distanceX.value = -100;
+    onSwipeEnd!();
+
+    await new Promise((resolve) => setTimeout(resolve, 250));
+
+    expect(wrapper.emitted('delete-item')).toBeDefined();
+  });
+
+  it('should NOT emit delete-item when swipe is just below threshold', async () => {
+    const distanceX = { value: 0 };
+    let onSwipeEnd: (() => void) | null = null;
+
+    mockUsePointerSwipe.mockImplementation((_target: any, options: any) => {
+      onSwipeEnd = options.onSwipeEnd ?? null;
+      return { distanceX };
+    });
+
+    wrapper = shallowMount(BaseExpense, {
+      props: {
+        value: '50',
+        currency: 'EUR',
+        createdAt: '12:00',
+      },
+    });
+
+    const container = wrapper.find('.expense').element as HTMLElement;
+    Object.defineProperty(container, 'offsetWidth', {
+      value: 200,
+      configurable: true,
+    });
+
+    // Свайп на 49.5% — порог не пройден
+    distanceX.value = -99;
+    onSwipeEnd!();
+
+    await new Promise((resolve) => setTimeout(resolve, 250));
+
+    expect(wrapper.emitted('delete-item')).toBeUndefined();
   });
 });

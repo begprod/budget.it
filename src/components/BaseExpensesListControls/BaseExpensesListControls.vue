@@ -117,6 +117,7 @@ defineExpose({
   top: 50%;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
+  z-index: 10;
 
   button {
     width: 48px;

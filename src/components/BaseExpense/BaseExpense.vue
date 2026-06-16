@@ -1,29 +1,19 @@
 <template>
-  <div ref="expenseRef" class="expense" @click="showControls(true)">
-    <div class="expense__item">{{ currency }} {{ value }}</div>
+  <div ref="container" class="expense">
+    <div ref="target" class="expense__inner" :style="{ left, opacity: innerOpacity }">
+      <div class="expense__content">
+        <div class="expense__item">{{ currency }} {{ value }}</div>
+        <div class="expense__time">{{ createdAt }}</div>
+      </div>
+    </div>
 
-    <div class="expense__time">{{ createdAt }}</div>
-
-    <Transition name="slide-right">
-      <BaseButton
-        v-if="isControlsVisible"
-        theme="flat"
-        class="expense__button"
-        data-test-id="delete-button"
-        @click="deleteItemHandler"
-      >
-        <template #text>
-          <Trash2 class="icon icon_sm" />
-        </template>
-      </BaseButton>
-    </Transition>
+    <div class="expense__action-banner" :style="{ opacity: bannerOpacity }">Delete</div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from 'vue';
-import { Trash2 } from 'lucide-vue-next';
-import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
+import { computed, shallowRef } from 'vue';
+import { usePointerSwipe } from '@vueuse/core';
 
 interface IProps {
   value: string | number;
@@ -35,71 +25,75 @@ defineProps<IProps>();
 
 const emit = defineEmits(['delete-item']);
 
-const expenseRef = ref<HTMLElement | null>(null);
-const isControlsVisible = ref(false);
+const target = shallowRef<HTMLElement | null>(null);
+const container = shallowRef<HTMLElement | null>(null);
+const left = shallowRef('0');
+const innerOpacity = shallowRef(1);
+const bannerOpacity = shallowRef(0);
+const containerWidth = computed(() => container.value?.offsetWidth);
 
-onMounted(() => {
-  document.addEventListener('click', handleClickOutside);
+const { distanceX } = usePointerSwipe(target, {
+  disableTextSelect: true,
+  onSwipe() {
+    if (!containerWidth.value) {
+      return;
+    }
 
-  document.addEventListener('keydown', handleKeydown);
+    const dx = distanceX.value;
 
-  document.addEventListener('scroll', handleScroll);
+    if (dx < 0) {
+      const dist = Math.abs(dx);
+      left.value = `${dist}px`;
+      innerOpacity.value = 1.25 - dist / containerWidth.value;
+      bannerOpacity.value = -0.01 + dist / containerWidth.value;
+    } else {
+      left.value = '0';
+      innerOpacity.value = 1;
+    }
+  },
+  onSwipeEnd() {
+    const thresholdPassed =
+      containerWidth.value && Math.abs(distanceX.value) / containerWidth.value >= 0.5;
+
+    if (distanceX.value < 0 && thresholdPassed) {
+      left.value = '100%';
+      innerOpacity.value = 0;
+
+      setTimeout(() => {
+        emit('delete-item');
+      }, 200);
+    } else {
+      resetSwipe();
+    }
+  },
 });
 
-onBeforeUnmount(() => {
-  document.removeEventListener('click', handleClickOutside);
-
-  document.removeEventListener('keydown', handleKeydown);
-
-  document.removeEventListener('scroll', handleScroll);
-});
-
-const showControls = (isVisible: boolean, event?: Event) => {
-  if (
-    event instanceof MouseEvent &&
-    (!expenseRef.value || expenseRef.value.contains(event.target as Node))
-  ) {
-    return;
-  }
-
-  if (event instanceof KeyboardEvent && event.key === 'Escape') {
-    isControlsVisible.value = false;
-
-    return;
-  }
-
-  if (event instanceof WheelEvent) {
-    isControlsVisible.value = false;
-
-    return;
-  }
-
-  isControlsVisible.value = isVisible;
-};
-
-const handleClickOutside = (event: MouseEvent) => showControls(false, event);
-const handleKeydown = (event: KeyboardEvent) => showControls(false, event);
-const handleScroll = (event: Event) => showControls(false, event);
-
-const deleteItemHandler = () => {
-  emit('delete-item');
-};
-
-defineExpose({
-  showControls,
-});
+function resetSwipe() {
+  left.value = '0';
+  innerOpacity.value = 1;
+  bannerOpacity.value = 0;
+}
 </script>
 
 <style scoped>
 .expense {
   position: relative;
+  border-radius: var(--rounded-xs);
+  box-shadow: 0 1px 1px 0 var(--color-bg-surface-secondary);
+  overflow: hidden;
+}
+
+.expense__inner {
+  position: relative;
+  left: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.75rem 0;
-  transition: 0.3s ease-in-out;
-  transition-property: box-shadow, transform;
-  cursor: pointer;
+  padding: 0.5rem;
+  background-color: var(--color-bg-surface);
+  transition: 0.2s linear;
+  transition-property: left, opacity;
+  z-index: 1;
 }
 
 .expense__time {
@@ -125,5 +119,22 @@ defineExpose({
   width: 50px;
   height: 100%;
   background-color: var(--color-bg-surface);
+}
+
+.expense__action-banner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  color: var(--color-typo-secondary);
+  opacity: 0;
+  border-radius: var(--rounded-xs);
+  background-color: var(--color-bg-alert);
+  overflow: hidden;
+  z-index: 0;
 }
 </style>

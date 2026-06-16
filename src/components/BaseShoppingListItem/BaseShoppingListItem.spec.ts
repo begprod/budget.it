@@ -66,6 +66,7 @@ describe('ShoppingItem', () => {
 
     mockUsePointerSwipe.mockImplementation((_: any, options: any) => {
       capturedOnSwipeEnd = options.onSwipeEnd;
+
       return {
         distanceX: distanceXRef,
       };
@@ -98,5 +99,46 @@ describe('ShoppingItem', () => {
     await new Promise((resolve) => setTimeout(resolve, 250));
 
     expect(wrapper.emitted('remove')[0]).toEqual(['test-id-new']);
+  });
+
+  it('should not emit remove when swipe threshold is passed', async () => {
+    const distanceXRef = { value: 0 };
+    let capturedOnSwipeEnd: (() => void) | null = null;
+
+    mockUsePointerSwipe.mockImplementation((_: any, options: any) => {
+      capturedOnSwipeEnd = options.onSwipeEnd;
+
+      return {
+        distanceX: distanceXRef,
+      };
+    });
+
+    wrapper = mount(BaseShoppingListItem, {
+      props: {
+        item: {
+          id: 'test-id-new',
+          title: 'new item',
+          isDone: true,
+        },
+      },
+    });
+
+    const container = wrapper.find('.shopping-item').element as HTMLElement;
+    Object.defineProperty(container, 'offsetWidth', {
+      value: 200,
+      configurable: true,
+    });
+
+    // Симулируем свайп влево на 60% ширины (больше порога в 50%)
+    distanceXRef.value = -60; // 120px из 200px = 60%
+
+    // Проверяем, что onSwipeEnd был захвачен
+    expect(capturedOnSwipeEnd).toBeDefined();
+
+    capturedOnSwipeEnd!();
+
+    await new Promise((resolve) => setTimeout(resolve, 250));
+
+    expect(wrapper.emitted('remove')).toBeUndefined();
   });
 });

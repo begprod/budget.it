@@ -121,7 +121,7 @@ const classes = computed(() => {
   align-items: center;
   justify-content: space-between;
   gap: clamp(0.875rem, 1.56vw, 1rem);
-  padding: 0.25rem 0.5rem;
+  padding: 0.5rem;
   width: 100%;
   background-color: var(--color-bg-surface);
   border-radius: var(--rounded-xs);
