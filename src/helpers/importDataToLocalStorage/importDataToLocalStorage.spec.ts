@@ -25,7 +25,9 @@ describe('importDataToLocalStorage', () => {
     };
 
     originalFileReader = global.FileReader;
-    global.FileReader = vi.fn(() => mockFileReader) as unknown as typeof FileReader;
+    global.FileReader = vi.fn(function () {
+      return mockFileReader;
+    }) as unknown as typeof FileReader;
 
     mockInputElement = document.createElement('input');
     document.createElement = vi.fn().mockReturnValue(mockInputElement);
