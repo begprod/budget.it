@@ -1,9 +1,23 @@
 <template>
   <div class="menu-bar">
     <Transition name="slide-up">
-      <div v-if="route.name === 'home' && getMonthByIndex && isMounted">
-        <BaseExpensesListControls />
+      <div v-if="needRefresh" class="menu-bar__update-button">
+        <div class="glass-effect"></div>
+        <div class="glass-tint"></div>
+
+        <BaseButton title="update application" @click="updateServiceWorker(true)">
+          <template #leftIcon>
+            <Rocket />
+          </template>
+          <template #text>Update ready</template>
+        </BaseButton>
       </div>
+    </Transition>
+
+    <Transition name="slide-up">
+      <template v-if="route.name === 'home' && getMonthByIndex && isMounted">
+        <BaseExpensesListControls />
+      </template>
     </Transition>
 
     <div class="menu">
@@ -55,12 +69,16 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useRoute, RouterLink } from 'vue-router';
+import { useRegisterSW } from 'virtual:pwa-register/vue';
 import { storeToRefs } from 'pinia';
-import { Wallet, Settings, ShoppingBasket } from 'lucide-vue-next';
+import { Wallet, Settings, ShoppingBasket, Rocket } from 'lucide-vue-next';
 import { useCalendarStore } from '@/stores';
+import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 import BaseExpensesListControls from '@/components/BaseExpensesListControls/BaseExpensesListControls.vue';
 
 const route = useRoute();
+const { needRefresh, updateServiceWorker } = useRegisterSW();
+
 const isMounted = ref(false);
 
 const calendarStore = useCalendarStore();
@@ -77,11 +95,21 @@ onMounted(() => {
   right: 0;
   bottom: 2lvh;
   left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
   width: 100%;
   max-width: 425px;
   margin: 0 auto;
   padding: 0 1.25rem;
   z-index: 100;
+}
+
+.menu-bar__update-button {
+  button {
+    position: relative;
+    z-index: 10;
+  }
 }
 
 .menu {

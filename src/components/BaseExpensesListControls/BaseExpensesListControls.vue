@@ -88,7 +88,6 @@ defineExpose({
   display: flex;
   justify-content: space-between;
   gap: 50px;
-  margin-bottom: 1rem;
   background: var(--color-bg-surface-glass);
   border-radius: var(--rounded-md);
   border: 1px solid var(--color-bg-border);

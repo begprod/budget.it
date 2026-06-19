@@ -14,6 +14,17 @@ vi.mock('vue-router', () => ({
   RouterLink: vi.fn(),
 }));
 
+const updateServiceWorkerMock = vi.fn();
+
+vi.mock('virtual:pwa-register/vue', () => {
+  return {
+    useRegisterSW: () => ({
+      needRefresh: true,
+      updateServiceWorker: updateServiceWorkerMock,
+    }),
+  };
+});
+
 describe('BaseMenuBar', () => {
   const pinia = createPinia();
 
@@ -45,5 +56,16 @@ describe('BaseMenuBar', () => {
     const controlsComponent = wrapper.findComponent(BaseExpensesListControls);
 
     expect(controlsComponent.exists()).toBe(false);
+  });
+
+  it('should show update app button if needRefresh is true', async () => {
+    const updateButton = wrapper.findComponent({ name: 'BaseButton' });
+
+    expect(updateButton.exists()).toBe(true);
+    expect(updateButton.props('title')).toBe('update application');
+
+    await updateButton.trigger('click');
+
+    expect(updateServiceWorkerMock).toHaveBeenCalledWith(true);
   });
 });
